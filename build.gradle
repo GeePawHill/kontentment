@@ -1,0 +1,121 @@
+plugins {
+    id 'application'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.11'
+    id 'no.tornado.fxlauncher' version '1.0.20'
+    id 'org.hidetake.ssh' version '2.9.0'
+    id 'com.github.ben-manes.versions' version '0.20.0'
+}
+
+group 'com.nodal.nps'
+mainClassName = 'com.nodal.nps.Main'
+
+repositories {
+    maven {
+        url "https://nexus.chikli.com/repository/maven-public/"
+        credentials {
+            username "nodal"
+            password "YWyQ+wBnPWfsbtEL3AjUpuYVjRMpZ4ZfxUPJkMsMocPxppQ?wzpfyUtRrdgyWwxD"
+        }
+        authentication {
+            basic(BasicAuthentication)
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+sourceCompatibility = '1.8'
+targetCompatibility = sourceCompatibility
+compileKotlin {
+    kotlinOptions.jvmTarget = sourceCompatibility
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = sourceCompatibility
+}
+
+dependencies {
+    compile 'ch.qos.logback:logback-classic:1.3.0-alpha4'
+    compile 'org.apache.commons:commons-lang3:3.8.1'
+    compile 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.11'
+    compile 'org.jetbrains.kotlin:kotlin-reflect:1.3.11'
+    compile 'org.apache.poi:poi-ooxml:4.0.1'
+    compile 'no.tornado:tornadofx:1.7.18'
+    compile 'io.github.microutils:kotlin-logging:1.6.22'
+    compile 'com.google.code.gson:gson:2.8.5'
+    compile 'com.nodal.nae:auction-api:1.0.16'
+    compile 'com.github.kittinunf.fuel:fuel-gson:1.16.0'
+    compile 'org.hildan.fxgson:fx-gson:3.1.2'
+    compile 'commons-net:commons-net:3.6'
+    compile 'org.nield:kotlin-statistics:1.2.1'
+    compile 'com.fatboyindustrial.gson-javatime-serialisers:gson-javatime-serialisers:1.1.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.3.2'
+    testImplementation 'org.assertj:assertj-core:3.11.1'
+    testImplementation 'org.testfx:testfx-junit5:4.0.15-alpha'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Application-Name': 'Nodal Pricing Service',
+                'Implementation-Version': "${version}"
+        )
+    }
+}
+
+run {
+    systemProperty "nps.test.version", "TEST"
+}
+
+// For the native installers, we're using fxlauncher, but not using it's deploy
+// mechanism since it only supports scp, and we need to use sftp.
+fxlauncher {
+    applicationVendor 'Nodal Exchange'
+    applicationUrl 'http://basicauth:aSimplePassword123@38.76.128.60/nps/fxlauncher'
+    applicationMainClass mainClassName
+    acceptDowngrade false
+    cacheDir "USERLIB/${rootProject.name}"
+}
+
+// For the deployment mechanism, we're using gradle-ssh-plugin
+remotes {
+    nodalDeploymentServer {
+        host = '38.76.128.60'
+        user = 'nps2'
+        identity = file('deploy/nps-id_rsa')
+    }
+}
+
+task deploy {
+    doLast {
+        def webRoot = "/home/nps2/webroot"
+        def newDir = "${webRoot}/nps-${version}"
+        def finalDir = "${webRoot}/nps"
+        def backupDir = "${webRoot}/nps-backup"
+
+        ssh.settings {
+            // This is just for now till we can figure out how to have
+            // the windows slave recognize the known_hosts file
+            knownHosts = allowAnyHosts
+        }
+        ssh.run {
+            session(remotes.nodalDeploymentServer) {
+                sftp {
+                    remove newDir // in case it already exists due to previous failure
+                    mkdir newDir
+                    put from: "${buildDir}/fxlauncher/", into: newDir
+                    put from: "${buildDir}/installer/bundles", into: newDir, filter: {
+                        !it.name.endsWith("app")
+                    }
+                    remove backupDir
+                    rename finalDir, backupDir
+                    rename newDir, finalDir
+                }
+            }
+        }
+    }
+}
+deploy.dependsOn generateNativeInstaller
