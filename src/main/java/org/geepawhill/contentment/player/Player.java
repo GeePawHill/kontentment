@@ -75,7 +75,7 @@ public class Player
 		{
 			nextSync().phrase.fast(context);
 			setPosition(position() + 1);
-			if (atEnd()) getRhythm().seekHard(Rhythm.MAX);
+			if (atEnd()) getRhythm().seekHard(Rhythm.Companion.getMAX());
 			else getRhythm().seekHard(nextSync().target);
 		}
 	}
@@ -102,7 +102,7 @@ public class Player
 			{
 				forward();
 			}
-			if (atEnd()) getRhythm().seekHard(Rhythm.MAX);
+			if (atEnd()) getRhythm().seekHard(Rhythm.Companion.getMAX());
 			else getRhythm().seekHard(nextSync().target);
 		}
 //		mustBeStepping();
@@ -148,7 +148,7 @@ public class Player
 		getRhythm().pause();
 		stateProperty.set(PlayerState.Stepping);
 		setPosition(position() + 1);
-		if (atEnd()) getRhythm().seekHard(Rhythm.MAX);
+		if (atEnd()) getRhythm().seekHard(Rhythm.Companion.getMAX());
 		else getRhythm().seekHard(nextSync().target);
 	}
 	
