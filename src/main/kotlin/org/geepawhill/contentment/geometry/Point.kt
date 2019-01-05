@@ -47,9 +47,9 @@ class Point(val x: Double, val y: Double) {
         if (this === other) return true
         if (other == null) return false
         if (javaClass != other.javaClass) return false
-        val other = other as Point?
-        if (java.lang.Double.doubleToLongBits(x) != java.lang.Double.doubleToLongBits(other!!.x)) return false
-        return if (java.lang.Double.doubleToLongBits(y) != java.lang.Double.doubleToLongBits(other.y)) false else true
+        val asPoint = other as Point?
+        if (java.lang.Double.doubleToLongBits(x) != java.lang.Double.doubleToLongBits(asPoint!!.x)) return false
+        return if (java.lang.Double.doubleToLongBits(y) != java.lang.Double.doubleToLongBits(asPoint.y)) false else true
     }
 
     override fun toString(): String {
