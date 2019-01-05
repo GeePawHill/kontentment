@@ -2,8 +2,6 @@ package org.geepawhill.contentment.core
 
 import javafx.animation.Transition
 import javafx.util.Duration
-
-class FragmentTransition
 /**
  * Create a FragmentTransition that lasts ms long (minimum 1), playing the
  * Fragment against the Context, then calling the OnFinished callback.
@@ -13,7 +11,7 @@ class FragmentTransition
  * @param context -- context in which to do the fragment
  * @param onFinished -- callback for when it's done
  */
-(ms: Long, private val fragment: Fragment, private val context: Context?, private val onFinished: OnFinished) : Transition() {
+class FragmentTransition(ms: Long, private val fragment: Fragment, private val context: Context?, private val onFinished: OnFinished) : Transition() {
     private val ms: Long
 
     init {
