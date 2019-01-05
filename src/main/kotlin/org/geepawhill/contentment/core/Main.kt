@@ -13,7 +13,6 @@ class Main : Application() {
 
     override fun start(stage: Stage) {
         try {
-            val pp = PointPair(0.0,0.0,100.0,100.0)
             preloadFontFile("/org/geepawhill/scripts/SAMUELS.TTF")
             preloadFontFile("/org/geepawhill/scripts/CaveatBrush-Regular.TTF")
             preloadFontFile("/org/geepawhill/scripts/gloriahallelujah.TTF")

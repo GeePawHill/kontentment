@@ -29,7 +29,7 @@ class FragmentTransition(ms: Long, private val fragment: Fragment, private val c
      */
     override fun play() {
         cycleDuration = Duration.millis(ms.toDouble())
-        setOnFinished { event -> onFinished.run() }
+        setOnFinished { onFinished.run() }
         fragment.prepare(context!!)
         super.play()
     }
