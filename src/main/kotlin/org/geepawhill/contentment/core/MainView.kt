@@ -1,15 +1,8 @@
 package org.geepawhill.contentment.core
 
-import org.geepawhill.contentment.geometry.PointPair
-import org.geepawhill.contentment.jfx.ScaleListener
-import org.geepawhill.contentment.player.Player
-import org.geepawhill.contentment.player.PlayerState
-import org.geepawhill.contentment.rhythm.Rhythm
-import org.geepawhill.contentment.utility.JfxUtility
-
 import javafx.application.Platform
 import javafx.beans.binding.Bindings
-import javafx.beans.binding.BooleanBinding
+import javafx.beans.property.SimpleObjectProperty
 import javafx.geometry.Orientation
 import javafx.scene.Cursor
 import javafx.scene.Node
@@ -27,7 +20,12 @@ import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import javafx.scene.text.Text
 import javafx.stage.Stage
-
+import org.geepawhill.contentment.geometry.PointPair
+import org.geepawhill.contentment.jfx.ScaleListener
+import org.geepawhill.contentment.player.Player
+import org.geepawhill.contentment.player.PlayerState
+import org.geepawhill.contentment.rhythm.Rhythm
+import org.geepawhill.contentment.utility.JfxUtility
 import java.util.concurrent.Callable
 
 class MainView(private val stage: Stage, private val player: Player) {
@@ -63,10 +61,10 @@ class MainView(private val stage: Stage, private val player: Player) {
 
         // non-media background
 
-        val listener = ScaleListener(owner, player.context().canvas, media)
+        val listener = ScaleListener(owner, player.context().canvas, media as MediaView)
         owner.widthProperty().addListener(listener)
         owner.heightProperty().addListener(listener)
-        listener.changed(null, 300, 300)
+        listener.changed(SimpleObjectProperty(0.0), 300, 300)
 
         owner.setOnMouseClicked { event -> mouseClicked(event) }
 
