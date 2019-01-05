@@ -61,7 +61,7 @@ public class Flow
 	{
 		Line line = lines.get(i);
 		TopLeft position = new TopLeft(line.layout.getFrom());
-		Letters result = new Letters(world,new Group(), line.text);
+		Letters result = new Letters(world,line.text);
 		return new Appearance<Letters>(world, result).format(table.get(line.size, line.color)).at(position);
 	}
 

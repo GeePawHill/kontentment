@@ -101,7 +101,7 @@ public abstract class ScriptBuilder<SUBCLASS>
 
 	public Appearance<Letters> letters(String source)
 	{
-		return new Appearance<>(world, new Letters(world, new Group(), source));
+		return new Appearance<>(world, new Letters(world, source));
 	}
 
 	public Appearance<Marks> stroke(int fromX, int fromY, int toX, int toY)
