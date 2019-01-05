@@ -128,11 +128,11 @@ public class Connector implements Actor
 		if (chosenMain == null)
 		{
 			points = compute();
-			chosenMain = chooseBezier(points.main);
-			chosenFromTop = chooseBezier(points.fromTop);
-			chosenToTop = chooseBezier(points.toTop);
-			chosenFromBottom = chooseBezier(points.fromBottom);
-			chosenToBottom = chooseBezier(points.toBottom);
+			chosenMain = chooseBezier(points.getMain());
+			chosenFromTop = chooseBezier(points.getFromTop());
+			chosenToTop = chooseBezier(points.getToTop());
+			chosenFromBottom = chooseBezier(points.getFromBottom());
+			chosenToBottom = chooseBezier(points.getToBottom());
 		}
 		return chosenMain;
 	}
@@ -160,8 +160,11 @@ public class Connector implements Actor
 	public Bezier chooseBezier(PointPair points)
 	{
 		double variance = points.distance() * .1;
-		Bezier chosen = new Bezier(points.from, world.jiggle(points.along(world.nextDouble()), 1d, variance),
-				world.jiggle(points.along(world.nextDouble()), 1d, variance), points.to);
+		Bezier chosen = new Bezier(
+				points.getFrom(),
+				world.jiggle(points.along(world.nextDouble()), 1d, variance),
+				world.jiggle(points.along(world.nextDouble()), 1d, variance),
+				points.getTo());
 		return chosen;
 	}
 
@@ -203,20 +206,20 @@ public class Connector implements Actor
 
 		final double arrowStandoffFromEnd = 14d;
 		Point toOffset = main.standoffTo(arrowStandoffFromEnd);
-		PointPair toTop = rotateWing(-40d, main.to, toOffset);
-		PointPair toBottom = rotateWing(40d, main.to, toOffset);
+		PointPair toTop = rotateWing(-40d, main.getTo(), toOffset);
+		PointPair toBottom = rotateWing(40d, main.getTo(), toOffset);
 
 		Point fromOffset = main.standoffFrom(arrowStandoffFromEnd);
-		PointPair fromTop = rotateWing(-40d, main.from, fromOffset);
-		PointPair fromBottom = rotateWing(40d, main.from, fromOffset);
+		PointPair fromTop = rotateWing(-40d, main.getFrom(), fromOffset);
+		PointPair fromBottom = rotateWing(40d, main.getFrom(), fromOffset);
 
 		return new ArrowPoints(main, toTop, toBottom, fromTop, fromBottom);
 	}
 
 	private PointPair rotateWing(double angle, Point pivot, Point target)
 	{
-		Rotate rotate = new Rotate(angle, pivot.x, pivot.y);
-		Point top = new Point(rotate.transform(target.x, target.y));
+		Rotate rotate = new Rotate(angle, pivot.getX(), pivot.getY());
+		Point top = new Point(rotate.transform(target.getX(), target.getY()));
 		return new PointPair(top, pivot);
 	}
 

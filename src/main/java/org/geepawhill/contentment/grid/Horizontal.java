@@ -8,8 +8,8 @@ public class Horizontal
 
 	public Horizontal(PointPair bounds, double percent)
 	{
-		double y = bounds.along(percent/100d).y;
-		points = new PointPair( bounds.from.x,y,bounds.to.x,y);
+		double y = bounds.along(percent / 100d).getY();
+		points = new PointPair(bounds.getFrom().getX(),y, bounds.getTo().getX(),y);
 	}
 
 	public PointPair points()

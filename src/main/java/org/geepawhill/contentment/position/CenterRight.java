@@ -23,8 +23,8 @@ public class CenterRight implements Position
 	public void position(Node node, PointPair dimensions)
 	{
 		JfxUtility.setTopAlignment(node);
-		node.setTranslateX(anchor.x-dimensions.width());
-		node.setTranslateY(anchor.y-dimensions.height()/2d);
+		node.setTranslateX(anchor.getX() -dimensions.width());
+		node.setTranslateY(anchor.getY() -dimensions.height()/2d);
 	}
 
 }

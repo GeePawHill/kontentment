@@ -28,7 +28,7 @@ public class MarkTest
 	@Test
 	public void addsPath()
 	{
-		Mark mark = new Mark(group, BezierSource.value(bezier));
+		Mark mark = new Mark(group, BezierSource.Companion.value(bezier));
 		mark.prepare(context);
 		assertThat(group.getChildren().size()).isEqualTo(1);
 	}
@@ -36,7 +36,7 @@ public class MarkTest
 	@Test
 	public void pathClearedAtZero()
 	{
-		Mark mark = new Mark(group, BezierSource.value(bezier));
+		Mark mark = new Mark(group, BezierSource.Companion.value(bezier));
 		mark.prepare(context);
 		assertThat(group.getChildren().size()).isEqualTo(1);
 		Path path = (Path) group.getChildren().get(0);
@@ -48,7 +48,7 @@ public class MarkTest
 	@Test
 	public void addsTwoStepPath()
 	{
-		Mark mark = new Mark(group, BezierSource.value(bezier));
+		Mark mark = new Mark(group, BezierSource.Companion.value(bezier));
 		mark.prepare(context);
 		mark.interpolate(context, .25);
 		assertThat(group.getChildren().size()).isEqualTo(1);
@@ -61,7 +61,7 @@ public class MarkTest
 	@Test
 	public void completedPathValues()
 	{
-		Mark mark = new Mark(group, BezierSource.value(bezier));
+		Mark mark = new Mark(group, BezierSource.Companion.value(bezier));
 		mark.prepare(context);
 		mark.interpolate(context, 1d);
 		Path path = (Path) group.getChildren().get(0);
@@ -74,7 +74,7 @@ public class MarkTest
 	@Test
 	public void partialPathValues()
 	{
-		Mark mark = new Mark(group, BezierSource.value(bezier));
+		Mark mark = new Mark(group, BezierSource.Companion.value(bezier));
 		mark.prepare(context);
 		mark.interpolate(context, .5d);
 		Path path = (Path) group.getChildren().get(0);

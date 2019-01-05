@@ -63,8 +63,8 @@ public class Marks implements Actor
 	private static Bezier jiggle(ScriptWorld world, PointPair points)
 	{
 		double variance = points.distance() * .05;
-		Bezier chosen = new Bezier(points.from, world.jiggle(points.along(world.nextDouble()), 1d, variance),
-				world.jiggle(points.along(world.nextDouble()), 1d, variance), points.to);
+		Bezier chosen = new Bezier(points.getFrom(), world.jiggle(points.along(world.nextDouble()), 1d, variance),
+				world.jiggle(points.along(world.nextDouble()), 1d, variance), points.getTo());
 		return chosen;
 	}
 

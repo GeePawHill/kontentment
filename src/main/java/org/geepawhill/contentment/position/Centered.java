@@ -37,8 +37,8 @@ public class Centered implements Position
 	{
 		JfxUtility.setTopAlignment(node);
 		if(actor!=null) anchor = new PointPair(actor.group().getBoundsInParent()).center();
-		node.setTranslateX(anchor.x-dimensions.width()/2d);
-		node.setTranslateY(anchor.y-dimensions.height()/2d);
+		node.setTranslateX(anchor.getX() -dimensions.width()/2d);
+		node.setTranslateY(anchor.getY() -dimensions.height()/2d);
 	}
 
 }

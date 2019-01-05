@@ -8,7 +8,6 @@ import java.util.Vector;
 import org.geepawhill.contentment.actor.ScriptWorld;
 import org.geepawhill.contentment.geometry.PointPair;
 import org.geepawhill.contentment.test.ContentmentTest;
-import org.junit.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -61,12 +60,12 @@ public class FlowTest extends ContentmentTest
 	
 	public void assertCoordinates(Vector<Flow.Line> lines )
 	{
-		Double lastEndY = AREA.from.y-1;
+		Double lastEndY = AREA.getFrom().getY() -1;
 		for(Flow.Line line : lines)
 		{
-			assertThat(line.layout.from.x).isCloseTo(AREA.from.x, withPercentage(.5));
-			assertThat(line.layout.from.y).isGreaterThan(lastEndY);
-			lastEndY = line.layout.to.y;
+			assertThat(line.layout.getFrom().getX()).isCloseTo(AREA.getFrom().getX(), withPercentage(.5));
+			assertThat(line.layout.getFrom().getY()).isGreaterThan(lastEndY);
+			lastEndY = line.layout.getTo().getY();
 		}
 	}
 

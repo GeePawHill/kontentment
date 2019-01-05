@@ -27,8 +27,8 @@ public class AboveCenter implements Position
 	{
 		Point anchorPoint = new PointPair(anchor.group().getBoundsInParent()).north();
 		JfxUtility.setTopAlignment(node);
-		node.setTranslateX(anchorPoint.x-dimensions.width()/2d);
-		node.setTranslateY(anchorPoint.y-dimensions.height()+offset);
+		node.setTranslateX(anchorPoint.getX() -dimensions.width()/2d);
+		node.setTranslateY(anchorPoint.getY() -dimensions.height()+offset);
 	}
 
 }

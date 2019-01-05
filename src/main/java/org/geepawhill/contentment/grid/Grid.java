@@ -18,7 +18,7 @@ public class Grid
 	
 	public Grid()
 	{
-		this(0,0,ViewPort.WIDTH,ViewPort.HEIGHT);
+		this(0,0, ViewPort.Companion.getWIDTH(), ViewPort.Companion.getHEIGHT());
 	}
 
 	public PointPair all()
@@ -58,7 +58,7 @@ public class Grid
 
 	public Point point(Vertical vertical, Horizontal horizontal)
 	{
-		return new Point(vertical.points().from.x,horizontal.points.from.y);
+		return new Point(vertical.points().getFrom().getX(), horizontal.points.getFrom().getY());
 	}
 	
 	public PointPair area(int fromXPercent, int fromYPercent, int toXPercent, int toYPercent)
@@ -69,15 +69,15 @@ public class Grid
 	public PointPair area(Vertical fromX,Horizontal fromY,Vertical toX,Horizontal toY)
 	{
 		return new PointPair(
-				fromX.points().from.x,
-				fromY.points().from.y,
-				toX.points().to.x,
-				toY.points().to.y);
+                fromX.points().getFrom().getX(),
+                fromY.points().getFrom().getY(),
+                toX.points().getTo().getX(),
+                toY.points().getTo().getY());
 	}
 
 	public Grid nested(Vertical newLeft, Horizontal newTop, Vertical newRight, Horizontal newBottom)
 	{
-		return new Grid(newLeft.points().from.x,newTop.points().from.y,newRight.points().from.x,newBottom.points().from.y);
+		return new Grid(newLeft.points().getFrom().getX(), newTop.points().getFrom().getY(), newRight.points().getFrom().getX(), newBottom.points().getFrom().getY());
 	}
 
 	public Grid nested(int fromXPercent, int fromYPercent, int toXPercent, int toYPercent)

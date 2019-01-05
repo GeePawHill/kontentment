@@ -9,8 +9,8 @@ public class Vertical
 
 	public Vertical(PointPair bounds, double percent)
 	{
-		double x = bounds.along(percent/100d).x;
-		points = new PointPair( x,bounds.from.y,x,bounds.to.y);
+		double x = bounds.along(percent / 100d).getX();
+		points = new PointPair( x, bounds.getFrom().getY(),x, bounds.getTo().getY());
 	}
 	
 	public PointPair points()

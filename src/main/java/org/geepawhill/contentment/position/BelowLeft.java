@@ -20,8 +20,8 @@ public class BelowLeft implements Position
 	{
 		Point anchorPoint = new PointPair(anchor.group().getBoundsInParent()).southwest();
 		JfxUtility.setTopAlignment(node);
-		node.setTranslateX(anchorPoint.x);
-		node.setTranslateY(anchorPoint.y);
+		node.setTranslateX(anchorPoint.getX());
+		node.setTranslateY(anchorPoint.getY());
 	}
 
 }

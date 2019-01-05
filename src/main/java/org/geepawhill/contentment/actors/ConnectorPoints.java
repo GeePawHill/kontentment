@@ -64,14 +64,14 @@ public class ConnectorPoints
 	
 	private Point adjustToIfGroup(PointPair startLine)
 	{
-		if (toGroup == GroupSource.Companion.getNONE()) return startLine.to;
+		if (toGroup == GroupSource.Companion.getNONE()) return startLine.getTo();
 		PointPair toGrown = new PointPair(toGroup.group());
 		return toGrown.quadIntersects(startLine);
 	}
 
 	private Point adjustFromIfGroup(PointPair startLine)
 	{
-		if (fromGroup == GroupSource.Companion.getNONE()) return startLine.from;
+		if (fromGroup == GroupSource.Companion.getNONE()) return startLine.getFrom();
 		PointPair fromGrown = new PointPair(fromGroup.group());
 		return fromGrown.quadIntersects(startLine);
 	}

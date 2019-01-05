@@ -285,8 +285,6 @@ class LumpOfCodingScript : ScriptBuilder<LumpOfCodingScript>() {
 
         scene(356)
 
-        var beforeHeader = before.all().north()
-        beforeHeader = Point(beforeHeader.x, beforeHeader.y - 50)
         letters("Before").format(emphaticJumbo).at(BelowCenter(programmingBefore, 0.0)).appear()
 
         sync(8)
@@ -296,8 +294,6 @@ class LumpOfCodingScript : ScriptBuilder<LumpOfCodingScript>() {
         programmingAfter.sketch(2000.0)
         assume(emphaticSmall)
 
-        var afterHeader = after.all().north()
-        afterHeader = Point(afterHeader.x, afterHeader.y - 50)
         letters("After").format(emphaticJumbo).at(BelowCenter(programmingAfter, 0.0)).appear()
 
         sync(12)

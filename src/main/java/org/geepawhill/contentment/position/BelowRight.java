@@ -21,8 +21,8 @@ public class BelowRight implements Position
 	{
 		Point anchorPoint = new PointPair(anchor.get().getBoundsInParent()).southeast();
 		JfxUtility.setTopAlignment(node);
-		node.setTranslateX(anchorPoint.x-dimensions.width());
-		node.setTranslateY(anchorPoint.y);
+		node.setTranslateX(anchorPoint.getX() -dimensions.width());
+		node.setTranslateY(anchorPoint.getY());
 	}
 
 }

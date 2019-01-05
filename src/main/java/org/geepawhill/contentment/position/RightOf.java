@@ -27,8 +27,8 @@ public class RightOf implements Position
 	{
 		Point anchorPoint = new PointPair(anchor.group().getBoundsInParent()).east();
 		JfxUtility.setTopAlignment(node);
-		node.setTranslateX(anchorPoint.x+offset);
-		node.setTranslateY(anchorPoint.y - dimensions.height()/2d);
+		node.setTranslateX(anchorPoint.getX() +offset);
+		node.setTranslateY(anchorPoint.getY() - dimensions.height()/2d);
 	}
 
 }

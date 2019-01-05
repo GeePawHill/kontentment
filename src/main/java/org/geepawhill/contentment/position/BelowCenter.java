@@ -27,8 +27,8 @@ public class BelowCenter implements Position
 	{
 		Point anchorPoint = new PointPair(anchor.group().getBoundsInParent()).south();
 		JfxUtility.setTopAlignment(node);
-		node.setTranslateX(anchorPoint.x-dimensions.width()/2d);
-		node.setTranslateY(anchorPoint.y+offset);
+		node.setTranslateX(anchorPoint.getX() -dimensions.width()/2d);
+		node.setTranslateY(anchorPoint.getY() +offset);
 	}
 
 }

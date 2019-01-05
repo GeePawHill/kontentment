@@ -34,9 +34,9 @@ public class GridTest
 	public void verticalAndHorizontal()
 	{
 		assertThat(grid.vertical(50).points()).isEqualTo(bounds.xCenterLine());
-		assertThat(grid.vertical(25).points().from.x).isCloseTo(bounds.along(.25).x, Offset.offset(1d));
+		assertThat(grid.vertical(25).points().getFrom().getX()).isCloseTo(bounds.along(.25).getX(), Offset.offset(1d));
 		assertThat(grid.horizontal(50).points()).isEqualTo(bounds.yCenterLine());
-		assertThat(grid.horizontal(25).points().from.y).isCloseTo(bounds.along(.25).y, Offset.offset(1d));
+		assertThat(grid.horizontal(25).points().getFrom().getY()).isCloseTo(bounds.along(.25).getY(), Offset.offset(1d));
 	}
 
 	@Test

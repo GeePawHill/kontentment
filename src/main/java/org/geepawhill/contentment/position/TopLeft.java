@@ -23,8 +23,8 @@ public class TopLeft implements Position
 	public void position(Node node, PointPair dimensions)
 	{
 		JfxUtility.setTopAlignment(node);
-		node.setTranslateX(anchor.x);
-		node.setTranslateY(anchor.y);
+		node.setTranslateX(anchor.getX());
+		node.setTranslateY(anchor.getY());
 	}
 
 }

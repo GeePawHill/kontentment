@@ -60,14 +60,14 @@ public class Flow
 	public Appearance<Letters> letters(int i)
 	{
 		Line line = lines.get(i);
-		TopLeft position = new TopLeft(line.layout.from);
+		TopLeft position = new TopLeft(line.layout.getFrom());
 		Letters result = new Letters(world,new Group(), line.text);
 		return new Appearance<Letters>(world, result).format(table.get(line.size, line.color)).at(position);
 	}
 
 	private void layout()
 	{
-		double lastEndY = area.from.y;
+		double lastEndY = area.getFrom().getY();
 		for(Line line : lines)
 		{
 			Format format = table.get(line.size,line.color);
@@ -75,7 +75,7 @@ public class Flow
 			sizer.setText(line.text);
 			PointPair layout = new PointPair(sizer.getLayoutBounds());
 			double newLastEndY = lastEndY+1+layout.height();
-			line.layout = new PointPair(area.from.x,lastEndY+1,layout.width(),newLastEndY);
+			line.layout = new PointPair(area.getFrom().getX(),lastEndY+1,layout.width(),newLastEndY);
 			lastEndY = newLastEndY;
 		}
 	}

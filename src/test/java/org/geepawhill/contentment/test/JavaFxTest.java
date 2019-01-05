@@ -30,7 +30,7 @@ public class JavaFxTest extends ContentmentTest
 		text.setTranslateX(100);
 		text.setTranslateY(0);
 		System.out.println(new PointPair(text));
-		assertThat(new PointPair(text).from).isEqualTo(new Point(100,0));
+		assertThat(new PointPair(text).getFrom()).isEqualTo(new Point(100,0));
 		group.getChildren().add(text);
 		
 	}

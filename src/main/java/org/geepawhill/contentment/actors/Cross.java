@@ -68,7 +68,7 @@ public class Cross implements Actor
 		double xadditive = xsize/2d;
 		double yadditive = ysize/2d;
 		Point center = new PointPair(target.group()).center().add(offset);
-		return new Bezier(new Point(center.x-xadditive, center.y-yadditive),new Point(center.x+xadditive,center.y+yadditive));
+		return new Bezier(new Point(center.getX() -xadditive, center.getY() -yadditive),new Point(center.getX() +xadditive, center.getY() +yadditive));
 	}
 
 	
@@ -78,7 +78,7 @@ public class Cross implements Actor
 		double yadditive = ysize/2d;
 		Point center = new PointPair(target.group()).center().add(offset);
 		return new Bezier(
-				new Point(center.x+xadditive, center.y-yadditive), new Point(center.x-xadditive, center.y+yadditive));
+				new Point(center.getX() +xadditive, center.getY() -yadditive), new Point(center.getX() -xadditive, center.getY() +yadditive));
 	}
 
 	@Override

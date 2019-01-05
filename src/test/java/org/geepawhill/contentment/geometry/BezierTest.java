@@ -3,7 +3,6 @@ package org.geepawhill.contentment.geometry;
 import static org.assertj.core.api.Assertions.within;
 import static org.geepawhill.contentment.test.ContentmentAssertions.assertThat;
 
-import org.junit.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,11 +24,11 @@ public class BezierTest
 	@Test
 	public void constructor()
 	{
-		PointPair line = new PointPair(linear.start, linear.end);
-		assertThat(linear.start).isEqualTo(start);
-		assertThat(linear.end).isEqualTo(end);
-		assertThat(linear.handle1).isEqualTo(line.along(1d / 3d));
-		assertThat(linear.handle2).isEqualTo(line.along(2d / 3d));
+		PointPair line = new PointPair(linear.getStart(), linear.getEnd());
+		assertThat(linear.getStart()).isEqualTo(start);
+		assertThat(linear.getEnd()).isEqualTo(end);
+		assertThat(linear.getHandle1()).isEqualTo(line.along(1d / 3d));
+		assertThat(linear.getHandle2()).isEqualTo(line.along(2d / 3d));
 	}
 
 	@Test
@@ -50,14 +49,14 @@ public class BezierTest
 	public void linearHalf()
 	{
 		Bezier split = linear.split(.5d);
-		assertThat(split.end).isGoodEnough(new Point(50d, 50d), within(0.1d));
+		assertThat(split.getEnd()).isGoodEnough(new Point(50d, 50d), within(0.1d));
 	}
 
 	@Test
 	public void linearQuarter()
 	{
 		Bezier split = linear.split(.25d);
-		assertThat(split.end).isGoodEnough(new Point(25d, 25d), within(0.1d));
+		assertThat(split.getEnd()).isGoodEnough(new Point(25d, 25d), within(0.1d));
 	}
 
 

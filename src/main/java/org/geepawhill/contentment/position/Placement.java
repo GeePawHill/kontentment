@@ -26,22 +26,22 @@ public class Placement implements Position
 		PointPair remainder = area;
 		if(above!= NodeSource.Companion.getNONE())
 		{
-			double newY = new PointPair(above.get().getBoundsInParent()).south().y;
-			remainder = new PointPair(remainder.from.x,newY,remainder.to.x,remainder.to.y);
+			double newY = new PointPair(above.get().getBoundsInParent()).south().getY();
+			remainder = new PointPair(remainder.getFrom().getX(),newY, remainder.getTo().getX(), remainder.getTo().getY());
 		}
 		switch(horizontal)
 		{
 		case LEFT:
-			node.setTranslateX(remainder.west().x);
+			node.setTranslateX(remainder.west().getX());
 			break;
 		case RIGHT:
-			node.setTranslateX(remainder.east().x-dimensions.width());
+			node.setTranslateX(remainder.east().getX() -dimensions.width());
 			break;
 		case CENTER:
 			node.setTranslateX(remainder.centerX()-dimensions.width()/2);
 		}
 		
-		node.setTranslateY(remainder.north().y);
+		node.setTranslateY(remainder.north().getY());
 		JfxUtility.setVerticalAlignment(node,VPos.TOP);
 	}
 }

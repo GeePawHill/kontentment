@@ -107,7 +107,7 @@ public class Letters implements Actor
 	}
 	
 	public void centered(Point p) {
-		centered(p.x,p.y);
+		centered(p.getX(), p.getY());
 	}
 
 	public Entrance entrance()

@@ -22,10 +22,10 @@ public class PointPairTest
 		};
 		for (PointPair pair : pairs)
 		{
-			assertEquals(50d, pair.from.x, 0.0001);
-			assertEquals(150d, pair.from.y, 0.0001);
-			assertEquals(200d, pair.to.x, 0.0001);
-			assertEquals(400d, pair.to.y, 0.0001);
+			assertEquals(50d, pair.getFrom().getX(), 0.0001);
+			assertEquals(150d, pair.getFrom().getY(), 0.0001);
+			assertEquals(200d, pair.getTo().getX(), 0.0001);
+			assertEquals(400d, pair.getTo().getY(), 0.0001);
 		}
 	}
 

@@ -23,8 +23,8 @@ public class TopRight implements Position
 	public void position(Node node, PointPair dimensions)
 	{
 		JfxUtility.setTopAlignment(node);
-		node.setTranslateX(anchor.x-dimensions.width());
-		node.setTranslateY(anchor.y);
+		node.setTranslateX(anchor.getX() -dimensions.width());
+		node.setTranslateY(anchor.getY());
 	}
 
 }

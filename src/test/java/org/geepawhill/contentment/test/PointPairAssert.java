@@ -16,8 +16,8 @@ public class PointPairAssert extends AbstractAssert<PointPairAssert, PointPair>
 	{
 		if(!(expected instanceof PointPair)) failWithMessage("Not a PointPair");
 		PointPair expectedPair = (PointPair) expected;
-		assertThat(expectedPair.from).isEqualTo(actual.from);
-		assertThat(expectedPair.to).isEqualTo(actual.to);
+		assertThat(expectedPair.getFrom()).isEqualTo(actual.getFrom());
+		assertThat(expectedPair.getTo()).isEqualTo(actual.getTo());
 		return this;
 	}
 }
