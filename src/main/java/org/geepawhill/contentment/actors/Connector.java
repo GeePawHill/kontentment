@@ -35,7 +35,7 @@ public class Connector implements Actor
 	protected final ScriptWorld world;
 	protected final Entrance entrance;
 	protected final Group group;
-	
+
 	private final ConnectorPoints connectorPoints;
 
 	public Connector(ScriptWorld world, Group destination)
@@ -71,7 +71,7 @@ public class Connector implements Actor
 	{
 		return from(world.actor(target).entrance(), withHead);
 	}
-	
+
 	public Connector from(GroupSource target)
 	{
 		return from(target,false);
@@ -82,7 +82,7 @@ public class Connector implements Actor
 		connectorPoints.from(target, withHead);
 		return this;
 	}
-	
+
 	public Connector to(Point target)
 	{
 		return to(target,false);
@@ -93,7 +93,7 @@ public class Connector implements Actor
 		connectorPoints.to(target,withHead);
 		return this;
 	}
-	
+
 	public Connector to(String target)
 	{
 		return to(target,false);
@@ -108,7 +108,7 @@ public class Connector implements Actor
 	{
 		return to(target,false);
 	}
-	
+
 	public Connector to(GroupSource target, boolean withHead)
 	{
 		connectorPoints.to(target,withHead);
@@ -196,7 +196,7 @@ public class Connector implements Actor
 		PointPair main = connectorPoints.computeMainLine();
 		return makeArrowPoints(main);
 	}
-	
+
 	private ArrowPoints makeArrowPoints(PointPair target)
 	{
 		final double pointStandOffFromTarget = 4d;

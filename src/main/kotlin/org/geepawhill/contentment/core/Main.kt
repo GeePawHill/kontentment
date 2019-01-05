@@ -1,17 +1,19 @@
 package org.geepawhill.contentment.core
 
-import org.geepawhill.contentment.player.Player
-
 import javafx.application.Application
 import javafx.application.Platform
 import javafx.scene.Scene
 import javafx.scene.text.Font
 import javafx.stage.Stage
+import org.geepawhill.contentment.geometry.Bezier
+import org.geepawhill.contentment.geometry.PointPair
+import org.geepawhill.contentment.player.Player
 
 class Main : Application() {
 
     override fun start(stage: Stage) {
         try {
+            val pp = PointPair(0.0,0.0,100.0,100.0)
             preloadFontFile("/org/geepawhill/scripts/SAMUELS.TTF")
             preloadFontFile("/org/geepawhill/scripts/CaveatBrush-Regular.TTF")
             preloadFontFile("/org/geepawhill/scripts/gloriahallelujah.TTF")
@@ -29,7 +31,7 @@ class Main : Application() {
             stage.isMaximized = true
             stage.fullScreenExitHint = ""
             stage.show()
-            player.load(OptimizingForCollaboration().make())
+            player.load(LumpOfCodingScript().make())
         } catch (e: Exception) {
             e.printStackTrace()
             Platform.exit()

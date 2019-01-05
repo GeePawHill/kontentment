@@ -1,6 +1,10 @@
 package org.geepawhill.contentment.player;
 
 import org.geepawhill.contentment.core.Context;
+import org.geepawhill.contentment.player.BeatWaiter;
+import org.geepawhill.contentment.player.Keyframe;
+import org.geepawhill.contentment.player.PlayerState;
+import org.geepawhill.contentment.player.Script;
 import org.geepawhill.contentment.rhythm.Rhythm;
 
 import javafx.beans.property.*;
