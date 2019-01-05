@@ -47,7 +47,7 @@ class MainView(private val stage: Stage, private val player: Player) {
 
     init {
         this.tools = makeTools()
-        stage.fullScreenProperty().addListener { source, o, n -> undoFullScreen(n) }
+        stage.fullScreenProperty().addListener { _, _, n -> undoFullScreen(n) }
     }
 
     private fun makeViewport(): Pane {
@@ -56,7 +56,7 @@ class MainView(private val stage: Stage, private val player: Player) {
         val background = Background(BackgroundFill(Color.BLACK, null, null))
         owner.background = background
 
-        player.scriptProperty().addListener { p, o, n -> scriptChanged() }
+        player.scriptProperty().addListener { _, _, _ -> scriptChanged() }
 
         media = MediaView()
         owner.children.add(media)
@@ -75,7 +75,7 @@ class MainView(private val stage: Stage, private val player: Player) {
     }
 
     private fun scriptChanged() {
-        player.rhythm.beatProperty().addListener { p, o, n -> beatChanged(n) }
+        player.rhythm.beatProperty().addListener { _, _, n -> beatChanged(n) }
         beatChanged(0)
         media!!.mediaPlayer = player.script.mediaPlayer
     }
@@ -102,23 +102,23 @@ class MainView(private val stage: Stage, private val player: Player) {
         tools.items.add(timing)
 
         val full = Button("Full")
-        full.setOnAction { event -> stage.isFullScreen = true }
+        full.setOnAction { stage.isFullScreen = true }
         tools.items.add(full)
 
         val home = Button("||<--")
-        home.setOnAction { event -> player.start() }
+        home.setOnAction { player.start() }
         tools.items.add(home)
 
         val oneOff = Button("OneOff")
-        oneOff.setOnAction { event -> oneOff() }
+        oneOff.setOnAction { oneOff() }
         tools.items.add(oneOff)
 
         val backwards = Button("<--")
-        backwards.setOnAction { event -> player.backward() }
+        backwards.setOnAction { player.backward() }
         tools.items.add(backwards)
 
         val play = Button(">")
-        play.setOnAction { event -> player.play() }
+        play.setOnAction { player.play() }
 
         val isPlayingCallable = Callable { player.state == PlayerState.Playing }
 
@@ -127,29 +127,29 @@ class MainView(private val stage: Stage, private val player: Player) {
         tools.items.add(play)
 
         val playOne = Button(">|")
-        playOne.setOnAction { event -> player.playOne() }
+        playOne.setOnAction { player.playOne() }
         playOne.disableProperty().bind(trueIfPlaying)
         tools.items.add(playOne)
 
         val forwards = Button("-->")
-        forwards.setOnAction { event -> player.forward() }
+        forwards.setOnAction { player.forward() }
         forwards.disableProperty().bind(trueIfPlaying)
         tools.items.add(forwards)
 
         val end = Button("-->||")
-        end.setOnAction { event -> player.end() }
+        end.setOnAction { player.end() }
         tools.items.add(end)
 
         val timinusTwo = Button("T-2")
-        timinusTwo.setOnAction { event -> player.penultimate() }
+        timinusTwo.setOnAction { player.penultimate() }
         tools.items.add(timinusTwo)
 
         val tminusOne = Button("T-1")
-        tminusOne.setOnAction { event -> player.ultimate() }
+        tminusOne.setOnAction { player.ultimate() }
         tools.items.add(tminusOne)
 
         val markHere = Button("Mark")
-        markHere.setOnAction { event -> markHere(tools) }
+        markHere.setOnAction { markHere(tools) }
         tools.items.add(markHere)
 
         return tools
