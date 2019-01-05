@@ -106,7 +106,7 @@ public abstract class ScriptBuilder<SUBCLASS>
 
 	public Appearance<Marks> stroke(int fromX, int fromY, int toX, int toY)
 	{
-		return new Appearance<>(world, Marks.makeLine(world, new PointPair(fromX, fromY, toX, toY)));
+		return new Appearance<>(world, Marks.Companion.makeLine(world, new PointPair(fromX, fromY, toX, toY)));
 	}
 
 	public Appearance<Cross> cross(String name, double xsize, double ysize, double xoffset, double yoffset)
@@ -116,12 +116,12 @@ public abstract class ScriptBuilder<SUBCLASS>
 
 	public Appearance<Marks> stroke(PointPair points)
 	{
-		return new Appearance<>(world, Marks.makeLine(world, points));
+		return new Appearance<>(world, Marks.Companion.makeLine(world, points));
 	}
 
 	public Appearance<Marks> box(PointPair area)
 	{
-		return new Appearance<>(world, Marks.makeBox(world, area));
+		return new Appearance<>(world, Marks.Companion.makeBox(world, area));
 	}
 
 	public Appearance<Connector> connector()
