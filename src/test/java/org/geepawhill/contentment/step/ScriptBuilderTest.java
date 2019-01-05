@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import org.assertj.core.api.Fail;
 import org.geepawhill.contentment.core.Gesture;
-import org.junit.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

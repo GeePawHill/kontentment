@@ -9,8 +9,6 @@ import org.junit.jupiter.api.Test;
 
 public class AtomRunnerTest extends ContentmentTest
 {
-	JavaFxRunner runner = new JavaFxRunner();
-	
 	@Test
 	public void atZeroTime()
 	{

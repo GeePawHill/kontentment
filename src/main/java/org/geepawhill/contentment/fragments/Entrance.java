@@ -27,7 +27,7 @@ public class Entrance implements Fragment, GroupSource
 	{
 		group.setOpacity(1);
 		if(destination!=null) destination.getChildren().add(group);
-		else context.canvas.getChildren().add(group);
+		else context.getCanvas().getChildren().add(group);
 	}
 
 	@Override

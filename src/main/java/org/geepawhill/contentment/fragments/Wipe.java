@@ -17,7 +17,7 @@ public class Wipe implements Fragment
 	@Override
 	public void prepare(Context context)
 	{
-		context.canvas.getChildren().clear();
+		context.getCanvas().getChildren().clear();
 	}
 
 	@Override

@@ -68,14 +68,14 @@ public class MainView
 
 		// non-media background
 
-		ScaleListener listener = new ScaleListener(owner, player.context().canvas, media);
+		ScaleListener listener = new ScaleListener(owner, player.context().getCanvas(), media);
 		owner.widthProperty().addListener(listener);
 		owner.heightProperty().addListener(listener);
 		listener.changed(null, 300, 300);
 
 		owner.setOnMouseClicked((event) -> mouseClicked(event));
 
-		owner.getChildren().add(player.context().canvas);
+		owner.getChildren().add(player.context().getCanvas());
 		return owner;
 	}
 
@@ -163,7 +163,7 @@ public class MainView
 	private void oneOff()
 	{
 		JfxUtility.capture(stage.getScene().getRoot());
-		dumpNode(player.context().canvas, 0);
+		dumpNode(player.context().getCanvas(), 0);
 	}
 
 	private void dumpNode(Node node, int indent)

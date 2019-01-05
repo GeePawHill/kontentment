@@ -22,9 +22,9 @@ public class WipeTest
 	public void wipes()
 	{
 		Wipe wipe = new Wipe();
-		context.canvas.getChildren().add(new Text());
+		context.getCanvas().getChildren().add(new Text());
 		wipe.prepare(context);
 		assertThat(wipe.interpolate(context, 1d)).isFalse();
-		assertThat(context.canvas.getChildren().size()).isEqualTo(0);
+		assertThat(context.getCanvas().getChildren().size()).isEqualTo(0);
 	}
 }

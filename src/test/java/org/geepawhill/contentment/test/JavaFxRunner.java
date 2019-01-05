@@ -15,13 +15,17 @@ public class JavaFxRunner
 {
 	public Context context;
 
+	JavaFxRunner()
+	{
+		context = new Context();
+	}
+
 	public void prepareWindow(Stage stage)
 	{
 		Pane region = new Pane();
 		region.setMaxSize(1600d, 900d);
 		region.setMinSize(1600d, 900d);
-		context = new Context();
-		region.getChildren().add(context.canvas);
+		region.getChildren().add(context.getCanvas());
 		stage.setScene(new Scene(region));
 		stage.show();
 	}

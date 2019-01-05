@@ -24,7 +24,7 @@ public class Placement implements Position
 	public void position(Node node, PointPair dimensions)
 	{
 		PointPair remainder = area;
-		if(above!=NodeSource.NONE)
+		if(above!= NodeSource.Companion.getNONE())
 		{
 			double newY = new PointPair(above.get().getBoundsInParent()).south().y;
 			remainder = new PointPair(remainder.from.x,newY,remainder.to.x,remainder.to.y);
