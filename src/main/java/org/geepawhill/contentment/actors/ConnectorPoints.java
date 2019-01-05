@@ -18,9 +18,9 @@ public class ConnectorPoints
 	public ConnectorPoints(ScriptWorld world)
 	{
 		this.world = world;
-		this.fromGroup = GroupSource.NONE;
+		this.fromGroup = GroupSource.Companion.getNONE();
 		this.fromPoint = new Point(0, 0);
-		this.toGroup = GroupSource.NONE;
+		this.toGroup = GroupSource.Companion.getNONE();
 		this.toPoint = new Point(0, 0);
 	}
 	
@@ -33,7 +33,7 @@ public class ConnectorPoints
 
 	public void from(Point target, boolean withHead)
 	{
-		fromGroup = GroupSource.NONE;
+		fromGroup = GroupSource.Companion.getNONE();
 		fromPoint = target;
 		arrowheadAtFrom = withHead;
 	}
@@ -51,7 +51,7 @@ public class ConnectorPoints
 
 	public void to(Point target, boolean withHead)
 	{
-		this.toGroup = GroupSource.NONE;
+		this.toGroup = GroupSource.Companion.getNONE();
 		this.toPoint = target;
 		arrowheadAtTo = withHead;
 	}
@@ -64,22 +64,22 @@ public class ConnectorPoints
 	
 	private Point adjustToIfGroup(PointPair startLine)
 	{
-		if (toGroup == GroupSource.NONE) return startLine.to;
+		if (toGroup == GroupSource.Companion.getNONE()) return startLine.to;
 		PointPair toGrown = new PointPair(toGroup.group());
 		return toGrown.quadIntersects(startLine);
 	}
 
 	private Point adjustFromIfGroup(PointPair startLine)
 	{
-		if (fromGroup == GroupSource.NONE) return startLine.from;
+		if (fromGroup == GroupSource.Companion.getNONE()) return startLine.from;
 		PointPair fromGrown = new PointPair(fromGroup.group());
 		return fromGrown.quadIntersects(startLine);
 	}
 
 	private PointPair guessStartLine()
 	{
-		Point fromCenter = fromGroup == GroupSource.NONE ? fromPoint : new PointPair(fromGroup.group()).center();
-		Point toCenter = toGroup == GroupSource.NONE ? toPoint : new PointPair(toGroup.group()).center();
+		Point fromCenter = fromGroup == GroupSource.Companion.getNONE() ? fromPoint : new PointPair(fromGroup.group()).center();
+		Point toCenter = toGroup == GroupSource.Companion.getNONE() ? toPoint : new PointPair(toGroup.group()).center();
 		PointPair startLine = new PointPair(fromCenter, toCenter);
 		return startLine;
 	}
