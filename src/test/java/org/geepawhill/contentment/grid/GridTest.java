@@ -5,7 +5,6 @@ import static org.geepawhill.contentment.test.ContentmentAssertions.assertThat;
 
 import org.assertj.core.data.Offset;
 import org.geepawhill.contentment.geometry.PointPair;
-import org.junit.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
