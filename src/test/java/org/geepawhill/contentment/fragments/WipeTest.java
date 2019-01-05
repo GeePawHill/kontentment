@@ -2,8 +2,6 @@ package org.geepawhill.contentment.fragments;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.geepawhill.contentment.core.Context;
-import org.junit.*;
-
 import javafx.scene.text.Text;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

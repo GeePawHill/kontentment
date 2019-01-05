@@ -10,7 +10,6 @@ import org.geepawhill.contentment.geometry.*;
 import org.geepawhill.contentment.position.Position;
 import org.geepawhill.contentment.step.Timed;
 import org.geepawhill.contentment.timing.Timing;
-import org.geepawhill.contentment.utility.Names;
 
 import javafx.scene.Group;
 import javafx.scene.transform.Rotate;
@@ -42,7 +41,7 @@ public class Connector implements Actor
 	{
 		this.world = world;
 		this.group = new Group();
-		this.entrance = new Entrance(destination, group);
+		this.entrance = new Entrance(group);
 		this.connectorPoints = new ConnectorPoints(world);
 		this.mainStep = new Mark(group, this::getMainBezier);
 		this.fromTopStep = new Mark(group, this::getFromTop);

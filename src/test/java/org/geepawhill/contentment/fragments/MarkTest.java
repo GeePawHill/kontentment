@@ -5,7 +5,6 @@ import static org.geepawhill.contentment.test.ContentmentAssertions.assertThat;
 
 import org.geepawhill.contentment.core.*;
 import org.geepawhill.contentment.geometry.*;
-import org.junit.*;
 
 import javafx.scene.Group;
 import javafx.scene.shape.*;
@@ -21,6 +20,7 @@ public class MarkTest
 	@BeforeEach
 	public void before()
 	{
+		context = new Context();
 		group = new Group();
 		bezier = new Bezier(new PointPair(0, 0, 100, 100));
 	}

@@ -9,7 +9,6 @@ import org.geepawhill.contentment.step.*;
 import org.geepawhill.contentment.timing.Timing;
 
 import javafx.scene.Group;
-import javafx.scene.paint.Paint;
 
 public class Appearance<ACTOR extends Actor> implements GroupSource
 {
@@ -21,7 +20,7 @@ public class Appearance<ACTOR extends Actor> implements GroupSource
 	{
 		this.actor = actor;
 		this.world = world;
-		this.entrance = new Entrance(null,actor.group());
+		this.entrance = new Entrance(actor.group());
 		actor.format(world.assumptions().format());
 	}
 	

@@ -21,7 +21,7 @@ public class Marks implements Actor
 	{
 		this.world = world;
 		this.group = new Group();
-		this.entrance = new Entrance(destination, group);
+		this.entrance = new Entrance(group);
 		this.marks = new Mark[beziers.length];
 		int next = 0;
 		for (Bezier bezier : beziers)

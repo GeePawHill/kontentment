@@ -41,7 +41,7 @@ public class Cross implements Actor
 	{
 		this.world = world;
 		this.group = new Group();
-		this.entrance = new Entrance(destination, group);
+		this.entrance = new Entrance(group);
 		this.target = target;
 		this.xsize = xsize;
 		this.ysize = ysize;

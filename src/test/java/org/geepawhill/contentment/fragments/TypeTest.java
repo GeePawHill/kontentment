@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.geepawhill.contentment.core.*;
 import org.geepawhill.contentment.test.ContentmentTest;
-import org.junit.*;
 
 import javafx.scene.*;
 import javafx.scene.text.Text;
@@ -21,6 +20,7 @@ public class TypeTest extends ContentmentTest
 	@BeforeEach
 	public void before()
 	{
+		context = new Context();
 		owner = new Group();
 		source = "Hi mom";
 	}

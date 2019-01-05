@@ -29,7 +29,7 @@ public class Letters implements Actor
 	{
 		this.world = world;
 		this.group = new Group();
-		this.entrance = new Entrance(destination, group);
+		this.entrance = new Entrance(group);
 		this.northJiggler = new Jiggler(.5d, 6d);
 		this.controlJiggler = new Jiggler(.4d, 30d);
 
@@ -47,7 +47,7 @@ public class Letters implements Actor
 	@Override
 	public Letters draw(double ms)
 	{
-		if(ms!=0 && ms!=1) ms = letters.source.length()*25d;
+		if(ms!=0 && ms!=1) ms = letters.getSource().length()*25d;
 		Timed timed = new Timed(ms);
 		timed.add(Timing.weighted(7), letters);
 		if (hasOval)
