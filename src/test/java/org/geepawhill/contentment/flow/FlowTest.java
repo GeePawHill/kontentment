@@ -53,9 +53,9 @@ public class FlowTest extends ContentmentTest
 	public void assertLine(int index,String text, Color color, Size size)
 	{
 		Flow.Line line = flow.lines().get(index);
-		assertThat(line.text).isEqualTo(text);
-		assertThat(line.color).isEqualTo(color);
-		assertThat(line.size).isEqualTo(size);
+		assertThat(line.getText()).isEqualTo(text);
+		assertThat(line.getColor()).isEqualTo(color);
+		assertThat(line.getSize()).isEqualTo(size);
 	}
 	
 	public void assertCoordinates(Vector<Flow.Line> lines )
@@ -63,9 +63,9 @@ public class FlowTest extends ContentmentTest
 		Double lastEndY = AREA.getFrom().getY() -1;
 		for(Flow.Line line : lines)
 		{
-			assertThat(line.layout.getFrom().getX()).isCloseTo(AREA.getFrom().getX(), withPercentage(.5));
-			assertThat(line.layout.getFrom().getY()).isGreaterThan(lastEndY);
-			lastEndY = line.layout.getTo().getY();
+			assertThat(line.getLayout().getFrom().getX()).isCloseTo(AREA.getFrom().getX(), withPercentage(.5));
+			assertThat(line.getLayout().getFrom().getY()).isGreaterThan(lastEndY);
+			lastEndY = line.getLayout().getTo().getY();
 		}
 	}
 
