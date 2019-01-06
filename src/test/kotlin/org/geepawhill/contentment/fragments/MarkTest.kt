@@ -4,12 +4,13 @@ import javafx.scene.Group
 import javafx.scene.shape.CubicCurveTo
 import javafx.scene.shape.MoveTo
 import javafx.scene.shape.Path
+import org.assertj.core.api.Assertions.assertThat
 import org.geepawhill.contentment.core.Context
 import org.geepawhill.contentment.geometry.Bezier
 import org.geepawhill.contentment.geometry.BezierSource
 import org.geepawhill.contentment.geometry.Point
 import org.geepawhill.contentment.geometry.PointPair
-import org.geepawhill.contentment.test.ContentmentAssertions.assertThat
+import test.ContentmentAssertions.Companion.assertThat
 import org.junit.jupiter.api.Test
 
 class MarkTest {
