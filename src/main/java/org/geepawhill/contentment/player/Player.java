@@ -1,110 +1,93 @@
 package org.geepawhill.contentment.player;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import org.geepawhill.contentment.core.Context;
-import org.geepawhill.contentment.player.BeatWaiter;
-import org.geepawhill.contentment.player.Keyframe;
-import org.geepawhill.contentment.player.PlayerState;
-import org.geepawhill.contentment.player.Script;
 import org.geepawhill.contentment.rhythm.Rhythm;
 
-import javafx.beans.property.*;
 
-public class Player
-{
-	private int position;
-	private Context context;
-	
-	private final SimpleObjectProperty<Script> scriptProperty;
-	private final SimpleObjectProperty<PlayerState> stateProperty;
-	private final SimpleBooleanProperty atStartProperty;
-	private final SimpleBooleanProperty atEndProperty;
+public class Player {
+    private int position;
+    private Context context;
 
-	public Player()
-	{
-		this.atStartProperty = new SimpleBooleanProperty(true);
-		this.atEndProperty = new SimpleBooleanProperty(false);
-		this.stateProperty = new SimpleObjectProperty<>(PlayerState.Stepping);
-		this.scriptProperty = new SimpleObjectProperty<>(new Script());
-		this.context = new Context();
-		this.position = 0;
-	}
-	
-	public Context context()
-	{
-		return context;
-	}
-	
-	public BooleanProperty atStartProperty()
-	{
-		return atStartProperty;
-	}
+    private final SimpleObjectProperty<Script> scriptProperty;
+    private final SimpleObjectProperty<PlayerState> stateProperty;
+    private final SimpleBooleanProperty atStartProperty;
+    private final SimpleBooleanProperty atEndProperty;
 
-	public BooleanProperty atEndProperty()
-	{
-		return atEndProperty;
-	}
+    public Player() {
+        this.atStartProperty = new SimpleBooleanProperty(true);
+        this.atEndProperty = new SimpleBooleanProperty(false);
+        this.stateProperty = new SimpleObjectProperty<>(PlayerState.Stepping);
+        this.scriptProperty = new SimpleObjectProperty<>(new Script());
+        this.context = new Context();
+        this.position = 0;
+    }
 
-	public boolean atStart()
-	{
-		return atStartProperty.get();
-	}
+    public Context context() {
+        return context;
+    }
 
-	public boolean atEnd()
-	{
-		return atEndProperty.get();
-	}
+    public BooleanProperty atStartProperty() {
+        return atStartProperty;
+    }
 
-	public void load(Script script)
-	{
-		this.scriptProperty.set(script);
-		this.setPosition(0);
-		getRhythm().seekHard((long) 0);
-		stateProperty.set(PlayerState.Stepping);
-		context.setRhythm(script.rhythm());
-	}
+    public BooleanProperty atEndProperty() {
+        return atEndProperty;
+    }
 
-	public int position()
-	{
-		return position;
-	}
+    public boolean atStart() {
+        return atStartProperty.get();
+    }
 
-	public void forward()
-	{
-		mustBeStepping();
-		if (!atEnd())
-		{
-			nextSync().phrase.fast(context);
-			setPosition(position() + 1);
-			if (atEnd()) getRhythm().seekHard(Rhythm.Companion.getMAX());
-			else getRhythm().seekHard(nextSync().target);
-		}
-	}
+    public boolean atEnd() {
+        return atEndProperty.get();
+    }
 
-	private Keyframe nextSync()
-	{
-		return getSync(position());
-	}
+    public void load(Script script) {
+        this.scriptProperty.set(script);
+        this.setPosition(0);
+        getRhythm().seekHard((long) 0);
+        stateProperty.set(PlayerState.Stepping);
+        context.setRhythm(script.rhythm());
+    }
 
-	private Keyframe getSync(int sync)
-	{
-		return getScript().get(sync);
-	}
+    public int position() {
+        return position;
+    }
 
-	public void backward()
-	{
-		mustBeStepping();
-		if(!atStart())
-		{
-			context.wipe();
-			int newPosition = position-1;
-			setPosition(0);
-			while(position!=newPosition)
-			{
-				forward();
-			}
-			if (atEnd()) getRhythm().seekHard(Rhythm.Companion.getMAX());
-			else getRhythm().seekHard(nextSync().target);
-		}
+    public void forward() {
+        mustBeStepping();
+        if (!atEnd()) {
+            nextSync().getPhrase().fast(context);
+            setPosition(position() + 1);
+            if (atEnd()) getRhythm().seekHard(Rhythm.Companion.getMAX());
+            else getRhythm().seekHard(nextSync().getTarget());
+        }
+    }
+
+    private Keyframe nextSync() {
+        return getSync(position());
+    }
+
+    private Keyframe getSync(int sync) {
+        return getScript().get(sync);
+    }
+
+    public void backward() {
+        mustBeStepping();
+        if (!atStart()) {
+            context.wipe();
+            int newPosition = position - 1;
+            setPosition(0);
+            while (position != newPosition) {
+                forward();
+            }
+            if (atEnd()) getRhythm().seekHard(Rhythm.Companion.getMAX());
+            else getRhythm().seekHard(nextSync().getTarget());
+        }
 //		mustBeStepping();
 //		if (!atStart())
 //		{
@@ -112,134 +95,108 @@ public class Player
 //			nextSync().phrase.undo(context);
 //			getRhythm().seekHard(nextSync().target);
 //		}
-	}
+    }
 
-	public PlayerState getState()
-	{
-		return stateProperty.get();
-	}
+    public PlayerState getState() {
+        return stateProperty.get();
+    }
 
-	public void playOne()
-	{
-		mustBeStepping();
-		if (!atEnd())
-		{
-			stateProperty.set(PlayerState.Playing);
-			getRhythm().play();
-			new BeatWaiter(context, nextSync().phrase, this::isPlayOneDone, this::newPlayOneFinished).play();
-		}
-	}
+    public void playOne() {
+        mustBeStepping();
+        if (!atEnd()) {
+            stateProperty.set(PlayerState.Playing);
+            getRhythm().play();
+            new BeatWaiter(context, nextSync().getPhrase(), this::isPlayOneDone, this::newPlayOneFinished).play();
+        }
+    }
 
-	public Boolean isPlayOneDone()
-	{
-		if (position < getScript().size() - 1)
-		{
-			if (getRhythm().beat() >= getSync(position + 1).target) return true;
-			else return false;
-		}
-		else
-		{
-			return getRhythm().isAtEnd();
-		}
-	}
+    public Boolean isPlayOneDone() {
+        if (position < getScript().size() - 1) {
+            if (getRhythm().beat() >= getSync(position + 1).getTarget()) return true;
+            else return false;
+        } else {
+            return getRhythm().isAtEnd();
+        }
+    }
 
-	public void newPlayOneFinished()
-	{
-		getRhythm().pause();
-		stateProperty.set(PlayerState.Stepping);
-		setPosition(position() + 1);
-		if (atEnd()) getRhythm().seekHard(Rhythm.Companion.getMAX());
-		else getRhythm().seekHard(nextSync().target);
-	}
-	
-	public void newPlayFinished()
-	{
-		setPosition(position()+1);
-		if(!atEnd())
-		{
-			new BeatWaiter(context, nextSync().phrase, this::isPlayOneDone, this::newPlayFinished).play();
-		}
-		else
-		{
-			getRhythm().pause();
-			stateProperty.set(PlayerState.Stepping);
-		}
-	}
+    public void newPlayOneFinished() {
+        getRhythm().pause();
+        stateProperty.set(PlayerState.Stepping);
+        setPosition(position() + 1);
+        if (atEnd()) getRhythm().seekHard(Rhythm.Companion.getMAX());
+        else getRhythm().seekHard(nextSync().getTarget());
+    }
 
-	private void mustBeStepping()
-	{
-		if (getState() != PlayerState.Stepping) throw new RuntimeException("Playing when should be Stepping.");
-	}
+    public void newPlayFinished() {
+        setPosition(position() + 1);
+        if (!atEnd()) {
+            new BeatWaiter(context, nextSync().getPhrase(), this::isPlayOneDone, this::newPlayFinished).play();
+        } else {
+            getRhythm().pause();
+            stateProperty.set(PlayerState.Stepping);
+        }
+    }
 
-	public void play()
-	{
-		mustBeStepping();
-		if (!atEnd())
-		{
-			stateProperty.set(PlayerState.Playing);
-			getRhythm().play();
-			new BeatWaiter(context, nextSync().phrase, this::isPlayOneDone, this::newPlayFinished).play();
-		}
-	}
+    private void mustBeStepping() {
+        if (getState() != PlayerState.Stepping) throw new RuntimeException("Playing when should be Stepping.");
+    }
 
-	public void end()
-	{
-		mustBeStepping();
-		while (position() < getScript().size())
-		{
-			forward();
-		}
-	}
+    public void play() {
+        mustBeStepping();
+        if (!atEnd()) {
+            stateProperty.set(PlayerState.Playing);
+            getRhythm().play();
+            new BeatWaiter(context, nextSync().getPhrase(), this::isPlayOneDone, this::newPlayFinished).play();
+        }
+    }
 
-	public void start()
-	{
-		mustBeStepping();
-		while (position() != 0)
-		{
-			backward();
-		}
-	}
+    public void end() {
+        mustBeStepping();
+        while (position() < getScript().size()) {
+            forward();
+        }
+    }
 
-	public void ultimate()
-	{
-		mustBeStepping();
-		end();
-		backward();
-	}
-	
-	public void penultimate()
-	{
-		mustBeStepping();
-		end();
-		backward();
-		backward();
-	}
+    public void start() {
+        mustBeStepping();
+        while (position() != 0) {
+            backward();
+        }
+    }
 
-	public Rhythm getRhythm()
-	{
-		return getScript().rhythm();
-	}
+    public void ultimate() {
+        mustBeStepping();
+        end();
+        backward();
+    }
 
-	public void setPosition(int position)
-	{
-		this.position = position;
-		atStartProperty.set(position == 0);
-		atEndProperty.set(position == getScript().size());
-	}
+    public void penultimate() {
+        mustBeStepping();
+        end();
+        backward();
+        backward();
+    }
+
+    public Rhythm getRhythm() {
+        return getScript().rhythm();
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+        atStartProperty.set(position == 0);
+        atEndProperty.set(position == getScript().size());
+    }
 
 
-	public ObjectProperty<PlayerState> stateProperty()
-	{
-		return stateProperty;
-	}
-	
-	public ObjectProperty<Script> scriptProperty()
-	{
-		return scriptProperty;
-	}
+    public ObjectProperty<PlayerState> stateProperty() {
+        return stateProperty;
+    }
 
-	public Script getScript()
-	{
-		return scriptProperty.get();
-	}
+    public ObjectProperty<Script> scriptProperty() {
+        return scriptProperty;
+    }
+
+    public Script getScript() {
+        return scriptProperty.get();
+    }
 }
