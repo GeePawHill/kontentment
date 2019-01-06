@@ -1,17 +1,22 @@
 package org.geepawhill.contentment.actors
 
-import org.geepawhill.contentment.actor.*
-import org.geepawhill.contentment.core.GroupSource
-import org.geepawhill.contentment.format.Format
-import org.geepawhill.contentment.fragments.*
-import org.geepawhill.contentment.geometry.*
-import org.geepawhill.contentment.position.Position
-import step.Timed
-import org.geepawhill.contentment.style.Frames
-import org.geepawhill.contentment.timing.Timing
-
 import javafx.scene.Group
 import javafx.scene.paint.Color
+import org.geepawhill.contentment.actor.Actor
+import org.geepawhill.contentment.actor.Appearance
+import org.geepawhill.contentment.actor.ScriptWorld
+import org.geepawhill.contentment.core.GroupSource
+import org.geepawhill.contentment.format.Format
+import org.geepawhill.contentment.fragments.Entrance
+import org.geepawhill.contentment.fragments.Mark
+import org.geepawhill.contentment.geometry.Bezier
+import org.geepawhill.contentment.geometry.BezierSource
+import org.geepawhill.contentment.geometry.Point
+import org.geepawhill.contentment.geometry.PointPair
+import org.geepawhill.contentment.position.Position
+import org.geepawhill.contentment.style.Frames
+import org.geepawhill.contentment.timing.Timing
+import step.Timed
 
 class Cross(private val world: ScriptWorld, destination: Group, private val target: GroupSource, private val xsize: Double, private val ysize: Double, private val offset: Point) : Actor {
     private val leftToRight: Mark

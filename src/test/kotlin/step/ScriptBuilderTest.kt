@@ -1,4 +1,4 @@
-package org.geepawhill.contentment.step
+package step
 
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Fail

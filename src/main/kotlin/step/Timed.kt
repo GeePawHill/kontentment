@@ -4,8 +4,7 @@ import org.geepawhill.contentment.core.*
 import org.geepawhill.contentment.timing.Scheduler
 import org.geepawhill.contentment.timing.Timing
 import org.geepawhill.contentment.utility.Names
-
-import java.util.ArrayList
+import java.util.*
 
 class Timed(private val ms: Double) : Gesture {
     private val scheduler: Scheduler

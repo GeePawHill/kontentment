@@ -3,8 +3,7 @@ package step
 import org.geepawhill.contentment.core.Context
 import org.geepawhill.contentment.core.Gesture
 import org.geepawhill.contentment.core.OnFinished
-
-import java.util.ArrayList
+import java.util.*
 
 internal class ChordPlayer : SlowPlayer {
     private var onFinished: OnFinished? = null

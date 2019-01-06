@@ -1,20 +1,21 @@
 package org.geepawhill.contentment.core
 
-import org.geepawhill.contentment.utility.JfxUtility.color
-
-import java.util.Vector
-
-import org.geepawhill.contentment.format.Format
-import org.geepawhill.contentment.geometry.*
-import org.geepawhill.contentment.grid.*
-import org.geepawhill.contentment.player.Script
-import org.geepawhill.contentment.position.*
-import org.geepawhill.contentment.rhythm.SimpleRhythm
-import step.ScriptBuilder
-import org.geepawhill.contentment.style.*
-
 import javafx.scene.paint.Paint
-import javafx.scene.text.*
+import javafx.scene.text.Font
+import javafx.scene.text.FontPosture
+import org.geepawhill.contentment.format.Format
+import org.geepawhill.contentment.geometry.Point
+import org.geepawhill.contentment.geometry.PointPair
+import org.geepawhill.contentment.grid.Grid
+import org.geepawhill.contentment.player.Script
+import org.geepawhill.contentment.position.RightOf
+import org.geepawhill.contentment.position.TopLeft
+import org.geepawhill.contentment.rhythm.SimpleRhythm
+import org.geepawhill.contentment.style.Frames
+import org.geepawhill.contentment.style.TypeFace
+import org.geepawhill.contentment.utility.JfxUtility.color
+import step.ScriptBuilder
+import java.util.*
 
 class DemonstrationScript : ScriptBuilder<DemonstrationScript>(SimpleRhythm()) {
 

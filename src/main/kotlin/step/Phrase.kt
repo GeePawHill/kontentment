@@ -1,8 +1,9 @@
 package step
 
-import java.util.ArrayList
-
-import org.geepawhill.contentment.core.*
+import org.geepawhill.contentment.core.Context
+import org.geepawhill.contentment.core.Gesture
+import org.geepawhill.contentment.core.OnFinished
+import java.util.*
 
 open class Phrase(private val player: SlowPlayer) : Gesture {
     protected val gestures: ArrayList<Gesture>

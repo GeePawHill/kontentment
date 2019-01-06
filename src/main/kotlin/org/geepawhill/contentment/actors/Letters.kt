@@ -1,14 +1,17 @@
 package org.geepawhill.contentment.actors
 
-import org.geepawhill.contentment.actor.*
-import org.geepawhill.contentment.format.Format
-import org.geepawhill.contentment.fragments.*
-import org.geepawhill.contentment.geometry.*
-import org.geepawhill.contentment.position.*
-import step.Timed
-import org.geepawhill.contentment.timing.Timing
-
 import javafx.scene.Group
+import org.geepawhill.contentment.actor.Actor
+import org.geepawhill.contentment.actor.ScriptWorld
+import org.geepawhill.contentment.format.Format
+import org.geepawhill.contentment.fragments.Entrance
+import org.geepawhill.contentment.fragments.Mark
+import org.geepawhill.contentment.fragments.Type
+import org.geepawhill.contentment.geometry.*
+import org.geepawhill.contentment.position.Centered
+import org.geepawhill.contentment.position.Position
+import org.geepawhill.contentment.timing.Timing
+import step.Timed
 
 class Letters(protected val world: ScriptWorld, source: String) : Actor {
     private val letters: Type

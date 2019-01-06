@@ -1,25 +1,24 @@
 package org.geepawhill.contentment.core
 
-import org.geepawhill.contentment.utility.JfxUtility.color
-
-import java.io.File
-import java.util.*
-
-import org.geepawhill.contentment.actor.Appearance
-import org.geepawhill.contentment.actors.*
-import org.geepawhill.contentment.flow.*
+import javafx.scene.paint.Paint
+import javafx.scene.text.Font
+import javafx.scene.text.FontPosture
+import org.geepawhill.contentment.flow.Color
+import org.geepawhill.contentment.flow.Flow
+import org.geepawhill.contentment.flow.FormatTable
+import org.geepawhill.contentment.flow.Size
 import org.geepawhill.contentment.format.Format
-import org.geepawhill.contentment.geometry.*
+import org.geepawhill.contentment.geometry.Point
 import org.geepawhill.contentment.grid.Grid
 import org.geepawhill.contentment.player.Script
-import org.geepawhill.contentment.position.*
-import org.geepawhill.contentment.rhythm.MediaRhythm
-import step.ScriptBuilder
-import org.geepawhill.contentment.style.*
+import org.geepawhill.contentment.position.RightOf
+import org.geepawhill.contentment.position.TopRight
+import org.geepawhill.contentment.style.Frames
+import org.geepawhill.contentment.style.TypeFace
 import org.geepawhill.contentment.utility.JfxUtility
-
-import javafx.scene.paint.Paint
-import javafx.scene.text.*
+import org.geepawhill.contentment.utility.JfxUtility.color
+import step.ScriptBuilder
+import java.util.*
 
 class OptimizingForCollaboration : ScriptBuilder<OptimizingForCollaboration>() {
 

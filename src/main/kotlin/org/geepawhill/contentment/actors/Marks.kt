@@ -1,14 +1,17 @@
 package org.geepawhill.contentment.actors
 
-import org.geepawhill.contentment.actor.*
-import org.geepawhill.contentment.format.Format
-import org.geepawhill.contentment.fragments.*
-import org.geepawhill.contentment.geometry.*
-import org.geepawhill.contentment.position.Position
-import step.Single
-import org.geepawhill.contentment.timing.Timing
-
 import javafx.scene.Group
+import org.geepawhill.contentment.actor.Actor
+import org.geepawhill.contentment.actor.ScriptWorld
+import org.geepawhill.contentment.format.Format
+import org.geepawhill.contentment.fragments.Entrance
+import org.geepawhill.contentment.fragments.Mark
+import org.geepawhill.contentment.geometry.Bezier
+import org.geepawhill.contentment.geometry.BezierSource
+import org.geepawhill.contentment.geometry.PointPair
+import org.geepawhill.contentment.position.Position
+import org.geepawhill.contentment.timing.Timing
+import step.Single
 
 class Marks(private val world: ScriptWorld, vararg beziers: Bezier) : Actor {
     private val marks: MutableList<Mark>
