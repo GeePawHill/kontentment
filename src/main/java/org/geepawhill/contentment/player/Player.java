@@ -5,7 +5,10 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import org.geepawhill.contentment.core.Context;
+import org.geepawhill.contentment.core.OnFinished;
 import org.geepawhill.contentment.rhythm.Rhythm;
+
+import java.util.function.Supplier;
 
 
 public class Player {
@@ -106,7 +109,19 @@ public class Player {
         if (!atEnd()) {
             stateProperty.set(PlayerState.Playing);
             getRhythm().play();
-            new BeatWaiter(context, nextSync().getPhrase(), this::isPlayOneDone, this::newPlayOneFinished).play();
+            new BeatWaiter(context, nextSync().getPhrase(),
+                    new Supplier<Boolean>() {
+                        @Override
+                        public Boolean get() {
+                            return isPlayOneDone();
+                        }
+                    },
+                    new OnFinished() {
+                        @Override
+                        public void run() {
+                            newPlayOneFinished();
+                        }
+                    }).play();
         }
     }
 
@@ -130,7 +145,18 @@ public class Player {
     public void newPlayFinished() {
         setPosition(position() + 1);
         if (!atEnd()) {
-            new BeatWaiter(context, nextSync().getPhrase(), this::isPlayOneDone, this::newPlayFinished).play();
+            new BeatWaiter(context, nextSync().getPhrase(), new Supplier<Boolean>() {
+                @Override
+                public Boolean get() {
+                    return isPlayOneDone();
+                }
+            },
+                    new OnFinished() {
+                        @Override
+                        public void run() {
+                            newPlayFinished();
+                        }
+                    }).play();
         } else {
             getRhythm().pause();
             stateProperty.set(PlayerState.Stepping);
@@ -146,7 +172,18 @@ public class Player {
         if (!atEnd()) {
             stateProperty.set(PlayerState.Playing);
             getRhythm().play();
-            new BeatWaiter(context, nextSync().getPhrase(), this::isPlayOneDone, this::newPlayFinished).play();
+            new BeatWaiter(context, nextSync().getPhrase(), new Supplier<Boolean>() {
+                @Override
+                public Boolean get() {
+                    return isPlayOneDone();
+                }
+            },
+                    new OnFinished() {
+                        @Override
+                        public void run() {
+                            newPlayFinished();
+                        }
+                    }).play();
         }
     }
 
