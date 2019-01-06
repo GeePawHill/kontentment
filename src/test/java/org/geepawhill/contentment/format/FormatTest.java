@@ -18,7 +18,7 @@ public class FormatTest
 	@BeforeEach
 	public void before()
 	{
-		style = Frames.unspecified();
+		style = Frames.INSTANCE.unspecified();
 		base = new Format("Base");
 		key = style.key();
 	}
@@ -36,14 +36,14 @@ public class FormatTest
 	{
 		assertThat(base.find(key)).isNull();
 		base.put(style);
-		assertThat(style).isEqualTo(base.find(Frames.KEY));
+		assertThat(style).isEqualTo(base.find(Frames.INSTANCE.getKEY()));
 	}
 
 	@Test
 	public void hasBase()
 	{
 		Format derived = new Format("Derived", base);
-		assertThat(derived.base).isEqualTo(base);
+		assertThat(derived.getBase()).isEqualTo(base);
 	}
 
 	@Test

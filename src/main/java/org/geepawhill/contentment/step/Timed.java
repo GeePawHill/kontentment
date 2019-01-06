@@ -19,7 +19,7 @@ public class Timed implements Gesture {
     private OnFinished onFinished;
 
     public Timed(double ms) {
-        this.name = Names.make(Timed.class);
+        this.name = Names.INSTANCE.make(Timed.class);
         this.atoms = new ArrayList<>();
         this.timings = new ArrayList<>();
         this.ms = ms;
