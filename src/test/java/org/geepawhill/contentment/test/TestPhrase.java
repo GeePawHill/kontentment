@@ -1,7 +1,7 @@
 package org.geepawhill.contentment.test;
 
 import org.geepawhill.contentment.core.*;
-import org.geepawhill.contentment.step.Phrase;
+import step.Phrase;
 
 public class TestPhrase extends Phrase
 {

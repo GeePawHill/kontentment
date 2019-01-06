@@ -9,6 +9,8 @@ import org.geepawhill.contentment.step.*
 import org.geepawhill.contentment.timing.Timing
 
 import javafx.scene.Group
+import step.Phrase
+import step.Single
 
 class Appearance<ACTOR : Actor>(private val world: ScriptWorld, val actor: ACTOR) : GroupSource {
     private val entrance: Entrance = Entrance(actor.group())

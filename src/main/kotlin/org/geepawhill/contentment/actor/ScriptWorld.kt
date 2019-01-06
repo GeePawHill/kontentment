@@ -6,6 +6,7 @@ import org.geepawhill.contentment.core.Gesture
 import org.geepawhill.contentment.format.Assumptions
 import org.geepawhill.contentment.geometry.Point
 import org.geepawhill.contentment.step.*
+import step.Phrase
 
 class ScriptWorld {
     private val working: Stack<Phrase> = Stack()

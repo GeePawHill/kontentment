@@ -14,7 +14,7 @@ import org.geepawhill.contentment.grid.Grid
 import org.geepawhill.contentment.player.Script
 import org.geepawhill.contentment.position.*
 import org.geepawhill.contentment.rhythm.MediaRhythm
-import org.geepawhill.contentment.step.ScriptBuilder
+import step.ScriptBuilder
 import org.geepawhill.contentment.style.*
 import org.geepawhill.contentment.utility.JfxUtility
 

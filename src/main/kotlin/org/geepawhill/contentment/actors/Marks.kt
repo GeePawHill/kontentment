@@ -5,7 +5,7 @@ import org.geepawhill.contentment.format.Format
 import org.geepawhill.contentment.fragments.*
 import org.geepawhill.contentment.geometry.*
 import org.geepawhill.contentment.position.Position
-import org.geepawhill.contentment.step.Single
+import step.Single
 import org.geepawhill.contentment.timing.Timing
 
 import javafx.scene.Group

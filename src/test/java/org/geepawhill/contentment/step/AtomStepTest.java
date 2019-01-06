@@ -4,6 +4,7 @@ import org.geepawhill.contentment.test.ContentmentTest;
 import org.geepawhill.contentment.test.TestAtom;
 import org.geepawhill.contentment.timing.Timing;
 import org.junit.jupiter.api.Test;
+import step.Single;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
