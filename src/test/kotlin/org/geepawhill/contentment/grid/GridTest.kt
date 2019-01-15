@@ -4,8 +4,8 @@ package org.geepawhill.contentment.grid
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.data.Offset
 import org.geepawhill.contentment.geometry.PointPair
-import test.ContentmentAssertions.Companion.assertThat
 import org.junit.jupiter.api.Test
+import test.ContentmentAssertions.Companion.assertThat
 
 class GridTest {
     private val bounds = PointPair(0.0, 100.0, 300.0, 500.0)

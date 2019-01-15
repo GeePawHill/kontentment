@@ -20,7 +20,7 @@ import org.geepawhill.contentment.utility.JfxUtility.color
 import step.ScriptBuilder
 import java.util.*
 
-class OptimizingForCollaboration : ScriptBuilder<OptimizingForCollaboration>() {
+class ReachingPastProcess : ScriptBuilder<ReachingPastProcess>() {
 
     private val formats: FormatTable
 
@@ -39,6 +39,10 @@ class OptimizingForCollaboration : ScriptBuilder<OptimizingForCollaboration>() {
     private val viewport: Grid
 
     init {
+        // super(new MediaRhythm(new
+        // File("D:\\GeePawHillDotOrg\\videos\\lumpOfCoding\\lumpOfCodingFaceover.mp4")));
+        // new SimpleRhythm());
+
         master = Grid()
         viewport = master.nested(INSET, 15, 100 - INSET, 100 - INSET)
         outline = Flow(world, viewport.all())
@@ -310,7 +314,7 @@ class OptimizingForCollaboration : ScriptBuilder<OptimizingForCollaboration>() {
         return result
     }
 
-    override fun downcast(): OptimizingForCollaboration {
+    override fun downcast(): ReachingPastProcess {
         return this
     }
 

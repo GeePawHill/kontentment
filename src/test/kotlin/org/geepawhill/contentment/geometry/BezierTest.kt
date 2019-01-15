@@ -1,8 +1,8 @@
 package org.geepawhill.contentment.geometry
 
 import org.assertj.core.api.Assertions.within
-import test.ContentmentAssertions.Companion.assertThat
 import org.junit.jupiter.api.Test
+import test.ContentmentAssertions.Companion.assertThat
 
 class BezierTest {
 
