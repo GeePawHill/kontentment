@@ -12,6 +12,7 @@ import org.geepawhill.contentment.geometry.Point
 import org.geepawhill.contentment.grid.Grid
 import org.geepawhill.contentment.player.Script
 import org.geepawhill.contentment.position.RightOf
+import org.geepawhill.contentment.position.TopLeft
 import org.geepawhill.contentment.position.TopRight
 import org.geepawhill.contentment.style.Frames
 import org.geepawhill.contentment.style.TypeFace
@@ -29,6 +30,7 @@ class ReachingPastProcess : ScriptBuilder<ReachingPastProcess>() {
     private val secondaryNormal: Format
     private val primaryNormal: Format
     private val emphaticSmall: Format
+    private val emphaticNormal: Format
     private val emphaticJumbo: Format
     private val emphatic: Paint
     private val tertiaryNormal: Format
@@ -62,7 +64,7 @@ class ReachingPastProcess : ScriptBuilder<ReachingPastProcess>() {
         tertiaryNormal = formats.get(Size.Normal, Color.Tertiary)
 
         emphaticJumbo = formats.get(Size.Jumbo, Color.Emphatic)
-        formats.get(Size.Normal, Color.Emphatic)
+        emphaticNormal = formats.get(Size.Normal, Color.Emphatic)
         emphaticSmall = Format(formats.get(Size.Small, Color.Emphatic), Frames.frame(emphatic, 3.0, .7))
 
         val header = Font.font("Chewed Pen BB", FontPosture.ITALIC, 80.0)
@@ -73,17 +75,24 @@ class ReachingPastProcess : ScriptBuilder<ReachingPastProcess>() {
 
     fun make(): Script {
         leadIn()
-        leadIn2()
         geepaw()
-        secondMission()
-        secondMissionB()
-        thirdMission()
-        somePoints()
-        pointDifference()
-        pointVariation()
-        pointConsensus()
-        pointFsquaredDsquared()
-        fourthMission()
+        goingAgileIsEasy()
+        structure()
+        definition()
+        autopoeisis()
+        change()
+        threeMs()
+        workingWithStories()
+        storiesAndDefinition()
+        tdd()
+        tddAndDefinition()
+//
+//        somePoints()
+//        pointDifference()
+//        pointVariation()
+//        pointConsensus()
+//        iterateAndIncrementProcess()
+//        health()
         end()
         return script
     }
@@ -91,28 +100,11 @@ class ReachingPastProcess : ScriptBuilder<ReachingPastProcess>() {
     private fun leadIn() {
         scene(0)
         wipe()
-        header("Optimizing For Collaboration")
-        //		timer(1.0).appear().actor.start();
-    }
-
-
-    //	private Appearance<Timer> timer(double d)
-    //	{
-    //		return null;
-    //	}
-
-    private fun leadIn2() {
-        scene(5)
-        wipe()
-        header("Optimizing For Collaboration")
+        letters("GeePaw's Notebook:").format(primaryJumbo).at(TopLeft(XMARGIN, YMARGIN)).called("header").appear()
         assume(secondaryJumbo)
-        outline.load("sjYour First Mission\n"
-                + "pn   Find someone you don't know, and exchange at least the \n"
-                + "pn   following info with them.\n"
-                + "en      * What's one movie in your top ten all time?\n"
-                + "en      * Are you more likely to be early or late?\n"
-                + "en      * How do your personal attributes shape your collaborations?\n")
-        outlineAppear()
+        letters("Reaching Past Process\nFinding Your Way In Agility").centered(450, 450).appear()
+        assume(emphaticSmall)
+        letters("Copyright (C) 2018, GeePawHill. All rights reserved.").at(TopLeft(20.0, 825.0)).appear()
     }
 
     private fun outlineAppear() {
@@ -124,7 +116,7 @@ class ReachingPastProcess : ScriptBuilder<ReachingPastProcess>() {
     private fun geepaw() {
         scene(10)
         wipe()
-        header("A Proper Introduction To GeePaw")
+        header("Who *Is* This Guy?")
         outline.load("snGeePaw Hill\n"
                 + "pn   yes, it's really 'GeePaw'\n"
                 + "pn   short for 'GrandPa', which I became at a young age\n"
@@ -139,48 +131,187 @@ class ReachingPastProcess : ScriptBuilder<ReachingPastProcess>() {
         outlineAppear()
     }
 
-    private fun secondMission() {
+    private fun goingAgileIsEasy() {
         scene(50)
         wipe()
-        header("Ways To Collaborate")
-        assume(secondaryJumbo)
-        outline.load("snSecond Mission, Part One\n"
-                + "pjwhat activity-collaboration pairings do you use?\n"
-                + "sn   relaxed and inclusive, not canonical\n"
-                + "sn   some samples...\n"
-                + "pn      coding: solo, paired, ganged\n"
-                + "pn      brushfire response: solo, paired, ganged\n"
-                + "pn      reporting status: standup, meeting\n"
-                + "pn      backchannel diplomacy: phone, hallway, slack\n"
-                + "pn      understanding requirements: meeting\n")
-        outlineAppear()
+        header("Going Agile Is Easy")
     }
 
-    private fun secondMissionB() {
+    private fun structure() {
         scene(70)
         wipe()
-        header("What we like and don't")
+        header("Packaged Vs Actual Agility")
         assume(secondaryJumbo)
-        outline.load("snSecond Mission, Part Two\n"
-                + "pjwhat do we like and not like?\n"
-                + "snfor each person...\n"
-                + "sn   ...put an X next to least favorite\n"
-                + "sn   ...and an O next to most favorite\n"
+        outline.load("pnAgile newcomers are given tons of \"process\"\n" +
+                "sn   structures             roles\n" +
+                "sn    meetings           algorithms\n" +
+                "sn    methods            techniques\n" +
+                "sn    reports              metrics\n" +
+                "pnThe light is better under method\n" +
+                "sn   easier to write down\n" +
+                "sn   easier to direct\n" +
+                "sn   easier to buy & sell\n"
         )
+        outlineAppear()
+        assume(emphaticJumbo)
+        letters("agility is not process"
+        ).centered(1200, 400).appear()
+        assume(emphaticNormal)
+        letters("to get there we have to reach past\n" +
+                "      structure and method"
+        ).centered(1200, 550).appear()
+
+    }
+
+    private fun definition() {
+        scene(90)
+        wipe()
+        header("A Working Definition Of Agility")
+        assume(secondaryJumbo)
+        letters(
+                "  agility is an autopoeitic community\n" +
+                        "            embracing change\n" +
+                        "      by a triple-balance between \n" +
+                        "the made, the making, and the maker"
+        ).centered(800, 450).appear()
+    }
+
+    private fun autopoeisis() {
+        scene(110)
+        wipe()
+        header("Autopoeisis")
+        outline.load("pnLiterally, \"self-making\"\n" +
+                "sn   coined in '79\n" +
+                "sn   derives from theory of biology\n" +
+                "pnAutopoeitic entities\n" +
+                "sn   no fixed parts\n" +
+                "sn   no fixed structure\n" +
+                "sn   no fixed mechanisms\n" +
+                "pncontinual re-creation\n")
+        outlineAppear()
+        assume(emphaticNormal)
+        letters("A Good Synonym For Now:\n").centered(1100, 400).appear()
+        assume(emphaticJumbo)
+        letters("Living").centered(1100, 500).appear()
+    }
+
+
+    private fun change() {
+        scene(130)
+        wipe()
+        header("Embrace Change")
+        outline.load("pnOld-school approaches seek to control change\n" +
+                "ss   change is seen as avoidable/controllable risk\n" +
+                "ss   and that's just code, it's even worse beyond that\n" +
+                "pnAgile approaches welcome change at every level\n" +
+                "ss   in the made thing\n" +
+                "ss   in the market and the domain\n" +
+                "ss   in the personnel, structure, and roles\n" +
+                "ss   in the code, and the coding\n")
+
+        outlineAppear()
+        assume(emphaticNormal)
+        letters("agilists welcome change as normal and positive").centered(800, 700).appear()
+        assume(emphaticJumbo)
+        letters("our mantra: *surf* the change").centered(800, 775).appear()
+    }
+
+    private fun threeMs() {
+        scene(150)
+        wipe()
+        header("The Made, The Making, & The Makers")
+        outline.load("ssMade: the product\n" +
+                "ps   the features\n" +
+                "ps   the code\n" +
+                "ps   the infrastructure/deployment\n" +
+                "ssMaking: how we create the made\n" +
+                "ps   the technique\n" +
+                "ps   the tools\n" +
+                "ps   the flow of work\n" +
+                "ssMakers: our team\n" +
+                "ps   minds, bodies, energy\n" +
+                "ps   collaborations\n" +
+                "ps   all things human\n")
+        outlineAppear()
+    }
+
+    private fun workingWithStories() {
+        scene(130)
+        wipe()
+        header("Working By Story")
+        outline.load("pnWhat is a story?\n" +
+                "ss   a story is a change we want in the program\n" +
+                "ss   most specify a situation and what will happen when it occurs\n" +
+                "ss   we apply stories to the code one at a time\n" +
+                "pnThe perfect story has these qualities\n" +
+                "ss   size: a day or two of work\n" +
+                "ss   visibility: they increase the value of the program detectably\n" +
+                "ss   verticality: from pixels to bits and back\n" +
+                "ss   shippability: can be turned on at will\n")
+        outlineAppear()
+        assume(emphaticJumbo)
+        letters("we only work today's stories, not tomorrow's").centered(800, 775).appear()
+    }
+
+    private fun storiesAndDefinition() {
+        scene(150)
+        wipe()
+        header("Stories and the Three M's")
+        outline.load("pnThe Made\n" +
+                "sn   under continuous change\n" +
+                "sn   steadily increasing value\n" +
+                "pnThe Making\n" +
+                "sn   ...sufficient unto the day...\n" +
+                "sn   rework is normal\n" +
+                "sn   we always think about \"turning on\"\n" +
+                "pnThe Makers\n" +
+                "sn   with stories, we narrow team focus\n" +
+                "sn   not working ahead is a big success-factor\n" +
+                "sn   just-in-time spec gets the right detail level\n"
+        )
+        outlineAppear()
+    }
+
+    private fun tdd() {
+        scene(170)
+        wipe()
+        header("Test-Driven Development")
+        outline.load("pnWe change the code in a specific way\n" +
+                "sn   test that it doesn't work\n" +
+                "sn   make it work\n" +
+                "sn   optimize its changeability\n" +
+                "pnMicrotests\n" +
+                "sn   run in external app\n" +
+                "sn   test very specific bits of our branching logic\n" +
+                "sn   are treated as first-class code\n" +
+                "pnIMPORTANT: TDD is a productivity tool\n" +
+                "sn   easy to be fooled by the word \"test\"\n" +
+                "sn   TDD is for shipping more value faster\n")
 
         outlineAppear()
     }
 
-    private fun thirdMission() {
-        scene(80)
+    private fun tddAndDefinition() {
+        scene(190)
         wipe()
-        header("The Best Wall In The Room")
-        assume(secondaryJumbo)
-        outline.load("snThird Mission\n"
-                + "pjfor the whole table,\n"
-                + "pjchoose the best wall in this room\n"
-        )
+        header("TDD and the Three M's")
+        val lines =
+                """
+pnThe Made
+ss   biggest impact: speed of delivery
+ss   testability correlates well with good design
+pnThe Making
+ss   integrates well with CI
+ss   forces small confirmed success
+ss   much faster than running app
+pnThe Maker
+ss   super-narrow mental bandwidth
+ss   rhythm, purpose, and autonomy
+ss   continual regression of WIP
+ss   in the code, and the coding
+""".trimIndent()
 
+        outline.load(lines)
         outlineAppear()
     }
 
@@ -244,7 +375,7 @@ class ReachingPastProcess : ScriptBuilder<ReachingPastProcess>() {
     fun pointConsensus() {
         scene(120)
         wipe()
-        header("Point: Consensus Is Difficult & Critical")
+        header("Consensus Is Difficult & Important")
         assume(secondaryJumbo)
         outline.load("snThe keys\n"
                 + "ps   consensus is not unanimity\n"
@@ -262,34 +393,39 @@ class ReachingPastProcess : ScriptBuilder<ReachingPastProcess>() {
 
     }
 
-    fun pointFsquaredDsquared() {
+    fun iterateAndIncrementProcess() {
         scene(130)
         wipe()
-        header("Point: Frequent Focused Direct Dialog")
+        header("Iterate & Increment Process, Too")
         assume(secondaryJumbo)
-        outline.load("snF-Squared D-Squared: Frequent, Focused, Direct, Dialog\n"
-                + "ps   this takes real effort and energy\n"
-                + "ps   when you need someone, go find them\n"
-                + "ps   look at people and speak with them\n"
-                + "ps   practice practice practice\n"
+        outline.load("sjNearest, easiest, cheapest, agreedest\n"
+                + "pn   you're building a culture, not a machine\n"
+                + "pn   nothing wins like winning\n"
+                + "pn   second-tier problems morph to first-tier\n"
+                + "sjMake changing process ordinary\n"
+                + "ps   all the knobs a little\n"
+                + "ps   lather, rinse, repeat\n"
+                + "sjAdd metrics late\n"
+                + "sjEnjoy!\n"
         )
         outlineAppear()
-        scene(125)
-        assume(emphaticJumbo)
-        letters("   *nothing* beats\n"
-                + " F-Squared D-Squared\n"
-                + "  for collaboration"
-        ).centered(800, 750).appear()
     }
 
-    fun fourthMission() {
+    fun health() {
         scene(150)
         wipe()
-        header("Let's Collaborate")
+        header("Above All: The Health Of The Team")
         assume(secondaryJumbo)
-        outline.load("snFourth Mission\n"
-                + "pjWhat are we thinking?\n"
-                + "pn   Questions, Comments, Critique\n")
+        outline.load("sjYou can't organize your way in to health\n"
+                + "pn   Unhealthy process change can be net negative in impact\n"
+                + "pn   Listen listen listen.\n"
+                + "sjSeek subjective input with:\n"
+                + "pn   retros\n"
+                + "pn   outside events\n"
+                + "pn   free conversation\n"
+                + "sjWorry about psychological safety\n"
+                + "pn   \"permission to speak freely\"\n"
+                + "pn   be-with instead of do-to\n")
         outlineAppear()
     }
 
