@@ -86,26 +86,21 @@ class ReachingPastProcess : ScriptBuilder<ReachingPastProcess>() {
         leadIn()
         geepaw()
 
-        goingAgileIsEasy()
         structure()
         definition()
-        techniques()
 
         tdd()
         tddAndDefinition()
-        sprints()
-        sprintsAndTheDefinition()
-//        workingWithStories()
-//        storiesAndDefinition()
-//        theMeetings()
-//        ciAndCd()
-//        theMeetingsAndDefinition()
-//        ciCdAndDefinition()
-//
-//        collaborationIsCritical()
-//        iterateAndIncrementProcess()
-//        health()
-
+        workingWithStories()
+        storiesAndDefinition()
+        workflows()
+        workflowsAndDefinition()
+        theMeetings()
+        theMeetingsAndDefinition()
+        ciAndCd()
+        ciCdAndDefinition()
+        themes()
+        advice()
         end()
         return script
     }
@@ -140,12 +135,6 @@ class ReachingPastProcess : ScriptBuilder<ReachingPastProcess>() {
         )
         outlineAppear()
         endChord()
-        pause()
-    }
-
-    private fun goingAgileIsEasy() {
-        wipe()
-        header("Going Agile Is Easy")
         pause()
     }
 
@@ -264,56 +253,81 @@ ps   all things human
         pause()
     }
 
-    private fun techniques() {
-        wipe()
-        header("Parts of the Process")
-        outlineAppear()
-        pause()
-    }
-
     private fun workingWithStories() {
         wipe()
         header("Working By Story")
-        outline.load("pnWhat is a story?\n" +
-                "ss   a story is a change we want in the program\n" +
-                "ss   most specify a situation and what will happen when it occurs\n" +
-                "ss   we apply stories to the code one at a time\n" +
-                "pnThe perfect story has these qualities\n" +
-                "ss   size: a day or two of work\n" +
-                "ss   visibility: they increase the value of the program detectably\n" +
-                "ss   verticality: from pixels to bits and back\n" +
-                "ss   shippability: can be turned on at will\n")
+        outline.load(
+                """
+pnA change we want at a particular time
+ss   a story is a change we want at a particular time
+ss   we select stories and apply them to the code
+pnThe perfect story has these qualities
+ss   estimability: a day or two of work
+ss   visibility: they increase the value of the program detectably
+ss   verticality: from pixels to bits and back
+ss   shippability: can be turned on at will
+pnOften represented on card wall or tracking system
+ss   but the story is a placeholder for a dialog
+                """.trimIndent())
         outlineAppear()
         assume(emphaticJumbo)
-        letters("we only work today's stories, not tomorrow's").centered(800, 775).appear()
+        letters("the ideal: work one story at a time").centered(800, 775).appear()
         pause()
     }
 
     private fun storiesAndDefinition() {
         wipe()
-        header("Working With Stories")
-        madeMakingMaker()
-        outline.load("pnThe Made\n" +
-                "sn   under continuous change\n" +
-                "sn   steadily increasing value\n" +
-                "pnThe Making\n" +
-                "sn   ...sufficient unto the day...\n" +
-                "sn   rework is normal\n" +
-                "sn   we always think about \"turning on\"\n" +
-                "pnThe Makers\n" +
-                "sn   with stories, we narrow team focus\n" +
-                "sn   not working ahead is a big success-factor\n" +
-                "sn   just-in-time spec gets the right detail level\n"
-        )
-        outlineAppear()
-        pause()
-    }
+        header("Stories & The Three M's")
+        val madeGrid = viewport.area(0, 8, 33, 50)
+        letters("The Made").at(TopLeft(madeGrid.northwest().add(0.0, -60.0))).format(primaryNormal).appear()
+        val madeFlow = Flow(world, madeGrid)
 
-    private fun madeMakingMaker() {
-        val column = viewport.nested(85, 10, 100, 90)
-        ovalLetters("Made").format(mFormat).centered(column.point(50, 0)).appear()
-        ovalLetters("Making").format(mFormat).centered(column.point(50, 50)).appear()
-        ovalLetters("Makers").format(mFormat).centered(column.point(50, 100)).appear()
+        val makingGrid = viewport.area(33, 8, 66, 50)
+        letters("The Making").at(TopLeft(makingGrid.northwest().add(0.0, -60.0))).format(primaryNormal).appear()
+        val makingFlow = Flow(world, makingGrid)
+
+        val makersGrid = viewport.area(66, 8, 100, 50)
+        letters("The Makers").at(TopLeft(makersGrid.northwest().add(0.0, -60.0))).format(primaryNormal).appear()
+        val makersFlow = Flow(world, makersGrid)
+
+        madeFlow.load(
+                """
+ss  steady accrual of value
+ss  ship-at-will
+ss  easy steerability
+""".trimIndent()
+        )
+
+        makingFlow.load(
+                """
+ss  just-in-time detail
+ss  validatable success
+ss  resistance to lookahead
+""".trimIndent()
+        )
+        makersFlow.load(
+                """
+ss  sufficient unto the day
+""".trimIndent()
+        )
+
+        madeFlow.blurt()
+        makingFlow.blurt()
+        makersFlow.blurt()
+
+        val commentFlow = Flow(world, viewport.area(0, 35, 0, 100))
+        commentFlow.load(
+                """
+enThe story is about interactively working with value
+ps   selecting
+ps   defining
+ps   accruing
+enStories are the main steering mechanism in agility
+ps   they react to changing markets
+ps   they avoid pre-committing to uncertainty
+                """.trimIndent()
+        )
+        commentFlow.blurt()
         pause()
     }
 
@@ -380,7 +394,7 @@ ss  fearlessness
         makingFlow.blurt()
         makersFlow.blurt()
 
-        val commentFlow = Flow(world, viewport.area(0, 40, 0, 100))
+        val commentFlow = Flow(world, viewport.area(0, 35, 0, 100))
         commentFlow.load(
                 """
 enTDD is a productivity technique
@@ -388,6 +402,85 @@ pn   don't let "test" fool you
 pn   if the value involves changing branching logic in code, TDD works
 enTDD is not easy
 pn   it is very different: find people to help you learn it
+                """.trimIndent()
+        )
+        commentFlow.blurt()
+        pause()
+    }
+
+    private fun workflows() {
+        wipe()
+        header("Workflows: Sprints/Pull & Swarm")
+        val lines =
+                """
+pnSprints
+ss   select collaboration-styles: solo, paired, mobbed, swarmed
+ss   short (1-2 week) cycles
+ss   sizing, choosing, loading collaborators in advance
+ss   per-cycle grooming, planning, and review meetings
+pnPull & Swarm
+ss   originated in experiments with one-day then half-day sprints
+ss   no cycle: we finish one story and pull another
+ss   no formal estimation: all stories are same-sized (using focus sessions)
+ss   swarm: maximize the number of people on one story
+ss   minimize "meetings"
+""".trimIndent()
+
+        outline.load(lines)
+        outlineAppear()
+        pause()
+    }
+
+    private fun workflowsAndDefinition() {
+        wipe()
+        header("Workflows & The Three M's")
+        val madeGrid = viewport.area(0, 8, 33, 50)
+        letters("The Made").at(TopLeft(madeGrid.northwest().add(0.0, -60.0))).format(primaryNormal).appear()
+        val madeFlow = Flow(world, madeGrid)
+
+        val makingGrid = viewport.area(33, 8, 66, 50)
+        letters("The Making").at(TopLeft(makingGrid.northwest().add(0.0, -60.0))).format(primaryNormal).appear()
+        val makingFlow = Flow(world, makingGrid)
+
+        val makersGrid = viewport.area(66, 8, 100, 50)
+        letters("The Makers").at(TopLeft(makersGrid.northwest().add(0.0, -60.0))).format(primaryNormal).appear()
+        val makersFlow = Flow(world, makersGrid)
+
+//        madeFlow.load(
+//                """
+//ss  distributed risk
+//ss  steady improvement
+//ss  higher confidence
+//""".trimIndent()
+//        )
+        makingFlow.load(
+                """
+ss  good tracking & reporting
+ss  large-scale cycle
+ss  *minimum WIP
+ss  *maximum flow
+""".trimIndent()
+        )
+        makersFlow.load(
+                """
+ss  narrow bandwidth
+ss  sufficient unto the day
+ss  *knowledge-diffusion
+""".trimIndent()
+        )
+
+        madeFlow.blurt()
+        makingFlow.blurt()
+        makersFlow.blurt()
+
+        val commentFlow = Flow(world, viewport.area(0, 40, 0, 100))
+        commentFlow.load(
+                """
+enSprints are largely aimed "upward"
+pn   track what value being added and how fast
+pn   provide convenient checkpoints
+pn   many practitioners have switched to p&s
+enThe key: keep it as light as will possibly work
                 """.trimIndent()
         )
         commentFlow.blurt()
@@ -421,56 +514,8 @@ ss   "permission to speak freely"
 
     private fun theMeetingsAndDefinition() {
         wipe()
-        header("Meetings and the Three M's")
-        val lines =
-                """
-pnThe Made
-ss   mostly focus:
-ss       blue-skying
-ss       standard-setting
-ss       architecture-level problem-solving
-pnThe Making
-ss   standups help us organize the day
-ss   focus sessions are all about the making
-ss   retrospectives help us know how the making goes
-pnThe Maker
-ss   retrospectives are maker-centric
-ss   they seek to find and fix failures in our way of working
-""".trimIndent()
+        header("The Meetings and the Three M's")
 
-        outline.load(lines)
-        outlineAppear()
-        pause()
-    }
-
-    private fun sprints() {
-        wipe()
-        header("Workflows: Sprints/Pull & Swarm")
-        val lines =
-                """
-pnSprints
-ss   short (1-2 week) cycles
-ss   sizing & choosing stories in advance
-ss   flexible WIP loads
-ss   per-cycle grooming, planning, and review meetings
-ss   work-load shape often one-person, sometimes assigned
-pnPull & Swarm
-ss   originated in experiments with one-day then half-day sprints
-ss   no cycle: we finish one story and pull another
-ss   no formal estimation: all stories are same-sized (using focus sessions)
-ss   maximize the number of people on one story at a time
-ss   frequent (not mandatory) pairing & mobbing
-ss   minimize "meetings"
-""".trimIndent()
-
-        outline.load(lines)
-        outlineAppear()
-        pause()
-    }
-
-    private fun sprintsAndTheDefinition() {
-        wipe()
-        header("Workflows & The Three M's")
         val madeGrid = viewport.area(0, 8, 33, 50)
         letters("The Made").at(TopLeft(madeGrid.northwest().add(0.0, -60.0))).format(primaryNormal).appear()
         val madeFlow = Flow(world, madeGrid)
@@ -485,25 +530,21 @@ ss   minimize "meetings"
 
         madeFlow.load(
                 """
-ss  distributed risk
-ss  steady improvement
-ss  higher confidence
+ss  production speed
 """.trimIndent()
         )
+
         makingFlow.load(
                 """
-ss  just-in-time value-creation
-ss  responsive steering
-ss  real reportable progress
-ss  (p&s) minimal WIP
+ss  just-in-time help
+ss  non-intrusive status
 """.trimIndent()
         )
         makersFlow.load(
                 """
 ss  narrow bandwidth
-ss  sufficient unto the day
-ss  large-scale rhythm
-ss  (p&s) high knowledge-diffusion
+ss  knowledge diffusion
+ss  power-building
 """.trimIndent()
         )
 
@@ -511,19 +552,22 @@ ss  (p&s) high knowledge-diffusion
         makingFlow.blurt()
         makersFlow.blurt()
 
-        val commentFlow = Flow(world, viewport.area(0, 40, 0, 100))
+        val commentFlow = Flow(world, viewport.area(0, 35, 0, 100))
         commentFlow.load(
                 """
-enThe large scale is about our desire to:
-pn   steadily add value
-pn   track that it's being added
-pn   react to changing markets
-pn   avoid pre-committing to uncertainty
+enThe standup is for us, not others
+pn   we use it to stay in touch
+pn   we use it to target force
+pn   we use it to avoid blackouts
+enThe retro is for us, not others
+pn   power & trust come from small consecutive wins
+pn   always fix the easiest universally agreed owwie first
                 """.trimIndent()
         )
         commentFlow.blurt()
         pause()
     }
+
 
     private fun ciAndCd() {
         wipe()
@@ -548,109 +592,116 @@ ss   all barriers-to-shipping are automated and tested
     private fun ciCdAndDefinition() {
         wipe()
         header("CI/CD and the Three M's")
-        val lines =
-                """
-pnThe Made
-ss   biggest impact: time-to-market
-ss   maximally "lived-in" by deployment time
-ss   high configurability -- at-will change
-ss   risk is minimized & distributed
-pnThe Making
-ss   step-wise approach emphasized for value-definers
-ss   every line could go-live: very different code
-ss   every line could go-live: tests become urgent
-pnThe Maker
-ss   raises discipline & skill by direct feedback
-ss   increases motivation by rhythm and purpose
-""".trimIndent()
 
-        outline.load(lines)
-        outlineAppear()
+        val madeGrid = viewport.area(0, 8, 33, 50)
+        letters("The Made").at(TopLeft(madeGrid.northwest().add(0.0, -60.0))).format(primaryNormal).appear()
+        val madeFlow = Flow(world, madeGrid)
+
+        val makingGrid = viewport.area(33, 8, 66, 50)
+        letters("The Making").at(TopLeft(makingGrid.northwest().add(0.0, -60.0))).format(primaryNormal).appear()
+        val makingFlow = Flow(world, makingGrid)
+
+        val makersGrid = viewport.area(66, 8, 100, 50)
+        letters("The Makers").at(TopLeft(makersGrid.northwest().add(0.0, -60.0))).format(primaryNormal).appear()
+        val makersFlow = Flow(world, makersGrid)
+
+        madeFlow.load(
+                """
+ss  production speed
+ss  ship at will
+ss  in-use confidence
+""".trimIndent()
+        )
+
+        makingFlow.load(
+                """
+ss  toggles
+ss  factory/strategy
+ss  side-by-side
+""".trimIndent()
+        )
+        makersFlow.load(
+                """
+ss  narrow bandwidth
+ss  merges disappear
+ss  *always-at-head
+""".trimIndent()
+        )
+
+        madeFlow.blurt()
+        makingFlow.blurt()
+        makersFlow.blurt()
+
+        val commentFlow = Flow(world, viewport.area(0, 35, 0, 100))
+        commentFlow.load(
+                """
+enCI/CD is complex technique
+pn   jenkins first, test brushfires real, confident toggles, branchless
+pn   developers don't know how to toggle well: we will have to learn
+enThe power of working at head is enormous
+pn   we find problems much sooner
+pn   we distribute merge/integration pain
+pn   we ship when it's convenient for the market
+                """.trimIndent()
+        )
+        commentFlow.blurt()
         pause()
     }
 
-    private fun threeMsRedux() {
+    private fun themes() {
         wipe()
-        header("CI/CD and the Three M's")
-        val lines =
-                """
-pnThe Made
-ss   biggest impact: time-to-market
-ss   maximally "lived-in" by deployment time
-ss   high configurability -- at-will change
-ss   risk is minimized & distributed
-pnThe Making
-ss   step-wise approach emphasized for value-definers
-ss   every line could go-live: very different code
-ss   every line could go-live: tests become urgent
-pnThe Maker
-ss   raises discipline & skill by direct feedback
-ss   increases motivation by rhythm and purpose
-""".trimIndent()
-
-        outline.load(lines)
-        outlineAppear()
-        pause()
-    }
-
-    private fun collaborationIsCritical() {
-        wipe()
-        header("Optimize For Collaboration")
-        val lines =
-                """
-pn*Everything* agile depends on the quality of our human interaction
-ss   emphasize actual conversation
-ss   build consensus outside of meetings
-ss   encourage haykumeer protocols
-ss   vary everything about meetings -- time, timing, leadership, format
-pnWe collaborate because we are different
-ss   different paths, strengths, weaknesses, & above all: ideas
-ss   our success depends on the steady flow of ideas
-ss   when we all have the same idea, what do we have? one idea
-pnMakers includes lots of different skillsets
-ss   be sure to include your value-definers: they're makers, too
-ss   cross-function pairing & mobbing is normal for agility
-""".trimIndent()
-
-        outline.load(lines)
-        outlineAppear()
-        pause()
-    }
-
-
-    fun iterateAndIncrementProcess() {
-        wipe()
-        header("Iterate & Increment Process, Too")
+        buildChord()
+        header("Recurring themes")
         assume(secondaryJumbo)
-        outline.load("sjNearest, easiest, cheapest, agreedest\n"
-                + "pn   you're building a culture, not a machine\n"
-                + "pn   nothing wins like winning\n"
-                + "pn   second-tier problems morph to first-tier\n"
-                + "sjMake changing process ordinary\n"
-                + "ps   all the knobs a little\n"
-                + "ps   lather, rinse, repeat\n"
-                + "sjAdd metrics late\n"
-                + "sjEnjoy!\n"
+        outline.load(
+                """
+pnNarrowing mental scope is almost always a win
+ss   juggle less instead of breaking biological barriers with will
+ss   WIP and scope wins are universal
+pnWe run towards change instead of away from it
+ss   at every level, change is about value
+ss   agility itself has changed and will again
+pnNone of this is about intellectual purity
+ss   we are solving *this* problem, not all problems
+ss   we are creating sustainable software organizations
+""".trimIndent()
         )
         outlineAppear()
+        endChord()
         pause()
     }
 
-    fun health() {
+    private fun advice() {
         wipe()
-        header("Above All: The Health Of The Team")
+        buildChord()
+        header("GeePaw's Transition Advice")
         assume(secondaryJumbo)
-        outline.load("sjYou can't organize your way in to health\n"
-                + "pn   Unhealthy process change can be net negative in impact\n"
-                + "pn   Listen listen listen.\n"
-                + "sjSeek subjective input with:\n"
-                + "pn   retros\n"
-                + "pn   outside events\n"
-                + "pn   free conversation\n"
-                + "sjWorry about psychological safety\n"
-                + "pn   \"permission to speak freely\"\n"
-                + "pn   be-with instead of do-to\n")
+        outline.load(
+                """
+pnCollaboration is your first concern every time
+ss   eschew meetings
+ss   emphasize variety
+pnIterate and increment the change, too
+ss   all the knobs a little, all the knobs a little
+ss   focus relentlessly on next step, not end-point
+pnRemember who's in charge
+ss   the code works for you
+ss   the technique works for you
+ss   the *process* works for you
+""".trimIndent()
+        )
         outlineAppear()
+        endChord()
+        pause()
+
+        assume(emphaticJumbo)
+        letters("above all: take your time").centered(1200, 350).sketch()
+        assume(emphaticNormal)
+        letters("          make it work,\n" +
+                "       make it work better\n" +
+                "reach past structure & method\n" +
+                "     to get true agile success"
+        ).centered(1200, 550).sketch()
         pause()
     }
 
