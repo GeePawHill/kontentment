@@ -1,23 +1,24 @@
 package org.geepawhill.contentment.style
 
-import org.geepawhill.contentment.format.*
-
-import javafx.scene.paint.*
+import javafx.scene.paint.Color
+import javafx.scene.paint.Paint
 import javafx.scene.shape.Shape
+import org.geepawhill.contentment.format.Style
+import org.geepawhill.contentment.format.StyleApplier
 
 object Frames {
     val KEY = "Frame"
 
-    fun frame(stroke: Paint, width: Double?, opacity: Double?): Style {
+    fun frame(stroke: Paint, width: Double, opacity: Double): Style {
         return frame(stroke, Color.TRANSPARENT, width, opacity)
     }
 
-    fun frame(stroke: Paint, width: Double?, opacity: Double?, dash: Dash): Style {
+    fun frame(stroke: Paint, width: Double, opacity: Double, dash: Dash): Style {
         return frame(stroke, Color.TRANSPARENT, width, opacity, dash)
     }
 
     @JvmOverloads
-    fun frame(stroke: Paint, fill: Paint, width: Double?, opacity: Double?, dash: Dash = Dash.solid()): Style {
+    fun frame(stroke: Paint, fill: Paint, width: Double, opacity: Double, dash: Dash = Dash.solid()): Style {
         val applier = object : StyleApplier {
             override fun apply(shape: Shape) {
                 shape.stroke = stroke

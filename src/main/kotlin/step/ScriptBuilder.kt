@@ -14,6 +14,7 @@ import org.geepawhill.contentment.fragments.Exit
 import org.geepawhill.contentment.fragments.Fader
 import org.geepawhill.contentment.fragments.Sync
 import org.geepawhill.contentment.fragments.Wipe
+import org.geepawhill.contentment.geometry.Point
 import org.geepawhill.contentment.geometry.PointPair
 import org.geepawhill.contentment.player.Keyframe
 import org.geepawhill.contentment.player.Script
@@ -57,6 +58,10 @@ abstract class ScriptBuilder<SUBCLASS> @JvmOverloads constructor(rhythm: Rhythm 
         addToWorking(Single(Timing.ms(30000.0), Sync(lastStall * 1000)))
     }
 
+    fun pause(beat: Long = 0) {
+        scene(lastStall + beat)
+    }
+
     protected fun addToWorking(step: Gesture) {
         world.add(step)
     }
@@ -89,8 +94,16 @@ abstract class ScriptBuilder<SUBCLASS> @JvmOverloads constructor(rhythm: Rhythm 
         return actor(world.actor(actor))
     }
 
+    fun ovalLetters(source: String): Appearance<Letters> {
+        return Appearance(world, Letters(world, source).withOval())
+    }
+
     fun letters(source: String): Appearance<Letters> {
         return Appearance(world, Letters(world, source))
+    }
+
+    fun oval(points: PointPair): Appearance<Marks> {
+        return Appearance(world, Marks.makeBox(world, points))
     }
 
     fun stroke(fromX: Int, fromY: Int, toX: Int, toY: Int): Appearance<Marks> {
@@ -99,6 +112,15 @@ abstract class ScriptBuilder<SUBCLASS> @JvmOverloads constructor(rhythm: Rhythm 
 
     fun cross(name: String, xsize: Double, ysize: Double, xoffset: Double, yoffset: Double): Appearance<Cross> {
         return Appearance(world, Cross(world, Group(), actor(name).entrance(), xsize, ysize, xoffset, yoffset))
+    }
+
+    fun outline(points: List<Point>) {
+        var lastPoint = points.last()
+        for (to in points) {
+            stroke(PointPair(lastPoint, to)).sketch()
+            lastPoint = to
+        }
+        stroke(PointPair(lastPoint, points[0]))
     }
 
     fun stroke(points: PointPair): Appearance<Marks> {

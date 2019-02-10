@@ -6,7 +6,7 @@ class Dash private constructor(vararg array: Double) {
     companion object {
 
         fun solid(): Dash {
-            return Dash(0.0)
+            return Dash()
         }
 
         fun dash(vararg dash: Double): Dash {

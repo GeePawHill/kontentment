@@ -1,16 +1,15 @@
 package org.geepawhill.contentment.flow
 
-import java.util.Vector
-
-import org.geepawhill.contentment.actor.*
+import javafx.scene.text.Text
+import org.geepawhill.contentment.actor.Appearance
+import org.geepawhill.contentment.actor.ScriptWorld
 import org.geepawhill.contentment.actors.Letters
-import org.geepawhill.contentment.format.Format
 import org.geepawhill.contentment.geometry.PointPair
 import org.geepawhill.contentment.position.TopLeft
 import org.geepawhill.contentment.style.TypeFace
-
-import javafx.scene.Group
-import javafx.scene.text.Text
+import step.ChordPlayer
+import step.Phrase
+import java.util.*
 
 class Flow(private val world: ScriptWorld, private val area: PointPair) {
 
@@ -19,17 +18,31 @@ class Flow(private val world: ScriptWorld, private val area: PointPair) {
     private val sizer: Text
 
     data class Line(
-        var text:String,
-        var color: Color,
-        var size: Size,
-        var layout: PointPair? = null
+            var text: String,
+            var color: Color,
+            var size: Size,
+            var layout: PointPair? = null,
+            var letters: Appearance<Letters>? = null
     )
-
 
     init {
         lines = Vector()
         sizer = Text()
         table = FormatTable()
+    }
+
+    fun blurt() {
+        for (i in 0 until lines.size) {
+            lines[i].letters = letters(i).appear()
+        }
+    }
+
+    fun fade() {
+        world.push(Phrase(ChordPlayer()))
+        for (i in 0 until lines.size) {
+            lines[i].letters?.fadeOut()
+        }
+        world.popAndAppend()
     }
 
     fun lines(): Vector<Line> {

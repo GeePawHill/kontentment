@@ -1,16 +1,20 @@
 package org.geepawhill.contentment.flow
 
+import javafx.scene.paint.Paint
+import javafx.scene.text.Font
+import javafx.scene.text.FontPosture
+import org.geepawhill.contentment.format.Format
+import org.geepawhill.contentment.style.Frames
+import org.geepawhill.contentment.style.TypeFace
 import org.geepawhill.contentment.utility.JfxUtility.color
-
 import java.util.*
 
-import org.geepawhill.contentment.format.Format
-import org.geepawhill.contentment.style.*
-
-import javafx.scene.paint.Paint
-import javafx.scene.text.*
-
 class FormatTable {
+    val primary = color(119, 187, 65)
+    val secondary = color(177, 140, 254)
+    val tertiary = color(244, 194, 194)
+    val emphatic = color(255, 255, 0)
+
     internal var sizeToColors: MutableMap<Size, Map<Color, Format>>
 
     internal class EntryNotFoundException(size: Size, color: Color, string: String) : RuntimeException("FormatTable.get( " + size.toString() + "," + color.toString() + " " + string) {
@@ -25,10 +29,7 @@ class FormatTable {
         val normal = 55.0
         val small = 45.0
 
-        val primary = color(119, 187, 65)
-        val secondary = color(177, 140, 254)
-        val tertiary = color(244, 194, 194)
-        val emphatic = color(255, 255, 0)
+
 
         sizeToColors = HashMap()
 

@@ -80,13 +80,13 @@ class MainView(private val stage: Stage, private val player: Player) {
 
     private fun mouseClicked(event: MouseEvent) {
         if (event.isShiftDown && event.button == MouseButton.PRIMARY) {
-            player.play()
+            player.forward()
             return
         }
         if (event.button == MouseButton.SECONDARY)
             player.backward()
         else
-            player.forward()
+            player.playOne()
     }
 
     private fun makeTools(): ToolBar {
