@@ -153,15 +153,28 @@ class ReachingPastProcess : ScriptBuilder<ReachingPastProcess>() {
                 "sn   easier to direct\n" +
                 "sn   easier to buy & sell\n"
         )
-        outlineAppear()
+        for (line in 0..4) {
+            val letters = outline.letters(line)
+            outline.lines()[line].letters = letters
+            letters.appear()
+        }
         endChord()
         pause()
+
         assume(emphaticJumbo)
         letters("agility is not process").centered(1200, 400).sketch()
         assume(emphaticNormal)
         letters("to get there we have to reach past\n" +
                 "      structure and method"
         ).centered(1200, 550).sketch()
+        pause()
+
+        buildChord()
+        for (line in 4..8) {
+            val letters = outline.letters(line)
+            letters.appear()
+        }
+        endChord()
         pause()
     }
 
@@ -192,8 +205,23 @@ ss   no fixed structure
 ss   no fixed mechanisms
 """.trimIndent()
         )
-        rightOutline.blurt()
-        pause(1)
+        buildChord()
+        for (line in 0..2) {
+            val letters = rightOutline.letters(line)
+            rightOutline.lines()[line].letters = letters
+            letters.appear()
+        }
+        endChord()
+        pause()
+
+        buildChord()
+        for (line in 3..8) {
+            val letters = rightOutline.letters(line)
+            rightOutline.lines()[line].letters = letters
+            letters.appear()
+        }
+        endChord()
+        pause()
 
         rightOutline.fade()
         val communityOneLiner = letters("A continually re-organizing and \n" +
@@ -242,7 +270,7 @@ ps   the technique
 ps   the tools
 ps   the flow of work
 ssMakers: our team
-ps   minds, bodies, +energy
+ps   minds, bodies, energy
 ps   collaborations
 ps   all things human
 """.trimIndent())
@@ -267,7 +295,7 @@ ss   visibility: they increase the value of the program detectably
 ss   verticality: from pixels to bits and back
 ss   shippability: can be turned on at will
 pnOften represented on card wall or tracking system
-ss   but the story is a placeholder for a dialog
+ss   the story is the conversation, not the card or jira
                 """.trimIndent())
         outlineAppear()
         assume(emphaticJumbo)
@@ -337,9 +365,11 @@ ps   they avoid pre-committing to uncertainty
         outline.load(
                 """
 psWe change the code in a specific way
-ss   red - test that it doesn't work
-ss   green - make it work
-ss   refactor - optimize its changeability
+ss   we have a separate testing app
+ss   we do three steps for each change:
+ss      red - test that it doesn't work
+ss      green - make it work
+ss      refactor - optimize its changeability
 psMicrotests
 ss   very small, one function or logic branch
 ss   very fast, mostly 1 or 2 ms
@@ -446,13 +476,13 @@ ss   minimize "meetings"
         letters("The Makers").at(TopLeft(makersGrid.northwest().add(0.0, -60.0))).format(primaryNormal).appear()
         val makersFlow = Flow(world, makersGrid)
 
-//        madeFlow.load(
-//                """
-//ss  distributed risk
-//ss  steady improvement
-//ss  higher confidence
-//""".trimIndent()
-//        )
+        madeFlow.load(
+                """
+ss  distributed risk
+ss  steady improvement
+ss  higher confidence
+""".trimIndent()
+        )
         makingFlow.load(
                 """
 ss  good tracking & reporting

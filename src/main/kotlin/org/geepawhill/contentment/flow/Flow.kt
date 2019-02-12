@@ -32,9 +32,11 @@ class Flow(private val world: ScriptWorld, private val area: PointPair) {
     }
 
     fun blurt() {
+        world.push(Phrase(ChordPlayer()))
         for (i in 0 until lines.size) {
             lines[i].letters = letters(i).appear()
         }
+        world.popAndAppend()
     }
 
     fun fade() {
