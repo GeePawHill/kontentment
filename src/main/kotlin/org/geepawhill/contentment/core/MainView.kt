@@ -13,7 +13,6 @@ import javafx.scene.input.MouseButton
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.Background
 import javafx.scene.layout.BackgroundFill
-import javafx.scene.layout.BorderPane
 import javafx.scene.layout.Pane
 import javafx.scene.media.MediaView
 import javafx.scene.paint.Color
@@ -26,26 +25,27 @@ import org.geepawhill.contentment.player.Player
 import org.geepawhill.contentment.player.PlayerState
 import org.geepawhill.contentment.rhythm.Rhythm
 import org.geepawhill.contentment.utility.JfxUtility
+import tornadofx.*
 import java.util.concurrent.Callable
 
-class MainView(private val stage: Stage, private val player: Player) {
-    private var root: BorderPane? = null
-    private val tools: ToolBar
+class MainView(private val stage: Stage, private val player: Player) : View() {
+    lateinit var exposedButton: Button
+
+    override val root = borderpane {
+        top = makeTools()
+    }
     private var timing: Text? = null
     private var media: MediaView? = null
 
     val node: Parent
         get() {
-            root = BorderPane()
-            root!!.top = makeTools()
             root!!.center = makeViewport()
 
             return root!!
         }
 
     init {
-        this.tools = makeTools()
-        stage.fullScreenProperty().addListener { _, _, n -> undoFullScreen(n) }
+        stage.fullScreenProperty().addListener { _, _, n -> fullscreenChanged(n!!) }
     }
 
     private fun makeViewport(): Pane {
@@ -150,6 +150,10 @@ class MainView(private val stage: Stage, private val player: Player) {
         markHere.setOnAction { markHere(tools) }
         tools.items.add(markHere)
 
+        with(tools) {
+            button("Present!")
+        }
+
         return tools
     }
 
@@ -188,12 +192,12 @@ class MainView(private val stage: Stage, private val player: Player) {
         bar.items.add(text)
     }
 
-    private fun undoFullScreen(newValue: Boolean?) {
-        if (newValue == false) {
-            root!!.top = tools
+    private fun fullscreenChanged(newValue: Boolean) {
+        if (!newValue) {
+            root.top.show()
             stage.scene.cursor = Cursor.DEFAULT
         } else {
-            root!!.top = null
+            root.top.hide()
             stage.scene.cursor = Cursor.NONE
         }
     }

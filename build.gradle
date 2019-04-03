@@ -39,7 +39,7 @@ dependencies {
 jar {
     manifest {
         attributes(
-                'Application-Name': 'Contentment',
+                'Application-Name': 'Kontentment',
                 'Implementation-Version': "${version}"
         )
     }
