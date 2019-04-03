@@ -11,6 +11,7 @@ import org.geepawhill.contentment.format.Format
 import org.geepawhill.contentment.geometry.Point
 import org.geepawhill.contentment.grid.Grid
 import org.geepawhill.contentment.player.Script
+import org.geepawhill.contentment.position.Centered
 import org.geepawhill.contentment.position.RightOf
 import org.geepawhill.contentment.position.TopLeft
 import org.geepawhill.contentment.position.TopRight
@@ -18,15 +19,15 @@ import org.geepawhill.contentment.style.Dash
 import org.geepawhill.contentment.style.Frames
 import org.geepawhill.contentment.style.TypeFace
 import org.geepawhill.contentment.utility.JfxUtility
-import org.geepawhill.contentment.utility.JfxUtility.color
 import step.ScriptBuilder
+
 
 class TddPremisesScript : ScriptBuilder<TddPremisesScript>() {
 
     private val formats = FormatTable()
     private val secondarySmall = formats.get(Size.Small, Color.Secondary)
 
-    private val communityFormat = Format(Frames.frame(formats.primary, 2.0, 1.0, Dash.dash(4.0, 4.0)))
+    private val greenLine = Format(Frames.frame(formats.primary, 2.0, 1.0))
     private val balanceFormat = Format(Frames.frame(formats.tertiary, 1.0, 1.0, Dash.dash(15.0, 20.0)))
 
     private val secondaryJumbo: Format
@@ -59,8 +60,6 @@ class TddPremisesScript : ScriptBuilder<TddPremisesScript>() {
 
         outline = Flow(world, viewport.all())
 
-        color(119, 187, 65)
-        color(177, 140, 254)
         emphatic = formats.emphatic
 
         primaryJumbo = formats.get(Size.Jumbo, Color.Primary)
@@ -86,7 +85,7 @@ class TddPremisesScript : ScriptBuilder<TddPremisesScript>() {
         leadIn()
         geepaw()
 
-        structure()
+        pentagon()
         definition()
 
         tdd()
@@ -111,7 +110,7 @@ class TddPremisesScript : ScriptBuilder<TddPremisesScript>() {
         buildChord()
         letters("GeePaw's Notebook:").format(primaryJumbo).at(TopLeft(XMARGIN, YMARGIN)).called("header").appear()
         assume(secondaryJumbo)
-        letters("Reaching Past Process\nFinding Your Way In Agility").centered(450, 450).appear()
+        letters("Five Underplayed TDD Premises\n(Leadership Mix)").centered(450, 450).appear()
         assume(emphaticSmall)
         letters("Copyright (C) 2018, GeePawHill. All rights reserved.").at(TopLeft(20.0, 825.0)).appear()
         endChord()
@@ -138,43 +137,19 @@ class TddPremisesScript : ScriptBuilder<TddPremisesScript>() {
         pause()
     }
 
-    private fun structure() {
+    private fun pentagon() {
         wipe()
-        buildChord()
-        header("Packaged Vs Actual Agility")
+        header("TDD'ers Live Inside The Premises")
         assume(secondaryJumbo)
-        outline.load("pnAgile newcomers are given tons of \"process\"\n" +
-                "sn   structures             roles\n" +
-                "sn    meetings           algorithms\n" +
-                "sn    methods            techniques\n" +
-                "sn    reports              metrics\n" +
-                "pnThe light is better under method\n" +
-                "sn   easier to write down\n" +
-                "sn   easier to direct\n" +
-                "sn   easier to buy & sell\n"
-        )
-        for (line in 0..4) {
-            val letters = outline.letters(line)
-            outline.lines()[line].letters = letters
-            letters.appear()
-        }
-        endChord()
-        pause()
-
-        assume(emphaticJumbo)
-        letters("agility is not process").centered(1200, 400).sketch()
-        assume(emphaticNormal)
-        letters("to get there we have to reach past\n" +
-                "      structure and method"
-        ).centered(1200, 550).sketch()
-        pause()
-
-        buildChord()
-        for (line in 4..8) {
-            val letters = outline.letters(line)
-            letters.appear()
-        }
-        endChord()
+        assume(greenLine)
+        val outer = polygon(5, 350.0, viewport.point(50, 50))
+        assume(secondaryNormal)
+        letters("money").at(Centered(outer[0])).sketch()
+        letters("judgment").at(Centered(outer[1].add(45.0, 0.0))).sketch()
+        letters("correlation").at(Centered(outer[2])).sketch()
+        letters("chain").at(Centered(outer[3])).sketch()
+        letters("steering").at(Centered(outer[4].add(-42.0, 0.0))).sketch()
+        outline(polygon(5, 290.0, viewport.point(50, 50)))
         pause()
     }
 
@@ -189,7 +164,7 @@ class TddPremisesScript : ScriptBuilder<TddPremisesScript>() {
         ).centered(800, 100).sketch()
         pause(1)
 
-        box(leftView.all()).format(communityFormat).sketch()
+        box(leftView.all()).format(greenLine).sketch()
         letters("autopoeitic community").centered(leftView.point(50, 5)).format(primarySmall).sketch()
         pause()
         rightOutline.load(

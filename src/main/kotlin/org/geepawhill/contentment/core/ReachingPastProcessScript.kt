@@ -21,7 +21,7 @@ import org.geepawhill.contentment.utility.JfxUtility
 import org.geepawhill.contentment.utility.JfxUtility.color
 import step.ScriptBuilder
 
-class ReachingPastProcess : ScriptBuilder<ReachingPastProcess>() {
+class ReachingPastProcessScript : ScriptBuilder<ReachingPastProcessScript>() {
 
     private val formats = FormatTable()
     private val secondarySmall = formats.get(Size.Small, Color.Secondary)
@@ -764,7 +764,7 @@ ss   the *process* works for you
         return result
     }
 
-    override fun downcast(): ReachingPastProcess {
+    override fun downcast(): ReachingPastProcessScript {
         return this
     }
 

@@ -20,7 +20,8 @@ class Main : Application() {
             stage.isMaximized = true
             stage.fullScreenExitHint = ""
             stage.show()
-            player.load(TddPremisesScript().make())
+//            player.load(TddPremisesScript().make())
+            player.load(ReachingPastProcessScript().make())
         } catch (e: Exception) {
             e.printStackTrace()
             Platform.exit()
