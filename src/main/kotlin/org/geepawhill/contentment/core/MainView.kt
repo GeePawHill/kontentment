@@ -7,7 +7,6 @@ import javafx.geometry.Orientation
 import javafx.scene.Cursor
 import javafx.scene.Node
 import javafx.scene.Parent
-import javafx.scene.control.Button
 import javafx.scene.control.ToolBar
 import javafx.scene.input.MouseButton
 import javafx.scene.input.MouseEvent
@@ -29,13 +28,70 @@ import tornadofx.*
 import java.util.concurrent.Callable
 
 class MainView(private val stage: Stage, private val player: Player) : View() {
-    lateinit var exposedButton: Button
+
+    val isPlayingCallable = Callable { player.state == PlayerState.Playing }
+    val trueIfPlaying = Bindings.createBooleanBinding(isPlayingCallable, player.stateProperty())
+    private lateinit var timing: Text
 
     override val root = borderpane {
-        top = makeTools()
+        top = toolbar {
+            orientation = Orientation.HORIZONTAL
+            timing = text("00000000") {
+                font = Font("Consolas", 30.0)
+                stroke = Color.BLUE
+                fill = Color.BLUE
+            }
+            button("Full") {
+                action { stage.isFullScreen = true }
+            }
+            button("||<--") {
+                action { player.start() }
+                disableWhen { trueIfPlaying }
+            }
+            button("OneOff") {
+                action { oneOff() }
+            }
+            button("<--") {
+                action { player.backward() }
+                disableWhen { trueIfPlaying }
+            }
+            button(">") {
+                action { player.play() }
+                disableWhen { trueIfPlaying }
+            }
+
+            button(">|") {
+                action { player.playOne() }
+                disableWhen { trueIfPlaying }
+            }
+            button("-->") {
+                action { player.forward() }
+                disableWhen { trueIfPlaying }
+            }
+            button("-->||") {
+                action { player.end() }
+                disableWhen { trueIfPlaying }
+            }
+            button("T-2") {
+                action { player.penultimate() }
+                disableWhen { trueIfPlaying }
+            }
+            button("T-1") {
+                action { player.ultimate() }
+                disableWhen { trueIfPlaying }
+            }
+            button("Mark") {
+                action { markHere(this@toolbar) }
+                enableWhen { trueIfPlaying }
+            }
+            button("Present!") {
+                disableWhen { trueIfPlaying }
+            }
+        }
     }
-    private var timing: Text? = null
+
     private var media: MediaView? = null
+
 
     val node: Parent
         get() {
@@ -87,74 +143,6 @@ class MainView(private val stage: Stage, private val player: Player) : View() {
             player.backward()
         else
             player.playOne()
-    }
-
-    private fun makeTools(): ToolBar {
-        val tools = ToolBar()
-        tools.orientation = Orientation.HORIZONTAL
-
-        timing = Text("00000000")
-        timing!!.font = Font("Consolas", 30.0)
-        timing!!.stroke = Color.BLUE
-        timing!!.fill = Color.BLUE
-        tools.items.add(timing)
-
-        val full = Button("Full")
-        full.setOnAction { stage.isFullScreen = true }
-        tools.items.add(full)
-
-        val home = Button("||<--")
-        home.setOnAction { player.start() }
-        tools.items.add(home)
-
-        val oneOff = Button("OneOff")
-        oneOff.setOnAction { oneOff() }
-        tools.items.add(oneOff)
-
-        val backwards = Button("<--")
-        backwards.setOnAction { player.backward() }
-        tools.items.add(backwards)
-
-        val play = Button(">")
-        play.setOnAction { player.play() }
-
-        val isPlayingCallable = Callable { player.state == PlayerState.Playing }
-
-        val trueIfPlaying = Bindings.createBooleanBinding(isPlayingCallable, player.stateProperty())
-        play.disableProperty().bind(trueIfPlaying)
-        tools.items.add(play)
-
-        val playOne = Button(">|")
-        playOne.setOnAction { player.playOne() }
-        playOne.disableProperty().bind(trueIfPlaying)
-        tools.items.add(playOne)
-
-        val forwards = Button("-->")
-        forwards.setOnAction { player.forward() }
-        forwards.disableProperty().bind(trueIfPlaying)
-        tools.items.add(forwards)
-
-        val end = Button("-->||")
-        end.setOnAction { player.end() }
-        tools.items.add(end)
-
-        val timinusTwo = Button("T-2")
-        timinusTwo.setOnAction { player.penultimate() }
-        tools.items.add(timinusTwo)
-
-        val tminusOne = Button("T-1")
-        tminusOne.setOnAction { player.ultimate() }
-        tools.items.add(tminusOne)
-
-        val markHere = Button("Mark")
-        markHere.setOnAction { markHere(tools) }
-        tools.items.add(markHere)
-
-        with(tools) {
-            button("Present!")
-        }
-
-        return tools
     }
 
     private fun oneOff() {
