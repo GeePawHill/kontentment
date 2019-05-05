@@ -4,10 +4,7 @@ import javafx.scene.Group
 import org.geepawhill.contentment.actor.Actor
 import org.geepawhill.contentment.actor.Appearance
 import org.geepawhill.contentment.actor.ScriptWorld
-import org.geepawhill.contentment.actors.Connector
-import org.geepawhill.contentment.actors.Cross
-import org.geepawhill.contentment.actors.Letters
-import org.geepawhill.contentment.actors.Marks
+import org.geepawhill.contentment.actors.*
 import org.geepawhill.contentment.core.Gesture
 import org.geepawhill.contentment.format.Format
 import org.geepawhill.contentment.fragments.Exit
@@ -100,6 +97,10 @@ abstract class ScriptBuilder<SUBCLASS> @JvmOverloads constructor(rhythm: Rhythm 
 
     fun letters(source: String): Appearance<Letters> {
         return Appearance(world, Letters(world, source))
+    }
+
+    fun art(): Appearance<Art> {
+        return Appearance(world, Art(world, "/idunno.jpg"))
     }
 
     fun oval(points: PointPair): Appearance<Marks> {

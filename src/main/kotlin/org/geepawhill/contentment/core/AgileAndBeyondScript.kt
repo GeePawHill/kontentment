@@ -112,33 +112,7 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
         wipe()
         buildChord()
         header("Change, Old White Guys, and Socrates")
-        assume(secondaryJumbo)
-        outline.load(
-                """
-pnCollaboration is your first concern every time
-ss   eschew meetings
-ss   emphasize variety
-pnIterate and increment the change, too
-ss   all the knobs a little, all the knobs a little
-ss   focus relentlessly on next step, not end-point
-pnRemember who's in charge
-ss   the code works for you
-ss   the technique works for you
-ss   the *process* works for you
-""".trimIndent()
-        )
-        outlineAppear()
-        endChord()
-        pause()
-
-        assume(emphaticJumbo)
-        letters("above all: take your time").centered(1200, 350).sketch()
-        assume(emphaticNormal)
-        letters("          make it work,\n" +
-                "       make it work better\n" +
-                "reach past structure & method\n" +
-                "     to get true agile success"
-        ).centered(1200, 550).sketch()
+        art().fadeIn(3000.0)
         pause()
     }
 
