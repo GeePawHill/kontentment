@@ -6,9 +6,6 @@ import org.geepawhill.contentment.core.Context
 import org.geepawhill.contentment.core.Gesture
 import org.geepawhill.contentment.core.OnFinished
 import org.junit.jupiter.api.Test
-import step.Phrase
-import step.ScriptBuilder
-import step.SlowPlayer
 import java.util.*
 
 class ScriptBuilderTest {

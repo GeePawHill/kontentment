@@ -15,11 +15,11 @@ import org.geepawhill.contentment.position.Centered
 import org.geepawhill.contentment.position.RightOf
 import org.geepawhill.contentment.position.TopLeft
 import org.geepawhill.contentment.position.TopRight
+import org.geepawhill.contentment.step.ScriptBuilder
 import org.geepawhill.contentment.style.Dash
 import org.geepawhill.contentment.style.Frames
 import org.geepawhill.contentment.style.TypeFace
 import org.geepawhill.contentment.utility.JfxUtility
-import step.ScriptBuilder
 
 
 class TddPremisesScript : ScriptBuilder<TddPremisesScript>() {

@@ -6,9 +6,9 @@ import org.geepawhill.contentment.actor.ScriptWorld
 import org.geepawhill.contentment.actors.Letters
 import org.geepawhill.contentment.geometry.PointPair
 import org.geepawhill.contentment.position.TopLeft
+import org.geepawhill.contentment.step.ChordPlayer
+import org.geepawhill.contentment.step.Phrase
 import org.geepawhill.contentment.style.TypeFace
-import step.ChordPlayer
-import step.Phrase
 import java.util.*
 
 class Flow(private val world: ScriptWorld, private val area: PointPair) {

@@ -13,8 +13,8 @@ import org.geepawhill.contentment.geometry.BezierSource
 import org.geepawhill.contentment.geometry.Point
 import org.geepawhill.contentment.geometry.PointPair
 import org.geepawhill.contentment.position.Position
+import org.geepawhill.contentment.step.Timed
 import org.geepawhill.contentment.timing.Timing
-import step.Timed
 import java.util.*
 
 class Connector(private val world: ScriptWorld, destination: Group) : Actor {

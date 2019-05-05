@@ -4,7 +4,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.geepawhill.contentment.core.Context
 import org.geepawhill.contentment.core.OnFinished
 import org.junit.jupiter.api.Test
-import step.Phrase
 
 class ChordTest {
     private val onlyOne: Phrase = Phrase.chord()

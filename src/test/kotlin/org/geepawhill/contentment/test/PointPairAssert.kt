@@ -1,8 +1,8 @@
-package test
+package org.geepawhill.contentment.test
 
 import org.assertj.core.api.AbstractAssert
 import org.geepawhill.contentment.geometry.PointPair
-import test.ContentmentAssertions.Companion.assertThat
+import org.geepawhill.contentment.test.ContentmentAssertions.Companion.assertThat
 
 class PointPairAssert(actual: PointPair) : AbstractAssert<PointPairAssert, PointPair>(actual, PointPairAssert::class.java) {
 

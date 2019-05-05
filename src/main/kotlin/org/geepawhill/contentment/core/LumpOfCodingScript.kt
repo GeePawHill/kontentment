@@ -12,11 +12,11 @@ import org.geepawhill.contentment.geometry.Point
 import org.geepawhill.contentment.grid.Grid
 import org.geepawhill.contentment.player.Script
 import org.geepawhill.contentment.position.*
+import org.geepawhill.contentment.step.ScriptBuilder
 import org.geepawhill.contentment.style.Frames
 import org.geepawhill.contentment.style.TypeFace
 import org.geepawhill.contentment.utility.JfxUtility
 import org.geepawhill.contentment.utility.JfxUtility.color
-import step.ScriptBuilder
 import java.util.*
 
 class LumpOfCodingScript : ScriptBuilder<LumpOfCodingScript>() {

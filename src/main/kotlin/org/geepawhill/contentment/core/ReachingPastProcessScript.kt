@@ -14,12 +14,12 @@ import org.geepawhill.contentment.player.Script
 import org.geepawhill.contentment.position.RightOf
 import org.geepawhill.contentment.position.TopLeft
 import org.geepawhill.contentment.position.TopRight
+import org.geepawhill.contentment.step.ScriptBuilder
 import org.geepawhill.contentment.style.Dash
 import org.geepawhill.contentment.style.Frames
 import org.geepawhill.contentment.style.TypeFace
 import org.geepawhill.contentment.utility.JfxUtility
 import org.geepawhill.contentment.utility.JfxUtility.color
-import step.ScriptBuilder
 
 class ReachingPastProcessScript : ScriptBuilder<ReachingPastProcessScript>() {
 

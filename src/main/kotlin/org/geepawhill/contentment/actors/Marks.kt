@@ -10,8 +10,8 @@ import org.geepawhill.contentment.geometry.Bezier
 import org.geepawhill.contentment.geometry.BezierSource
 import org.geepawhill.contentment.geometry.PointPair
 import org.geepawhill.contentment.position.Position
+import org.geepawhill.contentment.step.Single
 import org.geepawhill.contentment.timing.Timing
-import step.Single
 
 class Marks(private val world: ScriptWorld, vararg beziers: Bezier) : Actor {
     private val marks: MutableList<Mark>

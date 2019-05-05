@@ -9,9 +9,9 @@ import org.geepawhill.contentment.fragments.Fader
 import org.geepawhill.contentment.geometry.Point
 import org.geepawhill.contentment.position.Centered
 import org.geepawhill.contentment.position.Position
+import org.geepawhill.contentment.step.Phrase
+import org.geepawhill.contentment.step.Single
 import org.geepawhill.contentment.timing.Timing
-import step.Phrase
-import step.Single
 
 class Appearance<ACTOR : Actor>(private val world: ScriptWorld, val actor: ACTOR) : GroupSource {
     private val entrance: Entrance = Entrance(actor.group())

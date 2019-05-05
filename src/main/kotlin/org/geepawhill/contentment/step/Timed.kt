@@ -1,4 +1,4 @@
-package step
+package org.geepawhill.contentment.step
 
 import org.geepawhill.contentment.core.*
 import org.geepawhill.contentment.timing.Scheduler

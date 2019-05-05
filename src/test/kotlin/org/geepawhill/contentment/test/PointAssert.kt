@@ -1,4 +1,4 @@
-package test
+package org.geepawhill.contentment.test
 
 import org.assertj.core.api.AbstractAssert
 import org.assertj.core.data.Offset

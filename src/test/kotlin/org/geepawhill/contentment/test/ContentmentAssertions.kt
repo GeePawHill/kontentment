@@ -1,4 +1,4 @@
-package test
+package org.geepawhill.contentment.test
 
 import org.assertj.core.api.Assertions
 import org.geepawhill.contentment.geometry.Point

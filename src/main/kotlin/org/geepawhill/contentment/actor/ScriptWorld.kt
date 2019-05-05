@@ -3,7 +3,7 @@ package org.geepawhill.contentment.actor
 import org.geepawhill.contentment.core.Gesture
 import org.geepawhill.contentment.format.Assumptions
 import org.geepawhill.contentment.geometry.Point
-import step.Phrase
+import org.geepawhill.contentment.step.Phrase
 import java.util.*
 
 class ScriptWorld {

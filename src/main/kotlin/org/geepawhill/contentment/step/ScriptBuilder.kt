@@ -1,4 +1,4 @@
-package step
+package org.geepawhill.contentment.step
 
 import javafx.scene.Group
 import org.geepawhill.contentment.actor.Actor

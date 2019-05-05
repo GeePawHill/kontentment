@@ -3,7 +3,6 @@ package org.geepawhill.contentment.test;
 import org.geepawhill.contentment.geometry.Point;
 import org.geepawhill.contentment.geometry.PointPair;
 import org.junit.jupiter.api.Test;
-import test.ContentmentAssertions;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -10,8 +10,8 @@ import org.geepawhill.contentment.fragments.Type
 import org.geepawhill.contentment.geometry.*
 import org.geepawhill.contentment.position.Centered
 import org.geepawhill.contentment.position.Position
+import org.geepawhill.contentment.step.Timed
 import org.geepawhill.contentment.timing.Timing
-import step.Timed
 
 class Letters(protected val world: ScriptWorld, source: String) : Actor {
     private val letters: Type

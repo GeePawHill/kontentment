@@ -11,10 +11,10 @@ import org.geepawhill.contentment.player.Script
 import org.geepawhill.contentment.position.RightOf
 import org.geepawhill.contentment.position.TopLeft
 import org.geepawhill.contentment.rhythm.SimpleRhythm
+import org.geepawhill.contentment.step.ScriptBuilder
 import org.geepawhill.contentment.style.Frames
 import org.geepawhill.contentment.style.TypeFace
 import org.geepawhill.contentment.utility.JfxUtility.color
-import step.ScriptBuilder
 import java.util.*
 
 class DemonstrationScript : ScriptBuilder<DemonstrationScript>(SimpleRhythm()) {

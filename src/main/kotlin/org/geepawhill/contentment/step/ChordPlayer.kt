@@ -1,4 +1,4 @@
-package step
+package org.geepawhill.contentment.step
 
 import org.geepawhill.contentment.core.Context
 import org.geepawhill.contentment.core.Gesture
@@ -10,7 +10,7 @@ internal class ChordPlayer : SlowPlayer {
     private var finished: Int = 0
 
     /* (non-Javadoc)
-     * @see org.geepawhill.contentment.step.SlowPlayer#play(org.geepawhill.contentment.core.Context, org.geepawhill.contentment.core.OnFinished, java.util.ArrayList)
+     * @see org.geepawhill.contentment.org.geepawhill.contentment.step.SlowPlayer#play(org.geepawhill.contentment.core.Context, org.geepawhill.contentment.core.OnFinished, java.util.ArrayList)
      */
     override fun play(context: Context, onFinished: OnFinished, gestures: ArrayList<Gesture>) {
         this.onFinished = onFinished

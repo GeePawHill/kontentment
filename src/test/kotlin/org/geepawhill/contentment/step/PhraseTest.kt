@@ -4,7 +4,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.geepawhill.contentment.core.OnFinished
 import org.geepawhill.contentment.test.ContentmentTest
 import org.junit.jupiter.api.Test
-import step.Phrase
 
 /**
  * PhraseTest tests that phrases can play their gestures fast (synchronously) or

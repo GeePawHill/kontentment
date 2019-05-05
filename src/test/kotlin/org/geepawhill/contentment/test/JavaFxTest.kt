@@ -6,8 +6,8 @@ import javafx.scene.text.Text
 import javafx.scene.text.TextAlignment
 import org.geepawhill.contentment.geometry.Point
 import org.geepawhill.contentment.geometry.PointPair
+import org.geepawhill.contentment.test.ContentmentAssertions.Companion.assertThat
 import org.junit.jupiter.api.Test
-import test.ContentmentAssertions.Companion.assertThat
 
 class JavaFxTest : ContentmentTest() {
 

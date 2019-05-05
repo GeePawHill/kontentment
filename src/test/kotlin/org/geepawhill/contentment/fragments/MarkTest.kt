@@ -10,8 +10,8 @@ import org.geepawhill.contentment.geometry.Bezier
 import org.geepawhill.contentment.geometry.BezierSource
 import org.geepawhill.contentment.geometry.Point
 import org.geepawhill.contentment.geometry.PointPair
+import org.geepawhill.contentment.test.ContentmentAssertions.Companion.assertThat
 import org.junit.jupiter.api.Test
-import test.ContentmentAssertions.Companion.assertThat
 
 class MarkTest {
     private val group = Group()
