@@ -29,18 +29,14 @@ import java.util.concurrent.Callable
 
 class MainView(private val stage: Stage, private val player: Player) : View() {
 
-    val isPlayingCallable = Callable { player.state == PlayerState.Playing }
-    val trueIfPlaying = Bindings.createBooleanBinding(isPlayingCallable, player.stateProperty())
+    private val isPlayingCallable = Callable { player.state == PlayerState.Playing }
+    private val trueIfPlaying = Bindings.createBooleanBinding(isPlayingCallable, player.stateProperty())
     private lateinit var timing: Text
 
     override val root = borderpane {
         top = toolbar {
             orientation = Orientation.HORIZONTAL
-            timing = text("00000000") {
-                font = Font("Consolas", 30.0)
-                stroke = Color.BLUE
-                fill = Color.BLUE
-            }
+            timing = makeTiming()
             button("Full") {
                 action { stage.isFullScreen = true }
             }
@@ -59,7 +55,6 @@ class MainView(private val stage: Stage, private val player: Player) : View() {
                 action { player.play() }
                 disableWhen { trueIfPlaying }
             }
-
             button(">|") {
                 action { player.playOne() }
                 disableWhen { trueIfPlaying }
@@ -90,14 +85,20 @@ class MainView(private val stage: Stage, private val player: Player) : View() {
         }
     }
 
-    private var media: MediaView? = null
+    private fun ToolBar.makeTiming(): Text {
+        return text("00000000") {
+            font = Font("Consolas", 30.0)
+            stroke = Color.BLUE
+            fill = Color.BLUE
+        }
+    }
 
+    private var media: MediaView? = null
 
     val node: Parent
         get() {
-            root!!.center = makeViewport()
-
-            return root!!
+            root.center = makeViewport()
+            return root
         }
 
     init {
@@ -169,7 +170,7 @@ class MainView(private val stage: Stage, private val player: Player) : View() {
         if (beat.toLong() == 0L) text = "   Start"
         if (beat.toLong() == Rhythm.MAX) text = "     End"
         val newText = text
-        Platform.runLater { timing!!.text = newText }
+        Platform.runLater { timing.text = newText }
     }
 
     private fun markHere(bar: ToolBar) {

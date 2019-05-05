@@ -64,13 +64,13 @@ class Appearance<ACTOR : Actor>(private val world: ScriptWorld, val actor: ACTOR
         return this
     }
 
-    fun fadeIn(): Appearance<ACTOR> {
+    fun fadeIn(ms: Double = 500.0): Appearance<ACTOR> {
         world.addActor(this)
         world.push(Phrase.phrase())
         world.add(Single(Timing.instant(), entrance))
         world.add(Single(Timing.instant(), Fader(actor.group(), 0.0)))
         actor.draw(1.0)
-        world.add(Single(Timing.ms(500.0), Fader(actor.group(), 1.0)))
+        world.add(Single(Timing.ms(ms), Fader(actor.group(), 1.0)))
         world.popAndAppend()
         return this
     }

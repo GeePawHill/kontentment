@@ -22,6 +22,7 @@ class Main : Application() {
             stage.show()
 //            player.load(TddPremisesScript().make())
             player.load(ReachingPastProcessScript().make())
+            player.load(AgileAndBeyondScript().make())
         } catch (e: Exception) {
             e.printStackTrace()
             Platform.exit()
