@@ -112,7 +112,7 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
         wipe()
         buildChord()
         header("Change, Old White Guys, and Socrates")
-        art().fadeIn(3000.0)
+        art("agileandbeyond/idunno.jpg").fadeIn(3000.0)
         pause()
     }
 

@@ -13,7 +13,7 @@ import org.geepawhill.contentment.format.Format
  * @author GeePaw
  */
 class Snap(owner: Group, private val source: String, width: Double) : Fragment {
-    private val image = Image("/org/geepawhill/scripts/idunno.jpg")
+    private val image = Image(source)
     private val imageView = ImageView()
     private var format: Format? = null
 

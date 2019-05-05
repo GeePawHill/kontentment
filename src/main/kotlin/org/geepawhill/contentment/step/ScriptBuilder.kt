@@ -99,8 +99,8 @@ abstract class ScriptBuilder<SUBCLASS> @JvmOverloads constructor(rhythm: Rhythm 
         return Appearance(world, Letters(world, source))
     }
 
-    fun art(): Appearance<Art> {
-        return Appearance(world, Art(world, "/idunno.jpg"))
+    fun art(source: String): Appearance<Art> {
+        return Appearance(world, Art(world, "/org/geepawhill/scripts/$source"))
     }
 
     fun oval(points: PointPair): Appearance<Marks> {
