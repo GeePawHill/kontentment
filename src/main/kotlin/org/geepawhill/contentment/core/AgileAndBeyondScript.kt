@@ -109,23 +109,22 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
 
 
     private fun change() {
-        wipe()
-        buildChord()
         header("Change, Old White Guys, and Socrates")
-        art("agileandbeyond/idunno.jpg").fadeIn(3000.0)
         pause()
+        art("agileandbeyond/idunno.jpg").at(TopLeft(Point(0.0, 0.0))).fadeIn(3000.0)
+        pause()
+        wipe()
     }
 
     private fun theQuestion() {
-        wipe()
         letters("What do we change next?").centered(ViewPort.CENTER).fadeIn(5000.0)
+        pause()
         pause()
     }
 
 
     private fun leadIn() {
         scene(0)
-        wipe()
         buildChord()
         letters("GeePaw's Notebook:").format(primaryJumbo).at(TopLeft(XMARGIN, YMARGIN)).called("header").appear()
         assume(secondaryJumbo)
@@ -134,6 +133,7 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
         letters("Copyright (C) 2018, GeePawHill. All rights reserved.").at(TopLeft(20.0, 825.0)).appear()
         endChord()
         pause()
+        wipe()
     }
 
     private fun geepaw() {

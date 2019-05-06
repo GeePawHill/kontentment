@@ -13,7 +13,7 @@ import org.geepawhill.contentment.step.Timed
 import org.geepawhill.contentment.timing.Timing
 
 class Art(protected val world: ScriptWorld, source: String) : Actor {
-    private val letters: Snap
+    private val snap: Snap
     private var hasOval: Boolean = false
     protected val entrance: Entrance
     protected val group: Group
@@ -21,21 +21,22 @@ class Art(protected val world: ScriptWorld, source: String) : Actor {
     init {
         this.group = Group()
         this.entrance = Entrance(group)
-        this.letters = Snap(group, source, 400.0)
+        this.snap = Snap(group, source, 400.0)
     }
 
     override fun draw(ms: Double): Art {
         val timed = Timed(ms)
-        timed.add(Timing.weighted(.5), letters)
+        timed.add(Timing.weighted(.5), snap)
         world.add(timed)
         return this
     }
 
     override fun toString(): String {
-        return "Image [" + letters.toString() + "]"
+        return "Image [" + snap.toString() + "]"
     }
 
     override fun at(position: Position) {
+        snap.at(position)
     }
 
     override fun format(format: Format) {
