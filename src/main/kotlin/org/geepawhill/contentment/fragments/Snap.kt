@@ -21,6 +21,8 @@ class Snap(owner: Group, private val source: String, width: Double) : Fragment {
     private var position: Position = Position.DEFAULT
 
     init {
+        imageView.isPreserveRatio = true
+        if (width != 0.0) imageView.fitWidth = width
         owner.children.add(imageView)
         this.format = Format.DEFAULT
     }

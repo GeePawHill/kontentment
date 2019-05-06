@@ -12,7 +12,7 @@ import org.geepawhill.contentment.position.Position
 import org.geepawhill.contentment.step.Timed
 import org.geepawhill.contentment.timing.Timing
 
-class Art(protected val world: ScriptWorld, source: String) : Actor {
+class Art(protected val world: ScriptWorld, source: String, width: Double = 0.0) : Actor {
     private val snap: Snap
     private var hasOval: Boolean = false
     protected val entrance: Entrance
@@ -21,7 +21,7 @@ class Art(protected val world: ScriptWorld, source: String) : Actor {
     init {
         this.group = Group()
         this.entrance = Entrance(group)
-        this.snap = Snap(group, source, 400.0)
+        this.snap = Snap(group, source, width)
     }
 
     override fun draw(ms: Double): Art {

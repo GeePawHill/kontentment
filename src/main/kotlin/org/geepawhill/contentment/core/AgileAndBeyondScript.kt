@@ -111,7 +111,7 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
     private fun change() {
         header("Change, Old White Guys, and Socrates")
         pause()
-        art("agileandbeyond/idunno.jpg").at(TopLeft(Point(0.0, 0.0))).fadeIn(3000.0)
+        art("agileandbeyond/idunno.jpg", 400.0).centered(ViewPort.CENTER).fadeIn(3000.0)
         pause()
         wipe()
     }
