@@ -12,9 +12,7 @@ import org.geepawhill.contentment.geometry.Point
 import org.geepawhill.contentment.geometry.ViewPort
 import org.geepawhill.contentment.grid.Grid
 import org.geepawhill.contentment.player.Script
-import org.geepawhill.contentment.position.RightOf
-import org.geepawhill.contentment.position.TopLeft
-import org.geepawhill.contentment.position.TopRight
+import org.geepawhill.contentment.position.*
 import org.geepawhill.contentment.step.ScriptBuilder
 import org.geepawhill.contentment.style.Dash
 import org.geepawhill.contentment.style.Frames
@@ -50,6 +48,10 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
     private val leftView = master.nested(INSET, 25, 47, 100 - INSET)
     private val rightView = master.nested(53, 25, 100 - INSET, 100 - INSET)
     private val rightOutline = Flow(world, rightView.all())
+
+    private val quarterView = master.nested(20, 25, 100 - INSET, 100 - INSET)
+    private val quarterOutline = Flow(world, quarterView.all())
+
 
     private val outline: Flow
 
@@ -111,7 +113,11 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
     private fun change() {
         header("Change, Old White Guys, and Socrates")
         pause()
-        art("agileandbeyond/idunno.jpg", 400.0).centered(ViewPort.CENTER).fadeIn(3000.0)
+        val needleman = art("agileandbeyond/jacobNeedleman.png", 250.0).at(TopLeft(viewport.nw())).fadeIn(3000.0)
+        val caption = letters("Jacob Needleman").at(BelowCenter(needleman)).appear()
+        art("agileandbeyond/heartOfPhilosophy.jpg", 250.0).at(BelowLeft(caption)).fadeIn(3000.0)
+        pause()
+        letters("In his book, Needleman describes losing his sense of joy, ").at(TopLeft(quarterView.nw())).sketch(2000.0)
         pause()
         wipe()
     }

@@ -83,6 +83,8 @@ class MainView(private val stage: Stage, private val player: Player) : View() {
                 disableWhen { trueIfPlaying }
             }
         }
+
+        center = makeViewport()
     }
 
     private fun ToolBar.makeTiming(): Text {
@@ -95,14 +97,17 @@ class MainView(private val stage: Stage, private val player: Player) : View() {
 
     private var media: MediaView? = null
 
-    val node: Parent
-        get() {
-            root.center = makeViewport()
-            return root
-        }
-
     init {
         stage.fullScreenProperty().addListener { _, _, n -> fullscreenChanged(n!!) }
+        val timer = Text("Text")
+        timer.font = Font.font(30.0)
+        timer.fill = Color.DARKBLUE
+        timer.stroke = Color.BLUE
+        root.widthProperty().addListener { _, _, _ ->
+            timer.x = root.width - 100.0
+            timer.y = root.height - 20.0
+        }
+        root.children.add(timer)
     }
 
     private fun makeViewport(): Pane {
@@ -126,6 +131,7 @@ class MainView(private val stage: Stage, private val player: Player) : View() {
         owner.setOnMouseClicked { event -> mouseClicked(event) }
 
         owner.children.add(player.context().canvas)
+
         return owner
     }
 

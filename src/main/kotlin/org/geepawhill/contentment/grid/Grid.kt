@@ -64,4 +64,7 @@ class Grid(private val bounds: PointPair) {
     fun point(xPercent: Int, yPercent: Int): Point {
         return point(vertical(xPercent), horizontal(yPercent))
     }
+
+    fun ne() = point(100, 0)
+    fun nw() = point(0, 0)
 }

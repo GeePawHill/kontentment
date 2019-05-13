@@ -15,7 +15,7 @@ class Main : Application() {
             preloadFontFile("/org/geepawhill/scripts/ChewedPenBB_ital.otf")
             val player = Player()
             val mainView = MainView(stage, player)
-            val scene = Scene(mainView.node)
+            val scene = Scene(mainView.root)
             stage.scene = scene
             stage.isMaximized = true
             stage.fullScreenExitHint = ""
