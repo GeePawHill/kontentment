@@ -23,8 +23,8 @@ object Frames {
             override fun apply(shape: Shape) {
                 shape.stroke = stroke
                 shape.fill = fill
-                shape.strokeWidth = width!!
-                shape.opacity = opacity!!
+                shape.strokeWidth = width
+                shape.opacity = opacity
                 shape.strokeDashArray.clear()
                 shape.strokeDashArray.addAll(dash.array)
             }
