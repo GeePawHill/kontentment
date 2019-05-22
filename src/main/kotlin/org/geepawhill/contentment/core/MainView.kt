@@ -3,6 +3,7 @@ package org.geepawhill.contentment.core
 import javafx.application.Platform
 import javafx.beans.binding.Bindings
 import javafx.beans.property.SimpleObjectProperty
+import javafx.beans.property.SimpleStringProperty
 import javafx.geometry.Orientation
 import javafx.scene.Cursor
 import javafx.scene.Node
@@ -18,6 +19,7 @@ import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import javafx.scene.text.Text
 import javafx.stage.Stage
+import javafx.util.converter.IntegerStringConverter
 import org.geepawhill.contentment.geometry.PointPair
 import org.geepawhill.contentment.jfx.ScaleListener
 import org.geepawhill.contentment.player.Player
@@ -31,9 +33,18 @@ class MainView(private val stage: Stage, private val player: Player) : View() {
 
     private val isPlayingCallable = Callable { player.state == PlayerState.Playing }
     private val trueIfPlaying = Bindings.createBooleanBinding(isPlayingCallable, player.stateProperty())
+    private lateinit var elapsed: Text
     private lateinit var timing: Text
 
+    private val startElapsedProperty = SimpleStringProperty("45")
+
     override val root = borderpane {
+        elapsed = text {
+            textProperty().bindBidirectional(player.elapsedProperty, IntegerStringConverter())
+            font = Font.font(30.0)
+            fill = Color.DARKBLUE
+            stroke = Color.BLUE
+        }
         top = toolbar {
             orientation = Orientation.HORIZONTAL
             timing = makeTiming()
@@ -79,12 +90,19 @@ class MainView(private val stage: Stage, private val player: Player) : View() {
                 action { markHere(this@toolbar) }
                 enableWhen { trueIfPlaying }
             }
-            button("Present!") {
-                disableWhen { trueIfPlaying }
+            region { prefWidth = 100.0 }
+            checkbox {
+                action {
+                    if (isSelected) {
+                        player.elapsedProperty.value = startElapsedProperty.value.toInt()
+                    }
+                }
             }
+            textfield(startElapsedProperty)
         }
 
         center = makeViewport()
+
     }
 
     private fun ToolBar.makeTiming(): Text {
@@ -99,15 +117,11 @@ class MainView(private val stage: Stage, private val player: Player) : View() {
 
     init {
         stage.fullScreenProperty().addListener { _, _, n -> fullscreenChanged(n!!) }
-        val timer = Text("Text")
-        timer.font = Font.font(30.0)
-        timer.fill = Color.DARKBLUE
-        timer.stroke = Color.BLUE
         root.widthProperty().addListener { _, _, _ ->
-            timer.x = root.width - 100.0
-            timer.y = root.height - 20.0
+            elapsed.x = root.width - 100.0
+            elapsed.y = root.height - 20.0
         }
-        root.children.add(timer)
+        root.children.add(elapsed)
     }
 
     private fun makeViewport(): Pane {

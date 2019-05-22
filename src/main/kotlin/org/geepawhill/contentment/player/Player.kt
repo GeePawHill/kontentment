@@ -7,7 +7,6 @@ import javafx.beans.property.SimpleObjectProperty
 import org.geepawhill.contentment.core.Context
 import org.geepawhill.contentment.core.OnFinished
 import org.geepawhill.contentment.rhythm.Rhythm
-
 import java.util.function.Supplier
 
 
@@ -19,6 +18,8 @@ class Player {
     private val stateProperty: SimpleObjectProperty<PlayerState>
     private val atStartProperty: SimpleBooleanProperty
     private val atEndProperty: SimpleBooleanProperty
+
+    val elapsedProperty = SimpleObjectProperty(0)
 
     val state: PlayerState
         get() = stateProperty.get()
