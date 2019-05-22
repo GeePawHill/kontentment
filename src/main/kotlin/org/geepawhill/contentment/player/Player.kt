@@ -4,9 +4,11 @@ import javafx.beans.property.BooleanProperty
 import javafx.beans.property.ObjectProperty
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleObjectProperty
+import javafx.concurrent.Task
 import org.geepawhill.contentment.core.Context
 import org.geepawhill.contentment.core.OnFinished
 import org.geepawhill.contentment.rhythm.Rhythm
+import java.lang.Thread.sleep
 import java.util.function.Supplier
 
 
@@ -20,6 +22,23 @@ class Player {
     private val atEndProperty: SimpleBooleanProperty
 
     val elapsedProperty = SimpleObjectProperty(0)
+
+    val elapsedTask =
+            object : Task<Unit>() {
+                @Throws(Exception::class)
+                protected override fun call() {
+                    while (true) {
+                        sleep(10000)
+                        val left = elapsedProperty.value
+                        if (left > 0) {
+                            elapsedProperty.value = left - 1
+                        }
+                        if (isCancelled()) {
+                            break
+                        }
+                    }
+                }
+            };
 
     val state: PlayerState
         get() = stateProperty.get()
@@ -47,6 +66,9 @@ class Player {
         this.scriptProperty = SimpleObjectProperty(Script())
         this.context = Context()
         this.position = 0
+        val th = Thread(elapsedTask)
+        th.setDaemon(true)
+        th.start()
     }
 
     fun context(): Context {

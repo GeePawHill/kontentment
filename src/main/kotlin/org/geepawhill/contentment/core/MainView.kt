@@ -44,6 +44,7 @@ class MainView(private val stage: Stage, private val player: Player) : View() {
             font = Font.font(30.0)
             fill = Color.DARKBLUE
             stroke = Color.BLUE
+            isVisible = false
         }
         top = toolbar {
             orientation = Orientation.HORIZONTAL
@@ -92,10 +93,12 @@ class MainView(private val stage: Stage, private val player: Player) : View() {
             }
             region { prefWidth = 100.0 }
             checkbox {
+                isSelected = false
                 action {
                     if (isSelected) {
                         player.elapsedProperty.value = startElapsedProperty.value.toInt()
-                    }
+                        elapsed.isVisible = true
+                    } else elapsed.isVisible = false
                 }
             }
             textfield(startElapsedProperty)
