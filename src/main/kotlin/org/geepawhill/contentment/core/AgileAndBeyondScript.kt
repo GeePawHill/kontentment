@@ -9,6 +9,7 @@ import org.geepawhill.contentment.flow.FormatTable
 import org.geepawhill.contentment.flow.Size
 import org.geepawhill.contentment.format.Format
 import org.geepawhill.contentment.geometry.Point
+import org.geepawhill.contentment.geometry.PointPair
 import org.geepawhill.contentment.geometry.ViewPort
 import org.geepawhill.contentment.grid.Grid
 import org.geepawhill.contentment.player.Script
@@ -35,7 +36,7 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
     private val emphaticSmall: Format
     private val emphaticNormal: Format
     private val emphaticJumbo: Format
-    private val emphatic: Paint
+    private val emphatic: Paint = formats.emphatic
     private val tertiaryNormal: Format
     private val headerFormat: Format
     private val mFormat = Format(formats.get(Size.Normal, Color.Tertiary),
@@ -43,6 +44,7 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
 
     private val primarySmall = formats.get(Size.Small, Color.Primary)
 
+    private val primaryLine = Format(formats.get(Size.Small, Color.Primary), Frames.frame(formats.primary, 3.0, .7))
     private val master = Grid()
     private val viewport = master.nested(INSET, 15, 100 - INSET, 100 - INSET)
     private val leftView = master.nested(INSET, 25, 47, 100 - INSET)
@@ -64,7 +66,6 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
 
         color(119, 187, 65)
         color(177, 140, 254)
-        emphatic = formats.emphatic
 
         primaryJumbo = formats.get(Size.Jumbo, Color.Primary)
         primaryNormal = formats.get(Size.Normal, Color.Primary)
@@ -79,6 +80,7 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
         emphaticNormal = formats.get(Size.Normal, Color.Emphatic)
         emphaticSmall = Format(formats.get(Size.Small, Color.Emphatic), Frames.frame(emphatic, 3.0, .7))
 
+
         val header = Font.font("Chewed Pen BB", FontPosture.ITALIC, 80.0)
         headerFormat = Format(primaryJumbo, TypeFace.font(header, 3.0, 1.0),
                 TypeFace.color(JfxUtility.color(180, 180, 180), 1.0))
@@ -88,8 +90,8 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
     fun make(): Script {
         leadIn()
 //        geepaw()
-//
-//        structure()
+
+        welcome()
 //        definition()
 //
 //        tdd()
@@ -134,9 +136,11 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
         buildChord()
         letters("GeePaw's Notebook:").format(primaryJumbo).at(TopLeft(XMARGIN, YMARGIN)).called("header").appear()
         assume(secondaryJumbo)
-        letters("Reaching Past Process\nFinding Your Way In Agility").centered(450, 450).appear()
+        letters("Change Changing").at(TopLeft(100.0, 300.0)).appear()
+        assume(secondaryNormal)
+        letters("How To Make Effective Transformations").at(TopLeft(100.0, 400.0)).appear()
         assume(emphaticSmall)
-        letters("Copyright (C) 2018, GeePawHill. All rights reserved.").at(TopLeft(20.0, 825.0)).appear()
+        letters("Copyright (C) 2019, GeePawHill. All rights reserved.").at(TopLeft(20.0, 825.0)).appear()
         endChord()
         pause()
         wipe()
@@ -162,44 +166,21 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
         pause()
     }
 
-    private fun structure() {
+    private fun welcome() {
         wipe()
-        buildChord()
-        header("Packaged Vs Actual Agility")
-        assume(secondaryJumbo)
-        outline.load("pnAgile newcomers are given tons of \"process\"\n" +
-                "sn   structures             roles\n" +
-                "sn    meetings           algorithms\n" +
-                "sn    methods            techniques\n" +
-                "sn    reports              metrics\n" +
-                "pnThe light is better under method\n" +
-                "sn   easier to write down\n" +
-                "sn   easier to direct\n" +
-                "sn   easier to buy & sell\n"
-        )
-        for (line in 0..4) {
-            val letters = outline.letters(line)
-            outline.lines()[line].letters = letters
-            letters.appear()
-        }
-        endChord()
-        pause()
-
         assume(emphaticJumbo)
-        letters("agility is not process").centered(1200, 400).sketch()
-        assume(emphaticNormal)
-        letters("to get there we have to reach past\n" +
-                "      structure and method"
-        ).centered(1200, 550).sketch()
+        letters("Welcome").centered(800, 250).appear()
+        letters("Professional").centered(800, 350).called("#pro").appear()
+        letters("Software Development").centered(800, 450).called("#sw").appear()
+        letters("Coaches!").centered(800, 550).appear()
         pause()
-
-        buildChord()
-        for (line in 4..8) {
-            val letters = outline.letters(line)
-            letters.appear()
-        }
-        endChord()
+        cross("#pro", 300.0, 40.0, 0.0, 0.0).sketch()
         pause()
+        cross("#sw", 600.0, 40.0, 0.0, 0.0).sketch()
+        pause()
+        oval(PointPair(660.0, 500.0, 940.0, 610.0)).format(primaryLine).sketch()
+        pause()
+        wipe()
     }
 
     private fun definition() {

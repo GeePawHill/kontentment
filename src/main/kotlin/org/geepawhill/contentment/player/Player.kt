@@ -28,7 +28,7 @@ class Player {
                 @Throws(Exception::class)
                 protected override fun call() {
                     while (true) {
-                        sleep(10000)
+                        sleep(60000)
                         val left = elapsedProperty.value
                         if (left > 0) {
                             elapsedProperty.value = left - 1
