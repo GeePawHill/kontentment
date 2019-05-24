@@ -15,6 +15,8 @@ import org.geepawhill.contentment.geometry.PointPair
 import org.geepawhill.contentment.position.Position
 import org.geepawhill.contentment.step.Timed
 import org.geepawhill.contentment.timing.Timing
+import java.lang.Double.max
+import java.lang.Double.min
 import java.util.*
 
 class Connector(private val world: ScriptWorld, destination: Group) : Actor {
@@ -55,6 +57,12 @@ class Connector(private val world: ScriptWorld, destination: Group) : Actor {
     }
 
     @JvmOverloads
+    fun from(x: Int, y: Int, withHead: Boolean = false): Connector {
+        connectorPoints.from(Point(x.toDouble(), y.toDouble()), withHead)
+        return this
+    }
+
+    @JvmOverloads
     fun from(target: String, withHead: Boolean = false): Connector {
         return from(world.actor(target).entrance(), withHead)
     }
@@ -68,6 +76,12 @@ class Connector(private val world: ScriptWorld, destination: Group) : Actor {
     @JvmOverloads
     fun to(target: Point, withHead: Boolean = false): Connector {
         connectorPoints.to(target, withHead)
+        return this
+    }
+
+    @JvmOverloads
+    fun to(x: Int, y: Int, withHead: Boolean = false): Connector {
+        connectorPoints.to(Point(x.toDouble(), y.toDouble()), withHead)
         return this
     }
 
@@ -134,8 +148,8 @@ class Connector(private val world: ScriptWorld, destination: Group) : Actor {
         val variance = points.distance() * .1
         val chosen = Bezier(
                 points.from,
-                world.jiggle(points.along(world.nextDouble()), 1.0, variance),
-                world.jiggle(points.along(world.nextDouble()), 1.0, variance),
+                world.jiggle(points.along(max(world.nextDouble(), .25)), 1.0, variance),
+                world.jiggle(points.along(min(world.nextDouble(), .75)), 1.0, variance),
                 points.to)
         return chosen
     }

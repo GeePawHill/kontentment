@@ -7,6 +7,7 @@ import org.geepawhill.contentment.fragments.Entrance
 import org.geepawhill.contentment.fragments.Exit
 import org.geepawhill.contentment.fragments.Fader
 import org.geepawhill.contentment.geometry.Point
+import org.geepawhill.contentment.geometry.PointPair
 import org.geepawhill.contentment.position.Centered
 import org.geepawhill.contentment.position.Position
 import org.geepawhill.contentment.step.Phrase
@@ -92,6 +93,11 @@ class Appearance<ACTOR : Actor>(private val world: ScriptWorld, val actor: ACTOR
 
     fun centered(point: Point): Appearance<ACTOR> {
         at(Centered(point))
+        return this
+    }
+
+    fun topCentered(area: PointPair): Appearance<ACTOR> {
+        at(Centered(area.north()))
         return this
     }
 

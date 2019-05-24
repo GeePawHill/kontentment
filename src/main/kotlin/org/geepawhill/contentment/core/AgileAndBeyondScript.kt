@@ -88,11 +88,12 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
     }
 
     fun make(): Script {
-        leadIn()
+        scene(0)
+//        leadIn()
 //        geepaw()
 
-        welcome()
-//        definition()
+//        welcome()
+        alice()
 //
 //        tdd()
 //        tddAndDefinition()
@@ -112,27 +113,7 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
     }
 
 
-    private fun change() {
-        header("Change, Old White Guys, and Socrates")
-        pause()
-        val needleman = art("agileandbeyond/jacobNeedleman.png", 250.0).at(TopLeft(viewport.nw())).fadeIn(3000.0)
-        val caption = letters("Jacob Needleman").at(BelowCenter(needleman)).appear()
-        art("agileandbeyond/heartOfPhilosophy.jpg", 250.0).at(BelowLeft(caption)).fadeIn(3000.0)
-        pause()
-        letters("In his book, Needleman describes losing his sense of joy, ").at(TopLeft(quarterView.nw())).sketch(2000.0)
-        pause()
-        wipe()
-    }
-
-    private fun theQuestion() {
-        letters("What do we change next?").centered(ViewPort.CENTER).fadeIn(5000.0)
-        pause()
-        pause()
-    }
-
-
     private fun leadIn() {
-        scene(0)
         buildChord()
         letters("GeePaw's Notebook:").format(primaryJumbo).at(TopLeft(XMARGIN, YMARGIN)).called("header").appear()
         assume(secondaryJumbo)
@@ -144,26 +125,6 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
         endChord()
         pause()
         wipe()
-    }
-
-    private fun geepaw() {
-        wipe()
-        buildChord()
-        header("Who *Is* This Guy?")
-        outline.load("snGeePaw Hill\n"
-                + "pn   yes, it's really 'GeePaw'\n"
-                + "pn   short for 'GrandPa', which I became at a young age\n"
-                + "snGeek, Teacher, Coach\n"
-                + "pn   professional geek for 38 years\n"
-                + "pn   i live with developers and support them as they grow\n"
-                + "snContact me:\n"
-                + "pn   Twitter: @GeePawHill\n"
-                + "pn   Website: GeePawHill.Org\n"
-                + "pn   Email: GeePawHill@GeePawHill.Org\n"
-        )
-        outlineAppear()
-        endChord()
-        pause()
     }
 
     private fun welcome() {
@@ -180,109 +141,121 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
         pause()
         oval(PointPair(660.0, 500.0, 940.0, 610.0)).format(primaryLine).sketch()
         pause()
+
+        assume(primaryJumbo)
+        letters("Coaches Change Teams!").centered(800, 700).sketch()
+        pause()
         wipe()
     }
 
-    private fun definition() {
-        wipe()
+    private fun alice() {
 
-        assume(secondarySmall)
-        letters(
-                "agility is an autopoeitic community embracing change\n" +
-                        "               by a triple-balance between \n" +
-                        "          the made, the making, and the makers"
-        ).centered(800, 100).sketch()
-        pause(1)
-
-        box(leftView.all()).format(communityFormat).sketch()
-        letters("autopoeitic community").centered(leftView.point(50, 5)).format(primarySmall).sketch()
+        header("Alice, A Vision, and Change")
+        assume(secondaryNormal)
         pause()
-        rightOutline.load(
+        val changeY = 250
+        letters("A City On\n   A Hill").centered(1400, changeY).sketch()
+        pause()
+        letters("  South\nCraptown").centered(200, changeY).sketch()
+        pause()
+        val change = connector()
+        change.actor.from(280, changeY).to(1290, changeY, true)
+        change.format(primaryLine).sketch(3000.0)
+        pause()
+
+        val fours = viewport.nested(5, 40, 95, 95)
+        val col1 = fours.nested(2, 2, 24, 100)
+        assume(primaryNormal)
+        letters("Procedural").at(TopLeft(col1.nw())).sketch()
+        val proc = connector()
+        proc.actor.from(col1.nw().add(0.0, 60.0)).to(col1.ne().add(-80.0, 60.0))
+        proc.sketch()
+        pause()
+        val procList = Flow(world, col1.nested(0, 20, 100, 100).all())
+        procList.load(
                 """
-pnCommunity
-ss   a collection of *humans*
-ss   agility is always about collaboration
-pnAutopoeisis
-ss   literally, 'self-making'
-ss   coined in '79, derives from theory of biology
-ss   no fixed parts
-ss   no fixed structure
-ss   no fixed mechanisms
-""".trimIndent()
+                    ssmeetings
+                    ssartifacts
+                    ssrules
+                    ssmechanics
+                    ssalgorithmic
+                """.trimIndent()
         )
-        buildChord()
-        for (line in 0..2) {
-            val letters = rightOutline.letters(line)
-            rightOutline.lines()[line].letters = letters
-            letters.appear()
-        }
-        endChord()
+        procList.blurt()
         pause()
 
-        buildChord()
-        for (line in 3..8) {
-            val letters = rightOutline.letters(line)
-            rightOutline.lines()[line].letters = letters
-            letters.appear()
-        }
-        endChord()
+        val col2 = fours.nested(26, 2, 48, 100)
+        assume(primaryNormal)
+        letters("Given").at(TopLeft(col2.nw())).sketch()
+        val given = connector()
+        given.actor.from(col2.nw().add(0.0, 60.0)).to(col2.ne().add(-80.0, 60.0))
+        given.sketch()
         pause()
-
-        rightOutline.fade()
-        val communityOneLiner = letters("A continually re-organizing and \n" +
-                "re-creating gathering of humans").centered(rightView.point(50, 50)).format(emphaticNormal).sketch()
-        pause(1)
-
-        communityOneLiner.fadeOut()
-        letters("Embrace\nChange!").centered(leftView.point(50, 45)).format(emphaticNormal).sketch()
-        pause()
-        rightOutline.load(
+        val givenList = Flow(world, col2.nested(0, 20, 100, 100).all())
+        givenList.load(
                 """
-pnOld-school controls change
-ss   change is seen as avoidable/controllable risk
-pnNew-school sees change as the value
-ss   change is the entire job
-pnEmbrace change at every level
-ss   in the made thing
-ss   in the market and the domain
-ss   in the personnel, structure, and roles
-ss   in the code, and the coding
-""".trimIndent())
-        rightOutline.blurt()
-
-        pause(1)
-        rightOutline.fade()
-        val ecOneLiner = letters("Agilists surf change!").centered(rightView.point(50, 50)).format(emphaticNormal).sketch()
-
-        pause(1)
-        ecOneLiner.fadeOut()
-        assume(balanceFormat)
-        outline(polygon(3, 250.0, leftView.point(50, 45)))
-        assume(tertiaryNormal)
-        letters("The Made").at(TopLeft(leftView.all().northwest().add(20.0, 70.0))).sketch()
-        letters("The Making").at(TopRight(leftView.all().northeast().add(-20.0, 70.0))).sketch()
-        letters("The Makers").centered(leftView.all().south().add(0.0, -50.0)).sketch()
-        pause(1)
-
-        rightOutline.load(
+                    ssexternal
+                    ssmeasured
+                    ssreported
+                """.trimIndent()
+        )
+        givenList.blurt()
+        pause()
+        val col3 = fours.nested(52, 2, 72, 100)
+        assume(primaryNormal)
+        letters("Sweeping").at(TopLeft(col3.nw())).sketch()
+        val sweeping = connector()
+        sweeping.actor.from(col3.nw().add(0.0, 60.0)).to(col3.ne().add(-80.0, 60.0))
+        sweeping.sketch()
+        pause()
+        val sweepingList = Flow(world, col3.nested(0, 20, 100, 100).all())
+        sweepingList.load(
                 """
-ssMade: the product
-ps   the features
-ps   the code
-ps   the infrastructure/deployment
-ssMaking: how we create the made
-ps   the technique
-ps   the tools
-ps   the flow of work
-ssMakers: our team
-ps   minds, bodies, energy
-ps   collaborations
-ps   all things human
-""".trimIndent())
-        rightOutline.blurt()
-        pause(1)
-        rightOutline.fade()
-        val balanceOneLiner = letters("we seek to keep all three\nin the sweet spot").centered(rightView.point(50, 50)).sketch()
+                    ssorg-wide
+                    ssmulti-aspect
+                    ssfar reaching
+                    ssall now
+                """.trimIndent()
+        )
+        sweepingList.blurt()
+        pause()
+        val col4 = fours.nested(76, 2, 98, 100)
+        assume(primaryNormal)
+        letters("Final").at(TopLeft(col4.nw())).sketch()
+        val final = connector()
+        final.actor.from(col4.nw().add(0.0, 60.0)).to(col4.ne().add(-80.0, 60.0))
+        final.sketch()
+        pause()
+        val finalList = Flow(world, col4.nested(0, 20, 100, 100).all())
+        finalList.load(
+                """
+                    ssendpointed
+                    ssperfect
+                    ssfinished
+                """.trimIndent()
+        )
+        finalList.blurt()
+        pause()
+
+        wipe()
+    }
+
+
+    private fun change() {
+        header("Change, Old White Guys, and Socrates")
+        pause()
+        val needleman = art("agileandbeyond/jacobNeedleman.png", 250.0).at(TopLeft(viewport.nw())).fadeIn(3000.0)
+        val caption = letters("Jacob Needleman").at(BelowCenter(needleman)).appear()
+        art("agileandbeyond/heartOfPhilosophy.jpg", 250.0).at(BelowLeft(caption)).fadeIn(3000.0)
+        pause()
+        letters("In his book, Needleman describes losing his sense of joy, ").at(TopLeft(quarterView.nw())).sketch(2000.0)
+        pause()
+        wipe()
+    }
+
+    private fun theQuestion() {
+        letters("What do we change next?").centered(ViewPort.CENTER).fadeIn(5000.0)
+        pause()
         pause()
     }
 
