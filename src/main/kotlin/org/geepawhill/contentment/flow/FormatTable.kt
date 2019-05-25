@@ -25,6 +25,7 @@ class FormatTable {
     }
 
     init {
+        val gigantic = 120.0
         val jumbo = 80.0
         val normal = 55.0
         val small = 45.0
@@ -32,6 +33,13 @@ class FormatTable {
 
 
         sizeToColors = HashMap()
+
+        val gigantics = HashMap<Color, Format>()
+        gigantics[Color.Primary] = format(primary, gigantic)
+        gigantics[Color.Secondary] = format(secondary, gigantic)
+        gigantics[Color.Tertiary] = format(tertiary, gigantic)
+        gigantics[Color.Emphatic] = format(emphatic, gigantic)
+        sizeToColors[Size.Gigantic] = gigantics
 
         val jumbos = HashMap<Color, Format>()
         jumbos[Color.Primary] = format(primary, jumbo)

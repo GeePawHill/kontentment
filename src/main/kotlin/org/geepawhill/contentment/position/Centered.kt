@@ -1,10 +1,10 @@
 package org.geepawhill.contentment.position
 
-import org.geepawhill.contentment.core.GroupSource
-import org.geepawhill.contentment.geometry.*
-import org.geepawhill.contentment.utility.JfxUtility
-
 import javafx.scene.Node
+import org.geepawhill.contentment.core.GroupSource
+import org.geepawhill.contentment.geometry.Point
+import org.geepawhill.contentment.geometry.PointPair
+import org.geepawhill.contentment.utility.JfxUtility
 
 class Centered @JvmOverloads constructor(private val actor: GroupSource?, private var anchor: Point? = null) : Position {
 

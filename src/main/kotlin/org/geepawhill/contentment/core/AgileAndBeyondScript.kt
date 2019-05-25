@@ -3,6 +3,9 @@ package org.geepawhill.contentment.core
 import javafx.scene.paint.Paint
 import javafx.scene.text.Font
 import javafx.scene.text.FontPosture
+import org.geepawhill.contentment.actor.Appearance
+import org.geepawhill.contentment.actors.Art
+import org.geepawhill.contentment.actors.Connector
 import org.geepawhill.contentment.flow.Color
 import org.geepawhill.contentment.flow.Flow
 import org.geepawhill.contentment.flow.FormatTable
@@ -20,8 +23,26 @@ import org.geepawhill.contentment.style.Frames
 import org.geepawhill.contentment.style.TypeFace
 import org.geepawhill.contentment.utility.JfxUtility
 import org.geepawhill.contentment.utility.JfxUtility.color
+import kotlin.random.Random
 
 class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
+
+    val human = "Human"
+    val collaboration = "obsess over human collaboration"
+    val betters = "braid me-iBetters and team-iBetters"
+
+    val local = "Local"
+    val enof = "easiest nearest owwie first"
+    val habit = "find the habit of change"
+
+    val iterative = "Iterative"
+    val notWrong = "choose definitely not backwards"
+    val tryDifferent = "try different, not harder"
+
+    val taken = "Taken"
+    val createExperiences = "create experiences, not arguments"
+    val gatherResults = "gather reactions not numbers"
+
 
     private val formats = FormatTable()
     private val secondarySmall = formats.get(Size.Small, Color.Secondary)
@@ -39,12 +60,15 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
     private val emphatic: Paint = formats.emphatic
     private val tertiaryNormal: Format
     private val headerFormat: Format
-    private val mFormat = Format(formats.get(Size.Normal, Color.Tertiary),
-            Frames.frame(formats.tertiary, 3.0, .7, Dash.solid()))
 
     private val primarySmall = formats.get(Size.Small, Color.Primary)
 
     private val primaryLine = Format(formats.get(Size.Small, Color.Primary), Frames.frame(formats.primary, 3.0, .7))
+    private val secondaryLine = Format(formats.get(Size.Normal, Color.Secondary), Frames.frame(formats.secondary, 3.0, .7))
+    private val tertiaryLine = Format(formats.get(Size.Normal, Color.Tertiary), Frames.frame(formats.tertiary, 3.0, .7))
+
+    val individualLine = primaryLine
+    val teamLine = secondaryLine
     private val master = Grid()
     private val viewport = master.nested(INSET, 15, 100 - INSET, 100 - INSET)
     private val leftView = master.nested(INSET, 25, 47, 100 - INSET)
@@ -89,25 +113,23 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
 
     fun make(): Script {
         scene(0)
-//        leadIn()
-//        geepaw()
-
-//        welcome()
+        leadIn()
+        welcome()
         alice()
-//
-//        tdd()
-//        tddAndDefinition()
-//        workingWithStories()
-//        storiesAndDefinition()
-//        workflows()
+        anotherWay()
+        humans()
+        collaboration()
+        iBetters()
+        tBetters()
 //        workflowsAndDefinition()
 //        theMeetings()
 //        theMeetingsAndDefinition()
 //        ciAndCd()
 //        ciCdAndDefinition()
 //        themes()
-        change()
-        theQuestion()
+//        change()
+//        theQuestion()
+//        geepaw()
         end()
         return script
     }
@@ -170,6 +192,28 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
         val proc = connector()
         proc.actor.from(col1.nw().add(0.0, 60.0)).to(col1.ne().add(-80.0, 60.0))
         proc.sketch()
+
+        val col2 = fours.nested(26, 2, 48, 100)
+        assume(primaryNormal)
+        letters("Given").at(TopLeft(col2.nw())).sketch()
+        val given = connector()
+        given.actor.from(col2.nw().add(0.0, 60.0)).to(col2.ne().add(-80.0, 60.0))
+        given.sketch()
+
+        val col3 = fours.nested(52, 2, 72, 100)
+        assume(primaryNormal)
+        letters("Sweeping").at(TopLeft(col3.nw())).sketch()
+        val sweeping = connector()
+        sweeping.actor.from(col3.nw().add(0.0, 60.0)).to(col3.ne().add(-80.0, 60.0))
+        sweeping.sketch()
+
+        val col4 = fours.nested(76, 2, 98, 100)
+        assume(primaryNormal)
+        letters("Final").at(TopLeft(col4.nw())).sketch()
+        val final = connector()
+        final.actor.from(col4.nw().add(0.0, 60.0)).to(col4.ne().add(-80.0, 60.0))
+        final.sketch()
+
         pause()
         val procList = Flow(world, col1.nested(0, 20, 100, 100).all())
         procList.load(
@@ -184,13 +228,6 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
         procList.blurt()
         pause()
 
-        val col2 = fours.nested(26, 2, 48, 100)
-        assume(primaryNormal)
-        letters("Given").at(TopLeft(col2.nw())).sketch()
-        val given = connector()
-        given.actor.from(col2.nw().add(0.0, 60.0)).to(col2.ne().add(-80.0, 60.0))
-        given.sketch()
-        pause()
         val givenList = Flow(world, col2.nested(0, 20, 100, 100).all())
         givenList.load(
                 """
@@ -201,13 +238,7 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
         )
         givenList.blurt()
         pause()
-        val col3 = fours.nested(52, 2, 72, 100)
-        assume(primaryNormal)
-        letters("Sweeping").at(TopLeft(col3.nw())).sketch()
-        val sweeping = connector()
-        sweeping.actor.from(col3.nw().add(0.0, 60.0)).to(col3.ne().add(-80.0, 60.0))
-        sweeping.sketch()
-        pause()
+
         val sweepingList = Flow(world, col3.nested(0, 20, 100, 100).all())
         sweepingList.load(
                 """
@@ -219,13 +250,7 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
         )
         sweepingList.blurt()
         pause()
-        val col4 = fours.nested(76, 2, 98, 100)
-        assume(primaryNormal)
-        letters("Final").at(TopLeft(col4.nw())).sketch()
-        val final = connector()
-        final.actor.from(col4.nw().add(0.0, 60.0)).to(col4.ne().add(-80.0, 60.0))
-        final.sketch()
-        pause()
+
         val finalList = Flow(world, col4.nested(0, 20, 100, 100).all())
         finalList.load(
                 """
@@ -237,9 +262,221 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
         finalList.blurt()
         pause()
 
+
+        buildChord()
+        fade(.2, 3000.0)
+        letters("Thereby very likely\n     creating a\n   collosal failure\n          on an\nintergalactic scale!").format(formats[Size.Gigantic, Color.Emphatic]).centered(viewport.all().center()).fadeIn(3000.0)
+        endChord()
+        pause()
         wipe()
     }
 
+    private fun anotherWay() {
+        header("$human, $taken, $local, $iterative")
+        outline.load(
+                "pn$human\n" +
+                        "ss    $collaboration\n" +
+                        "ss    $betters\n" +
+                        "pn$taken\n" +
+                        "ss    $createExperiences\n" +
+                        "ss    $gatherResults\n" +
+                        "pn$local\n" +
+                        "ss    $enof\n" +
+                        "ss    $habit\n" +
+                        "pn$iterative\n" +
+                        "ss    $notWrong\n" +
+                        "ss    $tryDifferent\n")
+        outline.blurt()
+        pause()
+        wipe()
+    }
+
+    private fun humans() {
+        wipe()
+        header("Procedural -> Human")
+        outline.load(
+                """
+pnSoftware development is always a mixed system
+ss    humans
+ss    not-humans: procedures, methods, artifacts, forms
+pnProcedures are powerful, but humans are super-powerful
+pn    For good...
+ss        old-school accident investigation (via sydney dekker)
+ss        "operator error" vs "system error"
+ss        humans are the primary source of safety in mixed systems
+pn    For ill...
+ss        did you ever hear of a work-to-rule strike?
+ss        (or a teenager?)
+                """.trimIndent()
+        )
+        outline.blurt()
+
+        pause()
+        assume(emphaticJumbo)
+        letters("\"Lean In\" To The Humans!").centered(800, 650).sketch()
+        pause()
+        wipe()
+    }
+
+    private fun collaboration() {
+        wipe()
+        header("Obsess Over Collaboration")
+        outline.load(
+                """
+pn"Collaboration"
+ss   frequent focused direct dialog (f2d2)
+ss   dialog, simple conversation, beats all others
+pnVariety is key
+ss   mode: solo, paired, mobbed, meeting
+ss   space: small, large, bustling, quiet
+ss   structure: planned, haykumeer,
+                """.trimIndent())
+        outlineAppear()
+        assume(emphaticJumbo)
+        letters("*humans* make procedures work").centered(800, 775).appear()
+        pause()
+        wipe()
+    }
+
+    private fun iBetters() {
+        assume(secondarySmall)
+
+        val individual = art("agileandbeyond/blueBall.png", 50.0).centered(leftView.point(50, 80)).called("#individual")
+        val connectors = mutableListOf<Appearance<Connector>>()
+        val betters = mutableListOf<Appearance<Art>>()
+
+        for (i in 1..5) {
+            val c = connector()
+            connectors += c
+            c.format(individualLine)
+            val target = leftView.point(i * 17, 24)
+            c.actor.from("#individual").to(target, true)
+            betters += art("agileandbeyond/blueBall.png", 50.0).centered(leftView.point(i * 17, 22))
+        }
+
+        rightOutline.load("""
+            pn"better"
+            ss    stronger, faster, kinder
+            ss    smarter, more articulate
+            ss    as geek, teacher, manager, parent, person
+            pn"i-better"
+            ss    this is a "better" for an individual
+            ss    whatever that might mean to her
+            pnremarkable facts
+            ss    there are lots of them!
+            ss    we have different sets: no two exactly alike
+            ss    we love feeling we're moving along an i-better
+
+        """.trimIndent())
+
+        letters(
+                "i create or exploit openings through which \n" +
+                        "            individuals can take\n" +
+                        "           small steps closer to\n" +
+                        "      who or how they wish they were\n"
+
+        ).centered(800, 130).fadeIn()
+        pause()
+
+        buildChord()
+        individual.sketch()
+        letters("individual").centered(leftView.point(50, 90)).sketch()
+        endChord()
+        pause()
+
+        buildChord()
+        betters[2].appear()
+        connectors[2].sketch(1000.0)
+        endChord()
+        pause()
+
+        for (i in 0..3) rightOutline.letters(i).sketch()
+        pause()
+
+        letters("i-better").centered(leftView.point(50, 10)).sketch()
+        for (i in 4..6) rightOutline.letters(i).sketch()
+        pause()
+
+        buildChord()
+        for (i in 0..4) {
+            if (i == 2) continue
+            betters[i].fadeIn(1000.0)
+            connectors[i].fadeIn((1000.0))
+        }
+        endChord()
+        for (i in 7..10) rightOutline.letters(i).sketch()
+        pause()
+        wipe()
+    }
+
+    private fun tBetters() {
+        assume(secondarySmall)
+        header("Teams Have T-Betters")
+
+        val team = art("agileandbeyond/redBall.png", 150.0).centered(viewport.point(50, 80)).called("#team")
+        val connectors = mutableListOf<Appearance<Connector>>()
+        val betters = mutableListOf<Appearance<Art>>()
+        for (i in 1..5) {
+            val c = connector()
+            connectors += c
+            c.format(teamLine)
+            val target = viewport.point((i * 17) + 2, 29)
+            c.actor.from("#team").to(target, true)
+            betters += art("agileandbeyond/redBall.png", 150.0).centered(viewport.point(i * 17, 22)).called("#b$i")
+        }
+
+
+        buildChord()
+        team.appear()
+        for (i in 0..4) {
+            betters[i].fadeIn()
+            connectors[i].fadeIn()
+        }
+        letters("    team").centered(viewport.point(50, 90)).sketch()
+        endChord()
+        pause()
+
+
+
+        buildChord()
+        actor("header").disappear()
+        header("Teams Have T-Betters and Individuals")
+        art("agileandbeyond/blueBall.png", 50.0).centered(viewport.point(21, 81)).called("#i1").fadeIn(1000.0)
+        art("agileandbeyond/blueBall.png", 50.0).centered(viewport.point(71, 65)).called("#i2").fadeIn(1000.0)
+        for (i in 1..7) {
+            val randomX = Random.nextInt(20, 80)
+            val randomY = Random.nextInt(50, 90)
+            art("agileandbeyond/blueBall.png", 50.0).centered(viewport.point(randomX, randomY)).called("#ix$i").fadeIn(1000.0)
+
+        }
+        endChord()
+        pause()
+
+        buildChord()
+        for (i in 1..7) actor("#ix$i").fadeOut()
+
+        endChord()
+
+        art("agileandbeyond/blueBall.png", 50.0).centered(viewport.point(36, 24)).called("#ib1").fadeIn()
+        val ibetter1 = connector()
+        ibetter1.actor.from("#i1").to("#ib1", true)
+        ibetter1.format(individualLine).sketch(1000.0)
+
+        val ibetter2 = connector()
+        ibetter2.actor.from("#i2").to("#ib1", true)
+        ibetter2.format(individualLine).sketch(1000.0)
+
+        buildChord()
+        for (i in 0..4) {
+            if (i == 1) continue
+            betters[i].fadeOut()
+            connectors[i].fadeOut()
+        }
+        endChord()
+        pause()
+
+        wipe()
+    }
 
     private fun change() {
         header("Change, Old White Guys, and Socrates")
@@ -259,185 +496,6 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
         pause()
     }
 
-    private fun workingWithStories() {
-        wipe()
-        header("Working By Story")
-        outline.load(
-                """
-pnA change we want at a particular time
-ss   a story is a change we want at a particular time
-ss   we select stories and apply them to the code
-pnThe perfect story has these qualities
-ss   estimability: a day or two of work
-ss   visibility: they increase the value of the program detectably
-ss   verticality: from pixels to bits and back
-ss   shippability: can be turned on at will
-pnOften represented on card wall or tracking system
-ss   the story is the conversation, not the card or jira
-                """.trimIndent())
-        outlineAppear()
-        assume(emphaticJumbo)
-        letters("the ideal: work one story at a time").centered(800, 775).appear()
-        pause()
-    }
-
-    private fun storiesAndDefinition() {
-        wipe()
-        header("Stories & The Three M's")
-        val madeGrid = viewport.area(0, 8, 33, 50)
-        letters("The Made").at(TopLeft(madeGrid.northwest().add(0.0, -60.0))).format(primaryNormal).appear()
-        val madeFlow = Flow(world, madeGrid)
-
-        val makingGrid = viewport.area(33, 8, 66, 50)
-        letters("The Making").at(TopLeft(makingGrid.northwest().add(0.0, -60.0))).format(primaryNormal).appear()
-        val makingFlow = Flow(world, makingGrid)
-
-        val makersGrid = viewport.area(66, 8, 100, 50)
-        letters("The Makers").at(TopLeft(makersGrid.northwest().add(0.0, -60.0))).format(primaryNormal).appear()
-        val makersFlow = Flow(world, makersGrid)
-
-        madeFlow.load(
-                """
-ss  steady accrual of value
-ss  ship-at-will
-ss  easy steerability
-""".trimIndent()
-        )
-
-        makingFlow.load(
-                """
-ss  just-in-time detail
-ss  validatable success
-ss  resistance to lookahead
-""".trimIndent()
-        )
-        makersFlow.load(
-                """
-ss  sufficient unto the day
-""".trimIndent()
-        )
-
-        madeFlow.blurt()
-        makingFlow.blurt()
-        makersFlow.blurt()
-
-        val commentFlow = Flow(world, viewport.area(0, 35, 0, 100))
-        commentFlow.load(
-                """
-enThe story is about interactively working with value
-ps   selecting
-ps   defining
-ps   accruing
-enStories are the main steering mechanism in agility
-ps   they react to changing markets
-ps   they avoid pre-committing to uncertainty
-                """.trimIndent()
-        )
-        commentFlow.blurt()
-        pause()
-    }
-
-    private fun tdd() {
-        wipe()
-        header("Test-Driven Development")
-        outline.load(
-                """
-psWe change the code in a specific way
-ss   we have a separate testing app
-ss   we do three steps for each change:
-ss      red - test that it doesn't work
-ss      green - make it work
-ss      refactor - optimize its changeability
-psMicrotests
-ss   very small, one function or logic branch
-ss   very fast, mostly 1 or 2 ms
-ss   easy to write, easy to read
-ss   run many times per developer per day
-ss   first-class code
-
-""".trimIndent())
-        outline.blurt()
-        pause()
-    }
-
-    private fun tddAndDefinition() {
-        wipe()
-        header("TDD and the Three M's")
-
-        val madeGrid = viewport.area(0, 8, 33, 50)
-        letters("The Made").at(TopLeft(madeGrid.northwest().add(0.0, -60.0))).format(primaryNormal).appear()
-        val madeFlow = Flow(world, madeGrid)
-
-        val makingGrid = viewport.area(33, 8, 66, 50)
-        letters("The Making").at(TopLeft(makingGrid.northwest().add(0.0, -60.0))).format(primaryNormal).appear()
-        val makingFlow = Flow(world, makingGrid)
-
-        val makersGrid = viewport.area(66, 8, 100, 50)
-        letters("The Makers").at(TopLeft(makersGrid.northwest().add(0.0, -60.0))).format(primaryNormal).appear()
-        val makersFlow = Flow(world, makersGrid)
-
-        madeFlow.load(
-                """
-ss  production speed
-ss  SOLID design
-""".trimIndent()
-        )
-
-        makingFlow.load(
-                """
-ss  tight cycles
-ss  no regression ?'s
-ss  executable documents
-""".trimIndent()
-        )
-        makersFlow.load(
-                """
-ss  narrow bandwidth
-ss  food pellets
-ss  fearlessness
-""".trimIndent()
-        )
-
-        madeFlow.blurt()
-        makingFlow.blurt()
-        makersFlow.blurt()
-
-        val commentFlow = Flow(world, viewport.area(0, 35, 0, 100))
-        commentFlow.load(
-                """
-enTDD is a productivity technique
-pn   don't let "test" fool you
-pn   if the value involves changing branching logic in code, TDD works
-enTDD is not easy
-pn   it is very different: find people to help you learn it
-                """.trimIndent()
-        )
-        commentFlow.blurt()
-        pause()
-    }
-
-    private fun workflows() {
-        wipe()
-        header("Workflows: Sprints/Pull & Swarm")
-        val lines =
-                """
-pnSprints
-ss   select collaboration-styles: solo, paired, mobbed, swarmed
-ss   short (1-2 week) cycles
-ss   sizing, choosing, loading collaborators in advance
-ss   per-cycle grooming, planning, and review meetings
-pnPull & Swarm
-ss   originated in experiments with one-day then half-day sprints
-ss   no cycle: we finish one story and pull another
-ss   no formal estimation: all stories are same-sized (using focus sessions)
-ss   swarm: maximize the number of people on one story
-ss   minimize "meetings"
-""".trimIndent()
-
-        outline.load(lines)
-        outlineAppear()
-        pause()
-    }
 
     private fun workflowsAndDefinition() {
         wipe()

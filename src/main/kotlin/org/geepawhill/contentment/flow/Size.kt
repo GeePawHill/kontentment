@@ -1,5 +1,5 @@
 package org.geepawhill.contentment.flow
 
 enum class Size {
-    Jumbo, Normal, Small, None
+    Gigantic, Jumbo, Normal, Small, None
 }

@@ -28,7 +28,7 @@ class Snap(owner: Group, private val source: String, width: Double) : Fragment {
     }
 
     override fun prepare(context: Context) {
-        val dimensions = PointPair(0.0, 0.0, 300.0, 300.0)
+        val dimensions = PointPair(0.0, 0.0, image.width, image.height)
         position.position(imageView, dimensions)
         interpolate(context, 0.0)
     }

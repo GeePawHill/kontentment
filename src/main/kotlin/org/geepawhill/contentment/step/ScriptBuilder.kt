@@ -141,16 +141,25 @@ abstract class ScriptBuilder<SUBCLASS> @JvmOverloads constructor(rhythm: Rhythm 
         return downcast()
     }
 
-    fun fadeOut(): SUBCLASS {
+    fun fadeOut(ms: Double = 500.0): SUBCLASS {
         buildChord()
         for (appearance in world.entrances()) {
             world.push(Phrase.phrase())
-            world.add(Single(Timing.ms(500.0), Fader(appearance.group(), 0.0)))
+            world.add(Single(Timing.ms(ms), Fader(appearance.group(), 0.0)))
             world.add(Single(Timing.instant(), Exit(appearance.group())))
             world.popAndAppend()
         }
         world.entrances().clear()
         world.popAndAppend()
+        return downcast()
+    }
+
+    fun fade(opacity: Double, ms: Double): SUBCLASS {
+        buildChord()
+        for (appearance in world.entrances()) {
+            world.add(Single(Timing.ms(ms), Fader(appearance.group(), opacity)))
+        }
+        endChord()
         return downcast()
     }
 
