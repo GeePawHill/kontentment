@@ -22,43 +22,31 @@ import org.geepawhill.contentment.style.Dash
 import org.geepawhill.contentment.style.Frames
 import org.geepawhill.contentment.style.TypeFace
 import org.geepawhill.contentment.utility.JfxUtility
-import org.geepawhill.contentment.utility.JfxUtility.color
 import kotlin.random.Random
 
 class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
 
-    val human = "Human"
-    val collaboration = "obsess over human collaboration"
-    val betters = "braid me-iBetters and team-iBetters"
-
-    val local = "Local"
-    val enof = "easiest nearest owwie first"
-    val habit = "find the habit of change"
-
-    val iterative = "Iterative"
-    val notWrong = "choose definitely not backwards"
-    val tryDifferent = "try different, not harder"
-
-    val taken = "Taken"
-    val createExperiences = "create experiences, not arguments"
-    val gatherResults = "gather reactions not numbers"
-
-
     private val formats = FormatTable()
-    private val secondarySmall = formats.get(Size.Small, Color.Secondary)
 
     private val communityFormat = Format(Frames.frame(formats.primary, 2.0, 1.0, Dash.dash(4.0, 4.0)))
     private val balanceFormat = Format(Frames.frame(formats.tertiary, 1.0, 1.0, Dash.dash(15.0, 20.0)))
 
     private val secondaryJumbo: Format
-    private val primaryJumbo: Format
     private val secondaryNormal: Format
+    private val secondarySmall = formats.get(Size.Small, Color.Secondary)
+
+    private val primaryJumbo: Format
     private val primaryNormal: Format
-    private val emphaticSmall: Format
-    private val emphaticNormal: Format
+
+    private val emphaticGigantic = formats.get(Size.Gigantic, Color.Emphatic)
     private val emphaticJumbo: Format
-    private val emphatic: Paint = formats.emphatic
+    private val emphaticNormal: Format
+    private val emphaticSmall: Format
+
     private val tertiaryNormal: Format
+
+    private val emphatic: Paint = formats.emphatic
+
     private val headerFormat: Format
 
     private val primarySmall = formats.get(Size.Small, Color.Primary)
@@ -88,9 +76,6 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
 
         outline = Flow(world, viewport.all())
 
-        color(119, 187, 65)
-        color(177, 140, 254)
-
         primaryJumbo = formats.get(Size.Jumbo, Color.Primary)
         primaryNormal = formats.get(Size.Normal, Color.Primary)
 
@@ -113,23 +98,31 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
 
     fun make(): Script {
         scene(0)
-        leadIn()
-        welcome()
-        alice()
-        anotherWay()
-        humans()
-        collaboration()
-        iBetters()
-        tBetters()
-//        workflowsAndDefinition()
-//        theMeetings()
-//        theMeetingsAndDefinition()
-//        ciAndCd()
-//        ciCdAndDefinition()
-//        themes()
-//        change()
-//        theQuestion()
-//        geepaw()
+//        leadIn()
+//        welcome()
+//        alice()
+//        anotherWay()
+//
+//        proceduralToHuman()
+//        collaboration()
+//        judgments()
+//
+//        givenToTaken()
+//        experienceNotArgument()
+//        iBetters()
+//        tBetters()
+
+        sweepingToLocal()
+        enof()
+        tryDifferent()
+
+        finalToIterative()
+        theHabitOfChange()
+        reset()
+
+        change()
+        theQuestion()
+
         end()
         return script
     }
@@ -272,26 +265,27 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
     }
 
     private fun anotherWay() {
-        header("$human, $taken, $local, $iterative")
+        header("Human, Taken, Local, Iterative")
         outline.load(
-                "pn$human\n" +
-                        "ss    $collaboration\n" +
-                        "ss    $betters\n" +
-                        "pn$taken\n" +
-                        "ss    $createExperiences\n" +
-                        "ss    $gatherResults\n" +
-                        "pn$local\n" +
-                        "ss    $enof\n" +
-                        "ss    $habit\n" +
-                        "pn$iterative\n" +
-                        "ss    $notWrong\n" +
-                        "ss    $tryDifferent\n")
+                "pnHuman\n" +
+                        "ss    obsess over human collaboration\n" +
+                        "ss    seek judgments not numbers\n" +
+                        "pnTaken\n" +
+                        "ss    create experiences, not arguments\n" +
+                        "ss    braid i-Betters and t-Betters\n" +
+                        "pnLocal\n" +
+                        "ss    easiest nearest owwie first\n" +
+                        "ss    try different, not harder\n" +
+                        "pnIterative\n" +
+                        "ss    find the habit of change\n" +
+                        "ss    master the reset\n"
+        )
         outline.blurt()
         pause()
         wipe()
     }
 
-    private fun humans() {
+    private fun proceduralToHuman() {
         wipe()
         header("Procedural -> Human")
         outline.load(
@@ -311,9 +305,6 @@ ss        (or a teenager?)
         )
         outline.blurt()
 
-        pause()
-        assume(emphaticJumbo)
-        letters("\"Lean In\" To The Humans!").centered(800, 650).sketch()
         pause()
         wipe()
     }
@@ -338,8 +329,71 @@ ss   structure: planned, haykumeer,
         wipe()
     }
 
+    private fun judgments() {
+        wipe()
+        header("Seek Judgments Not Numbers")
+        val lines =
+                """
+pnAvoid the cult of the number
+ss   dramatic reduction of information
+ss   false precision
+ss   target slippage
+ss   automated tests running independently, monitored always
+pnHumans know things they don't know
+ss   ask. no, really: *ask*
+ss   everyone is an expert in how they feel
+pnVary your technique
+ss   mini-retrospectives
+ss   three-question surveys
+ss   one-on-one time
+""".trimIndent()
+        outline.load(lines)
+        outlineAppear()
+        pause()
+        wipe()
+    }
+
+    private fun givenToTaken() {
+        header("Given -> Taken")
+        pause()
+        assume(primaryJumbo)
+        letters("How do I get them to do\n       what I want?").centered(800, 300).sketch()
+        pause()
+        assume(secondaryJumbo)
+        buildChord()
+        letters("(I don't)").centered(800, 450).fadeIn()
+        assume(emphaticGigantic)
+        letters("        Get them to do\nwhat *they* want to do!").centered(800, 700).fadeIn()
+        endChord()
+        pause()
+        wipe()
+    }
+
+    private fun experienceNotArgument() {
+        header("Create Experiences, Not Arguments")
+        val lines =
+                """
+pnNothing works to persuade like having a winning experience
+ss   humans don't mostly decide what to do based on reasons
+ss   they decide what to do and use reasons to justify it
+pnAn experience...
+ss   is a short period of a particular activity
+ss   is intended to put the problem and its solution "under the fingers"
+pnWays to have an experience
+ss   a toy
+ss   a small portion of the day-job problem & solution
+ss   the full day-job problem & solution
+""".trimIndent()
+
+        outline.load(lines)
+        for (i in 0..2) outline.letters(i).appear()
+        pause()
+        for (i in 3..9) outline.letters(i).appear()
+        pause()
+        wipe()
+    }
+
     private fun iBetters() {
-        assume(secondarySmall)
 
         val individual = art("agileandbeyond/blueBall.png", 50.0).centered(leftView.point(50, 80)).called("#individual")
         val connectors = mutableListOf<Appearance<Connector>>()
@@ -369,15 +423,16 @@ ss   structure: planned, haykumeer,
 
         """.trimIndent())
 
-        letters(
-                "i create or exploit openings through which \n" +
-                        "            individuals can take\n" +
-                        "           small steps closer to\n" +
-                        "      who or how they wish they were\n"
-
-        ).centered(800, 130).fadeIn()
+        header("Braid I-Betters With T-Betters")
         pause()
-
+        assume(emphaticSmall)
+        letters(
+                "i create or exploit openings through which\n" +
+                        "individuals can take small steps closer to\n" +
+                        "     who or how they wish they were"
+        ).at(TopLeft(50.0, 100.0)).fadeIn()
+        pause()
+        assume(secondarySmall)
         buildChord()
         individual.sketch()
         letters("individual").centered(leftView.point(50, 90)).sketch()
@@ -393,7 +448,7 @@ ss   structure: planned, haykumeer,
         for (i in 0..3) rightOutline.letters(i).sketch()
         pause()
 
-        letters("i-better").centered(leftView.point(50, 10)).sketch()
+        letters("i-better").centered(leftView.point(50, 15)).sketch()
         for (i in 4..6) rightOutline.letters(i).sketch()
         pause()
 
@@ -478,6 +533,78 @@ ss   structure: planned, haykumeer,
         wipe()
     }
 
+    private fun sweepingToLocal() {
+        header("Sweeping -> Local")
+        art("agileandbeyond/satir.png", 750.0).at(TopLeft(viewport.nw())).sketch()
+        rightOutline.load("""pnSatir curve
+ss    foreign element
+ss    chaos
+ss    trough
+ss    transforming idea
+ss    new status quo
+pnHow bad is the trough?
+ss    the bigger the change...
+ss    ...the bigger-er the trough
+ss    (wider and deeper, both!)
+        """.trimIndent())
+        rightOutline.blurt()
+        pause()
+        wipe()
+    }
+
+    private fun enof() {
+        header("Easiest Nearest Owwie First (ENOF)")
+        val lines =
+                """
+pnWhy not tackle the biggest thing holding us back?
+ss   bigger problem means bigger change
+ss   bigger change means bigger-er trough!
+pnThe biggest thing holding most teams back?
+ss   it's partly all the little things
+ss   it's mostly letting the little things become that big thing
+pnEasiest Nearest Owwie First
+ss   what's agreed, something we all see as a pain?
+ss   what's small, an hour to a week to fix?
+ss   lather, rinse, repeat
+""".trimIndent()
+
+        outline.load(lines)
+        outlineAppear()
+        pause()
+        wipe()
+    }
+
+    private fun finalToIterative() {
+        header("Final -> Iterative")
+        pause()
+        wipe()
+    }
+
+    private fun theHabitOfChange() {
+        header("The Habit Of Change")
+        val lines =
+                """
+tj                "Change Makes People Nervous"
+ss
+pnToo *much* at once makes people nervous
+ss   humans absorb small amounts of change routinely
+ss   teams that acclimate to steady change thrive
+pnChange something every week
+ss   if we get pushback, make the changes smaller
+pnAnd remember the basics:
+ss   collaborate to find ENOF each week
+ss   get reactions in words, not numbers
+ss   aim to reset our hearts & minds each time
+
+""".trimIndent()
+
+        outline.load(lines)
+        outlineAppear()
+        pause()
+        wipe()
+    }
+
+
     private fun change() {
         header("Change, Old White Guys, and Socrates")
         pause()
@@ -490,6 +617,7 @@ ss   structure: planned, haykumeer,
         wipe()
     }
 
+
     private fun theQuestion() {
         letters("What do we change next?").centered(ViewPort.CENTER).fadeIn(5000.0)
         pause()
@@ -497,244 +625,43 @@ ss   structure: planned, haykumeer,
     }
 
 
-    private fun workflowsAndDefinition() {
-        wipe()
-        header("Workflows & The Three M's")
-        val madeGrid = viewport.area(0, 8, 33, 50)
-        letters("The Made").at(TopLeft(madeGrid.northwest().add(0.0, -60.0))).format(primaryNormal).appear()
-        val madeFlow = Flow(world, madeGrid)
-
-        val makingGrid = viewport.area(33, 8, 66, 50)
-        letters("The Making").at(TopLeft(makingGrid.northwest().add(0.0, -60.0))).format(primaryNormal).appear()
-        val makingFlow = Flow(world, makingGrid)
-
-        val makersGrid = viewport.area(66, 8, 100, 50)
-        letters("The Makers").at(TopLeft(makersGrid.northwest().add(0.0, -60.0))).format(primaryNormal).appear()
-        val makersFlow = Flow(world, makersGrid)
-
-        madeFlow.load(
-                """
-ss  distributed risk
-ss  steady improvement
-ss  higher confidence
-""".trimIndent()
-        )
-        makingFlow.load(
-                """
-ss  good tracking & reporting
-ss  large-scale cycle
-ss  *minimum WIP
-ss  *maximum flow
-""".trimIndent()
-        )
-        makersFlow.load(
-                """
-ss  narrow bandwidth
-ss  sufficient unto the day
-ss  *knowledge-diffusion
-""".trimIndent()
-        )
-
-        madeFlow.blurt()
-        makingFlow.blurt()
-        makersFlow.blurt()
-
-        val commentFlow = Flow(world, viewport.area(0, 40, 0, 100))
-        commentFlow.load(
-                """
-enSprints are largely aimed "upward"
-pn   track what value being added and how fast
-pn   provide convenient checkpoints
-pn   many practitioners have switched to p&s
-enThe key: keep it as light as will possibly work
-                """.trimIndent()
-        )
-        commentFlow.blurt()
+    private fun reset() {
+        header("Reset Effectively")
         pause()
+        wipe()
     }
 
-    private fun theMeetings() {
-        wipe()
-        header("The Meetings")
+    private fun tryDifferent() {
+        header("Try Different, Not Harder")
+        pause()
         val lines =
                 """
-pnStandup
-ss   daily, same time, same place, n*45 seconds
-ss   mission: what's changed, and how do we help with it?
-ss   not a status report, a sharing
-ss   one-sentence answer or schedule a focus
-pnFocus
-ss   voluntary session about a topic: law of two feet
-ss   problem-solving, free association, ask-and-answer
-pnRetrospective
-ss   weekly, half-hour
-ss   mission: what's the nearest smallest owwie we can fix?
-ss   wildly varying structure & leadership
-ss   "permission to speak freely"
+pn"We just need to try harder"
+ss   applying moral pressure doesn't work
+ss   extrinsic reward & punishment don't work
+ss   what works is better
+pn"We have to get it right!"
+ss   avoid arguments about the right answer
+ss   what we really want is definitely-not-backwards
+ss   what works is better
+pnInvest in the implementers
+ss   when an idea comes up, find them
+ss   if they're not up for it, we already lost
+ss   try anything they think won't be worse
 """.trimIndent()
 
         outline.load(lines)
-        outlineAppear()
-        pause()
-    }
-
-    private fun theMeetingsAndDefinition() {
-        wipe()
-        header("The Meetings and the Three M's")
-
-        val madeGrid = viewport.area(0, 8, 33, 50)
-        letters("The Made").at(TopLeft(madeGrid.northwest().add(0.0, -60.0))).format(primaryNormal).appear()
-        val madeFlow = Flow(world, madeGrid)
-
-        val makingGrid = viewport.area(33, 8, 66, 50)
-        letters("The Making").at(TopLeft(makingGrid.northwest().add(0.0, -60.0))).format(primaryNormal).appear()
-        val makingFlow = Flow(world, makingGrid)
-
-        val makersGrid = viewport.area(66, 8, 100, 50)
-        letters("The Makers").at(TopLeft(makersGrid.northwest().add(0.0, -60.0))).format(primaryNormal).appear()
-        val makersFlow = Flow(world, makersGrid)
-
-        madeFlow.load(
-                """
-ss  production speed
-""".trimIndent()
-        )
-
-        makingFlow.load(
-                """
-ss  just-in-time help
-ss  non-intrusive status
-""".trimIndent()
-        )
-        makersFlow.load(
-                """
-ss  narrow bandwidth
-ss  knowledge diffusion
-ss  power-building
-""".trimIndent()
-        )
-
-        madeFlow.blurt()
-        makingFlow.blurt()
-        makersFlow.blurt()
-
-        val commentFlow = Flow(world, viewport.area(0, 35, 0, 100))
-        commentFlow.load(
-                """
-enThe standup is for us, not others
-pn   we use it to stay in touch
-pn   we use it to target force
-pn   we use it to avoid blackouts
-enThe retro is for us, not others
-pn   power & trust come from small consecutive wins
-pn   always fix the easiest universally agreed owwie first
-                """.trimIndent()
-        )
-        commentFlow.blurt()
-        pause()
-    }
-
-
-    private fun ciAndCd() {
-        wipe()
-        header("Continuous Integration & Continuous Deployment")
-        val lines =
-                """
-pnContinuous Integration (CI)
-ss   very frequent (<hourly normally) integrations
-ss   branchless variant: pull, push, test, ship at head
-ss   implies continuous code review, e.g. pairing/mobbing
-ss   automated tests running independently, monitored always
-pnContinuous Deployment
-ss   actually go-live at will from head
-ss   web-sites literally deploy, apps auto- or user-update
-ss   all barriers-to-shipping are automated and tested
-""".trimIndent()
-        outline.load(lines)
-        outlineAppear()
-        pause()
-    }
-
-    private fun ciCdAndDefinition() {
-        wipe()
-        header("CI/CD and the Three M's")
-
-        val madeGrid = viewport.area(0, 8, 33, 50)
-        letters("The Made").at(TopLeft(madeGrid.northwest().add(0.0, -60.0))).format(primaryNormal).appear()
-        val madeFlow = Flow(world, madeGrid)
-
-        val makingGrid = viewport.area(33, 8, 66, 50)
-        letters("The Making").at(TopLeft(makingGrid.northwest().add(0.0, -60.0))).format(primaryNormal).appear()
-        val makingFlow = Flow(world, makingGrid)
-
-        val makersGrid = viewport.area(66, 8, 100, 50)
-        letters("The Makers").at(TopLeft(makersGrid.northwest().add(0.0, -60.0))).format(primaryNormal).appear()
-        val makersFlow = Flow(world, makersGrid)
-
-        madeFlow.load(
-                """
-ss  production speed
-ss  ship at will
-ss  in-use confidence
-""".trimIndent()
-        )
-
-        makingFlow.load(
-                """
-ss  toggles
-ss  factory/strategy
-ss  side-by-side
-""".trimIndent()
-        )
-        makersFlow.load(
-                """
-ss  narrow bandwidth
-ss  merges disappear
-ss  *always-at-head
-""".trimIndent()
-        )
-
-        madeFlow.blurt()
-        makingFlow.blurt()
-        makersFlow.blurt()
-
-        val commentFlow = Flow(world, viewport.area(0, 35, 0, 100))
-        commentFlow.load(
-                """
-enCI/CD is complex technique
-pn   jenkins first, test brushfires real, confident toggles, branchless
-pn   developers don't know how to toggle well: we will have to learn
-enThe power of working at head is enormous
-pn   we find problems much sooner
-pn   we distribute merge/integration pain
-pn   we ship when it's convenient for the market
-                """.trimIndent()
-        )
-        commentFlow.blurt()
-        pause()
-    }
-
-    private fun themes() {
-        wipe()
         buildChord()
-        header("Recurring themes")
-        assume(secondaryJumbo)
-        outline.load(
-                """
-pnNarrowing mental scope is almost always a win
-ss   juggle less instead of breaking biological barriers with will
-ss   WIP and scope wins are universal
-pnWe run towards change instead of away from it
-ss   at every level, change is about value
-ss   agility itself has changed and will again
-pnNone of this is about intellectual purity
-ss   we are solving *this* problem, not all problems
-ss   we are creating sustainable software organizations
-""".trimIndent()
-        )
-        outlineAppear()
-        endChord()
+        outline.letters(0).sketch()
+        outline.letters(4).sketch()
         pause()
+        for (i in 1..3) outline.letters(i).appear()
+        pause()
+        for (i in 5..7) outline.letters(i).appear()
+        pause()
+        for (i in 8..11) outline.letters(i).appear()
+        pause()
+        wipe()
     }
 
 

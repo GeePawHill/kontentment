@@ -21,7 +21,7 @@ class Main : Application() {
             stage.fullScreenExitHint = ""
             stage.show()
 //            player.load(TddPremisesScript().make())
-            player.load(ReachingPastProcessScript().make())
+//            player.load(OptimizingForCollaboration().make())
             player.load(AgileAndBeyondScript().make())
         } catch (e: Exception) {
             e.printStackTrace()
