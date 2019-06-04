@@ -69,7 +69,6 @@ class OptimizingForCollaboration : ScriptBuilder<OptimizingForCollaboration>() {
 
     fun make(): Script {
         leadIn()
-        leadIn2()
         geepaw()
         secondMission()
         secondMissionB()
@@ -88,20 +87,7 @@ class OptimizingForCollaboration : ScriptBuilder<OptimizingForCollaboration>() {
         scene(0)
         wipe()
         header("Optimizing For Collaboration")
-        //		timer(1.0).appear().actor.start();
-    }
-
-
-    //	private Appearance<Timer> timer(double d)
-    //	{
-    //		return null;
-    //	}
-
-    private fun leadIn2() {
-        scene(5)
-        wipe()
-        header("Optimizing For Collaboration")
-        assume(secondaryJumbo)
+        pause()
         outline.load("sjYour First Mission\n"
                 + "pn   Find someone you don't know, and exchange at least the \n"
                 + "pn   following info with them.\n"
@@ -109,17 +95,20 @@ class OptimizingForCollaboration : ScriptBuilder<OptimizingForCollaboration>() {
                 + "en      * Are you more likely to be early or late?\n"
                 + "en      * How do your personal attributes shape your collaborations?\n")
         outlineAppear()
+        pause()
+        wipe()
     }
 
+
     private fun outlineAppear() {
+        buildChord()
         for (i in 0 until outline.size()) {
             outline.letters(i).appear()
         }
+        endChord()
     }
 
     private fun geepaw() {
-        scene(10)
-        wipe()
         header("A Proper Introduction To GeePaw")
         outline.load("snGeePaw Hill\n"
                 + "pn   yes, it's really 'GeePaw'\n"
@@ -133,11 +122,11 @@ class OptimizingForCollaboration : ScriptBuilder<OptimizingForCollaboration>() {
                 + "pn   Email: GeePawHill@GeePawHill.Org\n"
         )
         outlineAppear()
+        pause()
+        wipe()
     }
 
     private fun secondMission() {
-        scene(50)
-        wipe()
         header("Ways To Collaborate")
         assume(secondaryJumbo)
         outline.load("snSecond Mission, Part One\n"
@@ -150,11 +139,12 @@ class OptimizingForCollaboration : ScriptBuilder<OptimizingForCollaboration>() {
                 + "pn      backchannel diplomacy: phone, hallway, slack\n"
                 + "pn      understanding requirements: meeting\n")
         outlineAppear()
+        pause()
+        wipe()
+
     }
 
     private fun secondMissionB() {
-        scene(70)
-        wipe()
         header("What we like and don't")
         assume(secondaryJumbo)
         outline.load("snSecond Mission, Part Two\n"
@@ -165,11 +155,11 @@ class OptimizingForCollaboration : ScriptBuilder<OptimizingForCollaboration>() {
         )
 
         outlineAppear()
+        pause()
+        wipe()
     }
 
     private fun thirdMission() {
-        scene(80)
-        wipe()
         header("The Best Wall In The Room")
         assume(secondaryJumbo)
         outline.load("snThird Mission\n"
@@ -178,11 +168,12 @@ class OptimizingForCollaboration : ScriptBuilder<OptimizingForCollaboration>() {
         )
 
         outlineAppear()
+        pause()
+        wipe()
+
     }
 
     private fun somePoints() {
-        scene(90)
-        wipe()
         header("Some Points")
         outline.load("sjTo optimize for collaboration, we must...\n"
                 + "pn   seek out difference\n"
@@ -190,12 +181,12 @@ class OptimizingForCollaboration : ScriptBuilder<OptimizingForCollaboration>() {
                 + "pn   learn how to find consensus\n"
                 + "pn   fight for F2D2\n")
         outlineAppear()
+        pause()
+        wipe()
 
     }
 
     private fun pointDifference() {
-        scene(100)
-        wipe()
         header("Point: Why Collaborate?")
         assume(secondaryJumbo)
         outline.load("snWe collaborate because we are different\n"
@@ -206,18 +197,18 @@ class OptimizingForCollaboration : ScriptBuilder<OptimizingForCollaboration>() {
                 + "ps   we are moving ideas\n"
                 + "ps   two people with the same idea? that's one idea.\n")
         outlineAppear()
-        scene(105)
+        pause()
         assume(emphaticJumbo)
         letters("           the differences between us\n"
                 + "   are the most reliable source of ideas\n"
                 + "         and we are in the idea business\n"
         ).centered(800, 750).appear()
+        pause()
+        wipe()
     }
 
 
     private fun pointVariation() {
-        scene(110)
-        wipe()
         header("Point: Variation Is Central")
         assume(secondaryJumbo)
         outline.load("snNo table's X's and O's are the same\n"
@@ -228,18 +219,19 @@ class OptimizingForCollaboration : ScriptBuilder<OptimizingForCollaboration>() {
                 + "ps   resist schemas, rotate roles\n"
                 + "ps   note and re-vitalize the stale\n")
         outlineAppear()
-        scene(105)
+        pause()
         assume(emphaticJumbo)
         letters("   by constantly varying forms\n"
                 + "  we constantly make things new: \n"
                 + "new forms make different results\n"
         ).centered(800, 750).appear()
+        pause()
+        wipe()
+
 
     }
 
     fun pointConsensus() {
-        scene(120)
-        wipe()
         header("Point: Consensus Is Difficult & Critical")
         assume(secondaryJumbo)
         outline.load("snThe keys\n"
@@ -249,18 +241,18 @@ class OptimizingForCollaboration : ScriptBuilder<OptimizingForCollaboration>() {
                 + "ps   lower stakes means faster consensus\n"
                 + "ps   blocks are temporary\n")
         outlineAppear()
-        scene(125)
+        pause()
         assume(emphaticJumbo)
         letters("   none of us\n"
                 + "is as smart as\n"
                 + "   all of us\n"
         ).centered(800, 750).appear()
+        pause()
+        wipe()
 
     }
 
     fun pointFsquaredDsquared() {
-        scene(130)
-        wipe()
         header("Point: Frequent Focused Direct Dialog")
         assume(secondaryJumbo)
         outline.load("snF-Squared D-Squared: Frequent, Focused, Direct, Dialog\n"
@@ -270,27 +262,31 @@ class OptimizingForCollaboration : ScriptBuilder<OptimizingForCollaboration>() {
                 + "ps   practice practice practice\n"
         )
         outlineAppear()
-        scene(125)
+        pause()
         assume(emphaticJumbo)
         letters("   *nothing* beats\n"
                 + " F-Squared D-Squared\n"
                 + "  for collaboration"
         ).centered(800, 750).appear()
+        pause()
+        wipe()
+
     }
 
     fun fourthMission() {
-        scene(150)
-        wipe()
         header("Let's Collaborate")
         assume(secondaryJumbo)
         outline.load("snFourth Mission\n"
                 + "pjWhat are we thinking?\n"
                 + "pn   Questions, Comments, Critique\n")
         outlineAppear()
+        pause()
+        wipe()
+
     }
 
     fun header(text: String) {
-        letters(text).format(headerFormat).at(TopRight(master.point(100 - INSET, INSET))).called("header").fadeIn()
+        letters(text).format(headerFormat).at(TopRight(master.point(100 - INSET, INSET))).called("header").appear()
     }
 
     private fun headerEnd(end: String) {

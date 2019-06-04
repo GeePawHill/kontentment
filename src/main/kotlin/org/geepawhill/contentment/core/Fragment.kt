@@ -13,7 +13,7 @@ package org.geepawhill.contentment.core
 interface Fragment {
     /**
      * Get ready. Operations here are for things that 1) need to be done before the
-     * interpolation calculations can happen, but 2) have no meaninful "undo".
+     * interpolation calculations can happen, but 2) have no meaningful "undo".
      * Normally, this is a matter of doing things like gathering data for a
      * computation used by the interpolation, such as a rectangle's coordinates.
      *
@@ -31,7 +31,7 @@ interface Fragment {
      * In normal operation, the engine guarantees that interpolate will be called at
      * fraction 1.0, *but provides no such guarantee at 0.0.*
      * <P>
-     * Some Fragments have no meaninful fractional behavior: setting a field to
+     * Some Fragments have no meaningful fractional behavior: setting a field to
      * true, for instance. The interpolate method can return false if it implements
      * such an action, in which case the engine will stop the animation and not call
      * the interpolate method again. Otherwise, return true, and the interpolate

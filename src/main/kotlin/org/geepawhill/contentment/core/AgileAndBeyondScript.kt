@@ -16,7 +16,9 @@ import org.geepawhill.contentment.geometry.PointPair
 import org.geepawhill.contentment.geometry.ViewPort
 import org.geepawhill.contentment.grid.Grid
 import org.geepawhill.contentment.player.Script
-import org.geepawhill.contentment.position.*
+import org.geepawhill.contentment.position.RightOf
+import org.geepawhill.contentment.position.TopLeft
+import org.geepawhill.contentment.position.TopRight
 import org.geepawhill.contentment.step.ScriptBuilder
 import org.geepawhill.contentment.style.Dash
 import org.geepawhill.contentment.style.Frames
@@ -90,7 +92,7 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
         emphaticSmall = Format(formats.get(Size.Small, Color.Emphatic), Frames.frame(emphatic, 3.0, .7))
 
 
-        val header = Font.font("Chewed Pen BB", FontPosture.ITALIC, 80.0)
+        val header = Font.font("Chewed Pen BB", FontPosture.ITALIC, 65.0)
         headerFormat = Format(primaryJumbo, TypeFace.font(header, 3.0, 1.0),
                 TypeFace.color(JfxUtility.color(180, 180, 180), 1.0))
 
@@ -98,19 +100,19 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
 
     fun make(): Script {
         scene(0)
-//        leadIn()
-//        welcome()
-//        alice()
-//        anotherWay()
-//
-//        proceduralToHuman()
-//        collaboration()
-//        judgments()
-//
-//        givenToTaken()
-//        experienceNotArgument()
-//        iBetters()
-//        tBetters()
+        leadIn()
+        welcome()
+        alice()
+        anotherWay()
+
+        proceduralToHuman()
+        collaboration()
+        judgments()
+
+        givenToTaken()
+        experienceNotArgument()
+        iBetters()
+        tBetters()
 
         sweepingToLocal()
         enof()
@@ -267,18 +269,18 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
     private fun anotherWay() {
         header("Human, Taken, Local, Iterative")
         outline.load(
-                "pnHuman\n" +
+                "pnProcedural -> Human\n" +
                         "ss    obsess over human collaboration\n" +
                         "ss    seek judgments not numbers\n" +
-                        "pnTaken\n" +
+                        "pnGiven -> Taken\n" +
                         "ss    create experiences, not arguments\n" +
                         "ss    braid i-Betters and t-Betters\n" +
-                        "pnLocal\n" +
+                        "pnSweeping -> Local\n" +
                         "ss    easiest nearest owwie first\n" +
                         "ss    try different, not harder\n" +
-                        "pnIterative\n" +
+                        "pnFinal -> Iterative\n" +
                         "ss    find the habit of change\n" +
-                        "ss    master the reset\n"
+                        "ss    open the team\n"
         )
         outline.blurt()
         pause()
@@ -292,7 +294,8 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
                 """
 pnSoftware development is always a mixed system
 ss    humans
-ss    not-humans: procedures, methods, artifacts, forms
+ss    not-humans
+ss    procedures, methods, artifacts, forms
 pnProcedures are powerful, but humans are super-powerful
 pn    For good...
 ss        old-school accident investigation (via sydney dekker)
@@ -320,11 +323,12 @@ ss   dialog, simple conversation, beats all others
 pnVariety is key
 ss   mode: solo, paired, mobbed, meeting
 ss   space: small, large, bustling, quiet
-ss   structure: planned, haykumeer,
+ss   structure: planned, impromptu, short, haykumeer
+ss   roles: change leaders at random
                 """.trimIndent())
         outlineAppear()
         assume(emphaticJumbo)
-        letters("*humans* make procedures work").centered(800, 775).appear()
+        letters("human collaboration makes procedures work").centered(800, 775).appear()
         pause()
         wipe()
     }
@@ -386,6 +390,7 @@ ss   the full day-job problem & solution
 """.trimIndent()
 
         outline.load(lines)
+        pause()
         for (i in 0..2) outline.letters(i).appear()
         pause()
         for (i in 3..9) outline.letters(i).appear()
@@ -413,7 +418,7 @@ ss   the full day-job problem & solution
             ss    stronger, faster, kinder
             ss    smarter, more articulate
             ss    as geek, teacher, manager, parent, person
-            pn"i-better"
+            pni-better
             ss    this is a "better" for an individual
             ss    whatever that might mean to her
             pnremarkable facts
@@ -574,9 +579,54 @@ ss   lather, rinse, repeat
         wipe()
     }
 
+    private fun tryDifferent() {
+        header("Try Different, Not Harder")
+        pause()
+        val lines =
+                """
+tj                  "We just need to try harder!"
+ss
+pnAbandon 19th century motivational models
+ss   forget moral pressure
+ss   forget good citizenship
+ss   forget extrinsic carrot and sticks
+ss   forget no-pain-no-gain
+pnWhat works is "better"
+ss   humans swim where the krill are
+ss   trust the people who will be changed
+ss   try anything they think won't be worse
+""".trimIndent()
+
+        outline.load(lines)
+        outline.letters(0).sketch()
+        pause()
+        for (i in 1..6) outline.letters(i).appear()
+        pause()
+        for (i in 7..10) outline.letters(i).appear()
+        pause()
+        wipe()
+    }
+
     private fun finalToIterative() {
         header("Final -> Iterative")
+        assume(secondaryNormal)
+        val lines =
+                """
+pnBad news about the city on the hill
+ss   you don't actually know where it is...
+ss   ...it is a permanently moving target
+ss   there's always another problem, another change
+pnYou *will* change the same thing twice
+ss   if this one doesn't work, try another one
+ss   sounds inefficient, but it's not
+ss      we underestimate the cost of "becoming right"
+ss      we underestimate the cost of inaction
+""".trimIndent()
+        outline.load(lines)
+        outline.blurt()
         pause()
+
+
         wipe()
     }
 
@@ -594,7 +644,7 @@ ss   if we get pushback, make the changes smaller
 pnAnd remember the basics:
 ss   collaborate to find ENOF each week
 ss   get reactions in words, not numbers
-ss   aim to reset our hearts & minds each time
+ss   don't be afraid to re-visit
 
 """.trimIndent()
 
@@ -604,64 +654,45 @@ ss   aim to reset our hearts & minds each time
         wipe()
     }
 
+    private fun reset() {
+        header("Open The Team")
+        val lines =
+                """
+pnWe can't change what we can't sense
+ss   retrospectives and the IBM[tm] are your friends
+ss   but quiet reflection, sensitive observation, these are the real keys
+pnWe can't change what we can't say
+ss   be honest, but remember...
+ss       honesty is believing everything you say
+ss       it's not saying everything you believe
+ss   we need to create spaces for permission to speak freely
+ss   we need to find ways to get quiet people's ideas, too
+pnWe can't change what we assume we can't change
+ss   assume permission
+ss   hammer on provisionality & experiment
+""".trimIndent()
+        outline.load(lines)
+        for (i in 0..2) outline.letters(i).appear()
+        pause()
+        for (i in 3..8) outline.letters(i).appear()
+        pause()
+        for (i in 9..11) outline.letters(i).appear()
+        pause()
+        wipe()
+    }
 
     private fun change() {
-        header("Change, Old White Guys, and Socrates")
-        pause()
-        val needleman = art("agileandbeyond/jacobNeedleman.png", 250.0).at(TopLeft(viewport.nw())).fadeIn(3000.0)
-        val caption = letters("Jacob Needleman").at(BelowCenter(needleman)).appear()
-        art("agileandbeyond/heartOfPhilosophy.jpg", 250.0).at(BelowLeft(caption)).fadeIn(3000.0)
-        pause()
-        letters("In his book, Needleman describes losing his sense of joy, ").at(TopLeft(quarterView.nw())).sketch(2000.0)
+        header("Final Thoughts: Changing the World")
         pause()
         wipe()
     }
 
 
     private fun theQuestion() {
+        assume(emphaticJumbo)
         letters("What do we change next?").centered(ViewPort.CENTER).fadeIn(5000.0)
         pause()
         pause()
-    }
-
-
-    private fun reset() {
-        header("Reset Effectively")
-        pause()
-        wipe()
-    }
-
-    private fun tryDifferent() {
-        header("Try Different, Not Harder")
-        pause()
-        val lines =
-                """
-pn"We just need to try harder"
-ss   applying moral pressure doesn't work
-ss   extrinsic reward & punishment don't work
-ss   what works is better
-pn"We have to get it right!"
-ss   avoid arguments about the right answer
-ss   what we really want is definitely-not-backwards
-ss   what works is better
-pnInvest in the implementers
-ss   when an idea comes up, find them
-ss   if they're not up for it, we already lost
-ss   try anything they think won't be worse
-""".trimIndent()
-
-        outline.load(lines)
-        buildChord()
-        outline.letters(0).sketch()
-        outline.letters(4).sketch()
-        pause()
-        for (i in 1..3) outline.letters(i).appear()
-        pause()
-        for (i in 5..7) outline.letters(i).appear()
-        pause()
-        for (i in 8..11) outline.letters(i).appear()
-        pause()
-        wipe()
     }
 
 
