@@ -4,6 +4,8 @@
     <bytecodeTargetLevel>
       <module name="com.nodal.nps.kontentment.main" target="1.8" />
       <module name="com.nodal.nps.kontentment.test" target="1.8" />
+      <module name="contentment.main" target="1.8" />
+      <module name="contentment.test" target="1.8" />
       <module name="org.geepawhill.contentment.kontentment.main" target="1.8" />
       <module name="org.geepawhill.contentment.kontentment.test" target="1.8" />
     </bytecodeTargetLevel>
