@@ -6,6 +6,7 @@ import javafx.scene.text.FontPosture
 import org.geepawhill.contentment.actor.Appearance
 import org.geepawhill.contentment.actors.Art
 import org.geepawhill.contentment.actors.Connector
+import org.geepawhill.contentment.actors.Marks
 import org.geepawhill.contentment.flow.Color
 import org.geepawhill.contentment.flow.Flow
 import org.geepawhill.contentment.flow.FormatTable
@@ -100,6 +101,20 @@ class BicScript : ScriptBuilder<BicScript>() {
 
     fun make(): Script {
         scene(0)
+        val one = Appearance(world, Marks.makeArc(world, Point(200.0, 450.0), Point(1400.0, 450.0), 200.0))
+        one.sketch(2000.0)
+
+        val straightOne = connector()
+        straightOne.actor.from(250, 450, true).to(1350, 450, true)
+        straightOne.sketch()
+
+        val two = Appearance(world, Marks.makeArc(world, Point(800.0, 100.0), Point(800.0, 800.0), 200.0))
+        two.sketch(2000.0)
+        val three = Appearance(world, Marks.makeArc(world, Point(800.0, 100.0), Point(800.0, 800.0), -200.0))
+        three.sketch(2000.0)
+        val four = Appearance(world, Marks.makeArc(world, Point(1400.0, 450.0), Point(200.0, 450.0), 200.0))
+        four.sketch(2000.0)
+        pause()
         leadIn()
         welcome()
         alice()
