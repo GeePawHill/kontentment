@@ -2,7 +2,8 @@ package org.geepawhill.contentment.actors
 
 import org.geepawhill.contentment.actor.ScriptWorld
 import org.geepawhill.contentment.core.GroupSource
-import org.geepawhill.contentment.geometry.*
+import org.geepawhill.contentment.geometry.Point
+import org.geepawhill.contentment.geometry.PointPair
 
 class ConnectorPoints(private val world: ScriptWorld) {
 
@@ -55,13 +56,13 @@ class ConnectorPoints(private val world: ScriptWorld) {
     private fun adjustToIfGroup(startLine: PointPair): Point? {
         if (toGroup === GroupSource.NONE) return startLine.to
         val toGrown = PointPair(toGroup!!.group())
-        return toGrown.quadIntersects(startLine)
+        return toGrown.boxIntersects(startLine)
     }
 
     private fun adjustFromIfGroup(startLine: PointPair): Point? {
         if (fromGroup === GroupSource.NONE) return startLine.from
         val fromGrown = PointPair(fromGroup!!.group())
-        return fromGrown.quadIntersects(startLine)
+        return fromGrown.boxIntersects(startLine)
     }
 
     private fun guessStartLine(): PointPair {
@@ -70,5 +71,4 @@ class ConnectorPoints(private val world: ScriptWorld) {
         val startLine = PointPair(fromCenter!!, toCenter!!)
         return startLine
     }
-
 }

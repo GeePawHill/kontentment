@@ -2,10 +2,9 @@ package org.geepawhill.contentment.geometry
 
 import javafx.geometry.BoundingBox
 import javafx.scene.shape.Rectangle
-import org.junit.jupiter.api.Test
-
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Test
 
 class PointPairTest {
 
@@ -56,11 +55,11 @@ class PointPairTest {
     }
 
     @Test
-    fun intersectsQuad() {
+    fun boxIntersects() {
         val base = PointPair(100.0, 100.0, 200.0, 200.0)
         val farSouthCenter = Point(base.centerX(), 300.0)
         val center = base.center()
-        val should = base.quadIntersects(PointPair(farSouthCenter, center))
+        val should = base.boxIntersects(PointPair(farSouthCenter, center))
         assertEquals(base.south(), should)
     }
 }

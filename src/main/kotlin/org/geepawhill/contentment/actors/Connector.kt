@@ -19,7 +19,7 @@ import java.lang.Double.max
 import java.lang.Double.min
 import java.util.*
 
-class Connector(private val world: ScriptWorld, destination: Group) : Actor {
+class Connector(private val world: ScriptWorld) : Actor {
     private val mainStep: Mark
     private val fromTopStep: Mark
     private val fromBottomStep: Mark

@@ -80,19 +80,16 @@ class PointPair(val from: Point, val to: Point) {
         return result
     }
 
-    fun quadIntersects(other: PointPair): Point? {
-        val northLine = PointPair(from.x, from.y, to.x, from.y)
-        val northIntersect = northLine.intersects(other)
+    fun boxIntersects(other: PointPair): Point {
+        val northIntersect = northLine().intersects(other)
         if (northIntersect != null) return northIntersect
-        val southLine = PointPair(from.x, to.y, to.x, to.y)
-        val southIntersect = southLine.intersects(other)
+        val southIntersect = southLine().intersects(other)
         if (southIntersect != null) return southIntersect
-        val eastLine = PointPair(to.x, from.y, to.x, to.y)
-        val eastIntersect = eastLine.intersects(other)
+        val eastIntersect = eastLine().intersects(other)
         if (eastIntersect != null) return eastIntersect
-        val westLine = PointPair(from.x, from.y, from.x, to.y)
-        val westIntersect = westLine.intersects(other)
-        return westIntersect
+        val westIntersect = westLine().intersects(other)
+        if (westIntersect != null) return westIntersect
+        throw RuntimeException("No intersection between quad $this and line $other.")
     }
 
     fun grow(delta: Double): PointPair {

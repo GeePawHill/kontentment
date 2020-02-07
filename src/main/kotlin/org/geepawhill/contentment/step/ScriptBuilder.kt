@@ -133,7 +133,7 @@ abstract class ScriptBuilder<SUBCLASS> @JvmOverloads constructor(rhythm: Rhythm 
     }
 
     fun connector(): Appearance<Connector> {
-        return Appearance(world, Connector(world, Group()))
+        return Appearance(world, Connector(world))
     }
 
     fun wipe(): SUBCLASS {
