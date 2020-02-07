@@ -109,6 +109,7 @@ class Connector(private val world: ScriptWorld) : Actor {
         override fun get(): Bezier {
             if (chosenMain == null) {
                 points = compute()
+
                 chosenMain = chooseBezier(points!!.main)
                 chosenFromTop = chooseBezier(points!!.fromTop)
                 chosenToTop = chooseBezier(points!!.toTop)
