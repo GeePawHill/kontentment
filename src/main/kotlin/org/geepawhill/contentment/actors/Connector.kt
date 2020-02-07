@@ -9,7 +9,6 @@ import org.geepawhill.contentment.format.Format
 import org.geepawhill.contentment.fragments.Entrance
 import org.geepawhill.contentment.fragments.Mark
 import org.geepawhill.contentment.geometry.Bezier
-import org.geepawhill.contentment.geometry.BezierSource
 import org.geepawhill.contentment.geometry.Point
 import org.geepawhill.contentment.geometry.PointPair
 import org.geepawhill.contentment.position.Position
@@ -43,11 +42,21 @@ class Connector(private val world: ScriptWorld) : Actor {
     init {
         this.entrance = Entrance(group)
         this.connectorPoints = ConnectorPoints(world)
-        this.mainStep = Mark(group, MainBezierSource())
-        this.fromTopStep = Mark(group, FromTopBezierSource())
-        this.fromBottomStep = Mark(group, FromBottomBezierSource())
-        this.toTopStep = Mark(group, ToTopBezierSource())
-        this.toBottomStep = Mark(group, ToBottomBezierSource())
+        this.mainStep = Mark(group) { layout(); chosenMain!! }
+        this.fromTopStep = Mark(group) { layout(); chosenFromTop!! }
+        this.fromBottomStep = Mark(group) { layout(); chosenFromBottom!! }
+        this.toTopStep = Mark(group) { layout(); chosenToTop!! }
+        this.toBottomStep = Mark(group) { layout(); chosenToBottom!! }
+    }
+
+    private fun layout() {
+        points = compute()
+
+        chosenMain = chooseBezier(points!!.main)
+        chosenFromTop = chooseBezier(points!!.fromTop)
+        chosenToTop = chooseBezier(points!!.toTop)
+        chosenFromBottom = chooseBezier(points!!.fromBottom)
+        chosenToBottom = chooseBezier(points!!.toBottom)
     }
 
     @JvmOverloads
@@ -102,47 +111,6 @@ class Connector(private val world: ScriptWorld) : Actor {
         this.fromBottomStep.format(format)
         this.toTopStep.format(format)
         this.toBottomStep.format(format)
-    }
-
-    internal inner class MainBezierSource : BezierSource {
-
-        override fun get(): Bezier {
-            if (chosenMain == null) {
-                points = compute()
-
-                chosenMain = chooseBezier(points!!.main)
-                chosenFromTop = chooseBezier(points!!.fromTop)
-                chosenToTop = chooseBezier(points!!.toTop)
-                chosenFromBottom = chooseBezier(points!!.fromBottom)
-                chosenToBottom = chooseBezier(points!!.toBottom)
-            }
-            return chosenMain!!
-        }
-    }
-
-    internal inner class FromTopBezierSource : BezierSource {
-        override fun get(): Bezier {
-            return chosenFromTop!!
-        }
-    }
-
-    internal inner class FromBottomBezierSource : BezierSource {
-
-        override fun get(): Bezier {
-            return chosenFromBottom!!
-        }
-    }
-
-    internal inner class ToTopBezierSource : BezierSource {
-        override fun get(): Bezier {
-            return chosenToTop!!
-        }
-    }
-
-    internal inner class ToBottomBezierSource : BezierSource {
-        override fun get(): Bezier {
-            return chosenToBottom!!
-        }
     }
 
     fun chooseBezier(points: PointPair): Bezier {
