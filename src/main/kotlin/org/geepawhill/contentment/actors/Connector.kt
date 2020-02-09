@@ -8,6 +8,7 @@ import org.geepawhill.contentment.core.GroupSource
 import org.geepawhill.contentment.format.Format
 import org.geepawhill.contentment.fragments.Entrance
 import org.geepawhill.contentment.fragments.Mark
+import org.geepawhill.contentment.geometry.ArrowHead
 import org.geepawhill.contentment.geometry.Bezier
 import org.geepawhill.contentment.geometry.Point
 import org.geepawhill.contentment.geometry.PointPair
@@ -37,11 +38,11 @@ class Connector(private val world: ScriptWorld) : Actor {
     private val entrance: Entrance
     private val group: Group = Group()
 
-    private val connectorPoints: ConnectorPoints
+    private val connectorEnds: ConnectorEnds
 
     init {
         this.entrance = Entrance(group)
-        this.connectorPoints = ConnectorPoints(world)
+        this.connectorEnds = ConnectorEnds(world)
         this.mainStep = Mark(group) { layout(); chosenMain!! }
         this.fromTopStep = Mark(group) { layout(); chosenFromTop!! }
         this.fromBottomStep = Mark(group) { layout(); chosenFromBottom!! }
@@ -50,7 +51,20 @@ class Connector(private val world: ScriptWorld) : Actor {
     }
 
     private fun layout() {
-        points = compute()
+        if (chosenMain != null) return
+        val idealLine = connectorEnds.idealLine()
+        val pointStandOffFromTarget = 4.0
+        val main = PointPair(idealLine.standoffFrom(pointStandOffFromTarget), idealLine.standoffTo(pointStandOffFromTarget))
+
+        val fromArrowHead = ArrowHead(main.to, main.from, 14.0, 0.0)
+        val fromTop = PointPair(main.from, fromArrowHead.top)
+        val fromBottom = PointPair(main.from, fromArrowHead.bottom)
+
+        val toArrowHead = ArrowHead(main.from, main.to, 14.0, 0.0)
+        val toTop = PointPair(main.to, toArrowHead.top)
+        val toBottom = PointPair(main.to, toArrowHead.bottom)
+
+        points = ArrowPoints(main, toTop, toBottom, fromTop, fromBottom)
 
         chosenMain = chooseBezier(points!!.main)
         chosenFromTop = chooseBezier(points!!.fromTop)
@@ -61,13 +75,13 @@ class Connector(private val world: ScriptWorld) : Actor {
 
     @JvmOverloads
     fun from(target: Point, withHead: Boolean = false): Connector {
-        connectorPoints.from(target, withHead)
+        connectorEnds.from(target, withHead)
         return this
     }
 
     @JvmOverloads
     fun from(x: Int, y: Int, withHead: Boolean = false): Connector {
-        connectorPoints.from(Point(x.toDouble(), y.toDouble()), withHead)
+        connectorEnds.from(Point(x.toDouble(), y.toDouble()), withHead)
         return this
     }
 
@@ -78,19 +92,19 @@ class Connector(private val world: ScriptWorld) : Actor {
 
     @JvmOverloads
     fun from(target: GroupSource, withHead: Boolean = false): Connector {
-        connectorPoints.from(target, withHead)
+        connectorEnds.from(target, withHead)
         return this
     }
 
     @JvmOverloads
     fun to(target: Point, withHead: Boolean = false): Connector {
-        connectorPoints.to(target, withHead)
+        connectorEnds.to(target, withHead)
         return this
     }
 
     @JvmOverloads
     fun to(x: Int, y: Int, withHead: Boolean = false): Connector {
-        connectorPoints.to(Point(x.toDouble(), y.toDouble()), withHead)
+        connectorEnds.to(Point(x.toDouble(), y.toDouble()), withHead)
         return this
     }
 
@@ -101,7 +115,7 @@ class Connector(private val world: ScriptWorld) : Actor {
 
     @JvmOverloads
     fun to(target: GroupSource, withHead: Boolean = false): Connector {
-        connectorPoints.to(target, withHead)
+        connectorEnds.to(target, withHead)
         return this
     }
 
@@ -126,11 +140,11 @@ class Connector(private val world: ScriptWorld) : Actor {
     override fun draw(ms: Double): Connector {
         steps = ArrayList()
         chosenMain = null
-        if (connectorPoints.arrowheadAtFrom) {
+        if (connectorEnds.arrowheadAtFrom) {
             steps!!.add(fromTopStep)
             steps!!.add(fromBottomStep)
         }
-        if (connectorPoints.arrowheadAtTo) {
+        if (connectorEnds.arrowheadAtTo) {
             steps!!.add(toTopStep)
             steps!!.add(toBottomStep)
         }
@@ -141,27 +155,6 @@ class Connector(private val world: ScriptWorld) : Actor {
         }
         world.add(sequence)
         return this
-    }
-
-    fun compute(): ArrowPoints {
-        val main = connectorPoints.computeMainLine()
-        return makeArrowPoints(main)
-    }
-
-    private fun makeArrowPoints(target: PointPair): ArrowPoints {
-        val pointStandOffFromTarget = 4.0
-        val main = PointPair(target.standoffFrom(pointStandOffFromTarget), target.standoffTo(pointStandOffFromTarget))
-
-        val arrowStandoffFromEnd = 14.0
-        val toOffset = main.standoffTo(arrowStandoffFromEnd)
-        val toTop = rotateWing(-40.0, main.to, toOffset)
-        val toBottom = rotateWing(40.0, main.to, toOffset)
-
-        val fromOffset = main.standoffFrom(arrowStandoffFromEnd)
-        val fromTop = rotateWing(-40.0, main.from, fromOffset)
-        val fromBottom = rotateWing(40.0, main.from, fromOffset)
-
-        return ArrowPoints(main, toTop, toBottom, fromTop, fromBottom)
     }
 
     private fun rotateWing(angle: Double, pivot: Point, target: Point): PointPair {

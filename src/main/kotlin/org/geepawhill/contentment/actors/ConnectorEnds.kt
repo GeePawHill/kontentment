@@ -5,14 +5,17 @@ import org.geepawhill.contentment.core.GroupSource
 import org.geepawhill.contentment.geometry.Point
 import org.geepawhill.contentment.geometry.PointPair
 
-class ConnectorPoints(private val world: ScriptWorld) {
+class ConnectorEnds(private val world: ScriptWorld) {
 
     private var fromGroup: GroupSource? = null
     private var fromPoint: Point? = null
     var arrowheadAtFrom: Boolean = false
+
     private var toGroup: GroupSource? = null
     private var toPoint: Point? = null
     var arrowheadAtTo: Boolean = false
+
+    private var arcHeight: Double = 0.0
 
     init {
         this.fromGroup = GroupSource.NONE
@@ -21,20 +24,20 @@ class ConnectorPoints(private val world: ScriptWorld) {
         this.toPoint = Point(0.0, 0.0)
     }
 
-    fun computeMainLine(): PointPair {
+    fun idealLine(): PointPair {
         val startLine = guessStartLine()
         val main = PointPair(adjustFromIfGroup(startLine)!!, adjustToIfGroup(startLine)!!)
         return main
+    }
+
+    fun arc(height: Double) {
+        arcHeight = height
     }
 
     fun from(target: Point, withHead: Boolean) {
         fromGroup = GroupSource.NONE
         fromPoint = target
         arrowheadAtFrom = withHead
-    }
-
-    fun from(actorName: String, withHead: Boolean) {
-        from(world.actor(actorName).entrance(), withHead)
     }
 
     fun from(from: GroupSource, withHead: Boolean) {

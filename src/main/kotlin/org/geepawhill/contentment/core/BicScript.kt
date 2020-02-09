@@ -106,7 +106,7 @@ class BicScript : ScriptBuilder<BicScript>() {
 
         val straightOne = connector()
         straightOne.actor.from(250, 450, true).to(1350, 450, true)
-        straightOne.sketch()
+        straightOne.sketch(2000.0)
 
         val two = Appearance(world, Marks.makeArc(world, Point(800.0, 100.0), Point(800.0, 800.0), 200.0))
         two.sketch(2000.0)
