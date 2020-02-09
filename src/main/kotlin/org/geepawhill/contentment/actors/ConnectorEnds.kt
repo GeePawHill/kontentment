@@ -15,7 +15,7 @@ class ConnectorEnds(private val world: ScriptWorld) {
     private var toPoint: Point? = null
     var arrowheadAtTo: Boolean = false
 
-    private var arcHeight: Double = 0.0
+    var arcHeight: Double = 0.0
 
     init {
         this.fromGroup = GroupSource.NONE
@@ -30,8 +30,8 @@ class ConnectorEnds(private val world: ScriptWorld) {
         return main
     }
 
-    fun arc(height: Double) {
-        arcHeight = height
+    fun arc(height: Int) {
+        arcHeight = height.toDouble()
     }
 
     fun from(target: Point, withHead: Boolean) {

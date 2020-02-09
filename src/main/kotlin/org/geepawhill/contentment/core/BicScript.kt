@@ -6,7 +6,6 @@ import javafx.scene.text.FontPosture
 import org.geepawhill.contentment.actor.Appearance
 import org.geepawhill.contentment.actors.Art
 import org.geepawhill.contentment.actors.Connector
-import org.geepawhill.contentment.actors.Marks
 import org.geepawhill.contentment.flow.Color
 import org.geepawhill.contentment.flow.Flow
 import org.geepawhill.contentment.flow.FormatTable
@@ -101,19 +100,26 @@ class BicScript : ScriptBuilder<BicScript>() {
 
     fun make(): Script {
         scene(0)
-        val one = Appearance(world, Marks.makeArc(world, Point(200.0, 450.0), Point(1400.0, 450.0), 200.0))
-        one.sketch(2000.0)
+        assume(primaryLine)
+        val curvedOne = arc()
+        curvedOne.actor.from(200, 400, true).to(1400, 400, true).arc(200)
+        curvedOne.sketch(2000.0)
 
         val straightOne = connector()
         straightOne.actor.from(250, 450, true).to(1350, 450, true)
         straightOne.sketch(2000.0)
 
-        val two = Appearance(world, Marks.makeArc(world, Point(800.0, 100.0), Point(800.0, 800.0), 200.0))
-        two.sketch(2000.0)
-        val three = Appearance(world, Marks.makeArc(world, Point(800.0, 100.0), Point(800.0, 800.0), -200.0))
-        three.sketch(2000.0)
-        val four = Appearance(world, Marks.makeArc(world, Point(1400.0, 450.0), Point(200.0, 450.0), 200.0))
-        four.sketch(2000.0)
+        val curvedTwo = arc()
+        curvedTwo.actor.from(750, 100, true).to(750, 800, true).arc(200)
+        curvedTwo.sketch(2000.0)
+
+        val curvedThree = arc()
+        curvedThree.actor.from(850, 800, true).to(850, 100, true).arc(200)
+        curvedThree.sketch(2000.0)
+
+        val curvedFour = arc()
+        curvedFour.actor.from(1400, 500, true).to(200, 500, true).arc(200)
+        curvedFour.sketch(2000.0)
         pause()
         leadIn()
         welcome()

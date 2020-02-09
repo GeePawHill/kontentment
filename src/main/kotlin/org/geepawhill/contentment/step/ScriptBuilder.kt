@@ -136,6 +136,11 @@ abstract class ScriptBuilder<SUBCLASS> @JvmOverloads constructor(rhythm: Rhythm 
         return Appearance(world, Connector(world))
     }
 
+    fun arc(): Appearance<Arc> {
+        return Appearance(world, Arc(world))
+    }
+
+
     fun wipe(): SUBCLASS {
         world.add(Single(Timing.instant(), Wipe()))
         return downcast()
