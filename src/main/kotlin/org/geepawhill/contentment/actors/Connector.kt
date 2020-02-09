@@ -26,8 +26,6 @@ class Connector(private val world: ScriptWorld) : Actor {
     private val toTopStep: Mark
     private val toBottomStep: Mark
 
-    private var points: ArrowPoints? = null
-
     private var steps: ArrayList<Mark>? = null
 
     private var chosenMain: Bezier? = null
@@ -57,20 +55,13 @@ class Connector(private val world: ScriptWorld) : Actor {
         val main = PointPair(idealLine.standoffFrom(pointStandOffFromTarget), idealLine.standoffTo(pointStandOffFromTarget))
 
         val fromArrowHead = ArrowHead(main.to, main.from, 14.0, 0.0)
-        val fromTop = PointPair(main.from, fromArrowHead.top)
-        val fromBottom = PointPair(main.from, fromArrowHead.bottom)
-
         val toArrowHead = ArrowHead(main.from, main.to, 14.0, 0.0)
-        val toTop = PointPair(main.to, toArrowHead.top)
-        val toBottom = PointPair(main.to, toArrowHead.bottom)
 
-        points = ArrowPoints(main, toTop, toBottom, fromTop, fromBottom)
-
-        chosenMain = chooseBezier(points!!.main)
-        chosenFromTop = chooseBezier(points!!.fromTop)
-        chosenToTop = chooseBezier(points!!.toTop)
-        chosenFromBottom = chooseBezier(points!!.fromBottom)
-        chosenToBottom = chooseBezier(points!!.toBottom)
+        chosenMain = chooseBezier(main)
+        chosenFromTop = chooseBezier(fromArrowHead.top)
+        chosenToTop = chooseBezier(toArrowHead.top)
+        chosenFromBottom = chooseBezier(fromArrowHead.bottom)
+        chosenToBottom = chooseBezier(toArrowHead.bottom)
     }
 
     @JvmOverloads
