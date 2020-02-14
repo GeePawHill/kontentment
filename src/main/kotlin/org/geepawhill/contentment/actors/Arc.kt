@@ -35,11 +35,11 @@ class Arc(private val world: ScriptWorld) : Actor {
     private val entrance: Entrance
     private val group: Group = Group()
 
-    private val connectorEnds: ConnectorEnds
+    private val connectorSpec: ConnectorSpec
 
     init {
         this.entrance = Entrance(group)
-        this.connectorEnds = ConnectorEnds(world)
+        this.connectorSpec = ConnectorSpec()
         this.mainStep = Mark(group) { layout(); chosenMain!! }
         this.fromTopStep = Mark(group) { layout(); chosenFromTop!! }
         this.fromBottomStep = Mark(group) { layout(); chosenFromBottom!! }
@@ -49,10 +49,10 @@ class Arc(private val world: ScriptWorld) : Actor {
 
     private fun layout() {
         if (chosenMain != null) return
-        val idealLine = connectorEnds.idealLine()
+        val idealLine = connectorSpec.idealLine()
         val pointStandOffFromTarget = 4.0
         val straight = PointPair(idealLine.standoffFrom(pointStandOffFromTarget), idealLine.standoffTo(pointStandOffFromTarget))
-        val height = connectorEnds.arcHeight
+        val height = connectorSpec.arcHeight
         val xUnitVector = (straight.from.x - straight.to.x) / straight.distance()
         val yUnitVector = (straight.from.y - straight.to.y) / straight.distance()
         val firstq = straight.along(.25)
@@ -75,13 +75,13 @@ class Arc(private val world: ScriptWorld) : Actor {
 
     @JvmOverloads
     fun from(target: Point, withHead: Boolean = false): Arc {
-        connectorEnds.from(target, withHead)
+        connectorSpec.from(target, withHead)
         return this
     }
 
     @JvmOverloads
     fun from(x: Int, y: Int, withHead: Boolean = false): Arc {
-        connectorEnds.from(Point(x.toDouble(), y.toDouble()), withHead)
+        connectorSpec.from(Point(x.toDouble(), y.toDouble()), withHead)
         return this
     }
 
@@ -92,19 +92,19 @@ class Arc(private val world: ScriptWorld) : Actor {
 
     @JvmOverloads
     fun from(target: GroupSource, withHead: Boolean = false): Arc {
-        connectorEnds.from(target, withHead)
+        connectorSpec.from(target, withHead)
         return this
     }
 
     @JvmOverloads
     fun to(target: Point, withHead: Boolean = false): Arc {
-        connectorEnds.to(target, withHead)
+        connectorSpec.to(target, withHead)
         return this
     }
 
     @JvmOverloads
     fun to(x: Int, y: Int, withHead: Boolean = false): Arc {
-        connectorEnds.to(Point(x.toDouble(), y.toDouble()), withHead)
+        connectorSpec.to(Point(x.toDouble(), y.toDouble()), withHead)
         return this
     }
 
@@ -115,12 +115,12 @@ class Arc(private val world: ScriptWorld) : Actor {
 
     @JvmOverloads
     fun to(target: GroupSource, withHead: Boolean = false): Arc {
-        connectorEnds.to(target, withHead)
+        connectorSpec.to(target, withHead)
         return this
     }
 
     fun arc(height: Int): Arc {
-        connectorEnds.arc(height)
+        connectorSpec.arc(height)
         return this
     }
 
@@ -145,11 +145,11 @@ class Arc(private val world: ScriptWorld) : Actor {
     override fun draw(ms: Double): Arc {
         steps = ArrayList()
         chosenMain = null
-        if (connectorEnds.arrowheadAtFrom) {
+        if (connectorSpec.arrowheadAtFrom) {
             steps!!.add(fromTopStep)
             steps!!.add(fromBottomStep)
         }
-        if (connectorEnds.arrowheadAtTo) {
+        if (connectorSpec.arrowheadAtTo) {
             steps!!.add(toTopStep)
             steps!!.add(toBottomStep)
         }

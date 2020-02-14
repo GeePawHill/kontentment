@@ -1,11 +1,10 @@
 package org.geepawhill.contentment.actors
 
-import org.geepawhill.contentment.actor.ScriptWorld
 import org.geepawhill.contentment.core.GroupSource
 import org.geepawhill.contentment.geometry.Point
 import org.geepawhill.contentment.geometry.PointPair
 
-class ConnectorEnds(private val world: ScriptWorld) {
+class ConnectorSpec {
 
     private var fromGroup: GroupSource? = null
     private var fromPoint: Point? = null

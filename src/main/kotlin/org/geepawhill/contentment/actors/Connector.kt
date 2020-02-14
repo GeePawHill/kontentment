@@ -1,7 +1,6 @@
 package org.geepawhill.contentment.actors
 
 import javafx.scene.Group
-import javafx.scene.transform.Rotate
 import org.geepawhill.contentment.actor.Actor
 import org.geepawhill.contentment.actor.ScriptWorld
 import org.geepawhill.contentment.core.GroupSource
@@ -28,51 +27,50 @@ class Connector(private val world: ScriptWorld) : Actor {
 
     private var steps: ArrayList<Mark>? = null
 
-    private var chosenMain: Bezier? = null
-    private var chosenFromTop: Bezier? = null
-    private var chosenFromBottom: Bezier? = null
-    private var chosenToTop: Bezier? = null
-    private var chosenToBottom: Bezier? = null
+    private var beziers: ConnectorBeziers? = null
+
     private val entrance: Entrance
     private val group: Group = Group()
 
-    private val connectorEnds: ConnectorEnds
+    private val connectorSpec: ConnectorSpec
 
     init {
         this.entrance = Entrance(group)
-        this.connectorEnds = ConnectorEnds(world)
-        this.mainStep = Mark(group) { layout(); chosenMain!! }
-        this.fromTopStep = Mark(group) { layout(); chosenFromTop!! }
-        this.fromBottomStep = Mark(group) { layout(); chosenFromBottom!! }
-        this.toTopStep = Mark(group) { layout(); chosenToTop!! }
-        this.toBottomStep = Mark(group) { layout(); chosenToBottom!! }
+        this.connectorSpec = ConnectorSpec()
+        this.mainStep = Mark(group) { layout(); beziers!!.chosenMain }
+        this.fromTopStep = Mark(group) { layout(); beziers!!.chosenFromTop }
+        this.fromBottomStep = Mark(group) { layout(); beziers!!.chosenFromBottom }
+        this.toTopStep = Mark(group) { layout(); beziers!!.chosenToTop }
+        this.toBottomStep = Mark(group) { layout(); beziers!!.chosenToBottom }
     }
 
     private fun layout() {
-        if (chosenMain != null) return
-        val idealLine = connectorEnds.idealLine()
+        if (beziers != null) return
+        val idealLine = connectorSpec.idealLine()
         val pointStandOffFromTarget = 4.0
         val main = PointPair(idealLine.standoffFrom(pointStandOffFromTarget), idealLine.standoffTo(pointStandOffFromTarget))
 
         val fromArrowHead = ArrowHead(main.to, main.from, 14.0, 0.0)
         val toArrowHead = ArrowHead(main.from, main.to, 14.0, 0.0)
 
-        chosenMain = chooseBezier(main)
-        chosenFromTop = chooseBezier(fromArrowHead.top)
-        chosenToTop = chooseBezier(toArrowHead.top)
-        chosenFromBottom = chooseBezier(fromArrowHead.bottom)
-        chosenToBottom = chooseBezier(toArrowHead.bottom)
+        beziers = ConnectorBeziers(
+                chooseBezier(main),
+                chooseBezier(fromArrowHead.top),
+                chooseBezier(toArrowHead.top),
+                chooseBezier(fromArrowHead.bottom),
+                chooseBezier(toArrowHead.bottom)
+        )
     }
 
     @JvmOverloads
     fun from(target: Point, withHead: Boolean = false): Connector {
-        connectorEnds.from(target, withHead)
+        connectorSpec.from(target, withHead)
         return this
     }
 
     @JvmOverloads
     fun from(x: Int, y: Int, withHead: Boolean = false): Connector {
-        connectorEnds.from(Point(x.toDouble(), y.toDouble()), withHead)
+        connectorSpec.from(Point(x.toDouble(), y.toDouble()), withHead)
         return this
     }
 
@@ -83,19 +81,19 @@ class Connector(private val world: ScriptWorld) : Actor {
 
     @JvmOverloads
     fun from(target: GroupSource, withHead: Boolean = false): Connector {
-        connectorEnds.from(target, withHead)
+        connectorSpec.from(target, withHead)
         return this
     }
 
     @JvmOverloads
     fun to(target: Point, withHead: Boolean = false): Connector {
-        connectorEnds.to(target, withHead)
+        connectorSpec.to(target, withHead)
         return this
     }
 
     @JvmOverloads
     fun to(x: Int, y: Int, withHead: Boolean = false): Connector {
-        connectorEnds.to(Point(x.toDouble(), y.toDouble()), withHead)
+        connectorSpec.to(Point(x.toDouble(), y.toDouble()), withHead)
         return this
     }
 
@@ -106,7 +104,7 @@ class Connector(private val world: ScriptWorld) : Actor {
 
     @JvmOverloads
     fun to(target: GroupSource, withHead: Boolean = false): Connector {
-        connectorEnds.to(target, withHead)
+        connectorSpec.to(target, withHead)
         return this
     }
 
@@ -130,12 +128,11 @@ class Connector(private val world: ScriptWorld) : Actor {
 
     override fun draw(ms: Double): Connector {
         steps = ArrayList()
-        chosenMain = null
-        if (connectorEnds.arrowheadAtFrom) {
+        if (connectorSpec.arrowheadAtFrom) {
             steps!!.add(fromTopStep)
             steps!!.add(fromBottomStep)
         }
-        if (connectorEnds.arrowheadAtTo) {
+        if (connectorSpec.arrowheadAtTo) {
             steps!!.add(toTopStep)
             steps!!.add(toBottomStep)
         }
@@ -146,12 +143,6 @@ class Connector(private val world: ScriptWorld) : Actor {
         }
         world.add(sequence)
         return this
-    }
-
-    private fun rotateWing(angle: Double, pivot: Point, target: Point): PointPair {
-        val rotate = Rotate(angle, pivot.x, pivot.y)
-        val top = Point(rotate.transform(target.x, target.y))
-        return PointPair(top, pivot)
     }
 
     override fun at(position: Position) {}
