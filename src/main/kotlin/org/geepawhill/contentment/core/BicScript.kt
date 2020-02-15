@@ -101,7 +101,7 @@ class BicScript : ScriptBuilder<BicScript>() {
     fun make(): Script {
         scene(0)
         assume(primaryLine)
-        val curvedOne = arc()
+        val curvedOne = connector()
         curvedOne.actor.from(200, 400, true).to(1400, 400, true).arc(200)
         curvedOne.sketch(2000.0)
 
@@ -109,15 +109,15 @@ class BicScript : ScriptBuilder<BicScript>() {
         straightOne.actor.from(250, 450, true).to(1350, 450, true)
         straightOne.sketch(2000.0)
 
-        val curvedTwo = arc()
+        val curvedTwo = connector()
         curvedTwo.actor.from(750, 100, true).to(750, 800, true).arc(200)
         curvedTwo.sketch(2000.0)
 
-        val curvedThree = arc()
+        val curvedThree = connector()
         curvedThree.actor.from(850, 800, true).to(850, 100, true).arc(200)
         curvedThree.sketch(2000.0)
 
-        val curvedFour = arc()
+        val curvedFour = connector()
         curvedFour.actor.from(1400, 500, true).to(200, 500, true).arc(200)
         curvedFour.sketch(2000.0)
         pause()
