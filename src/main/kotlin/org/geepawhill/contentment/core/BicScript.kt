@@ -20,7 +20,6 @@ import org.geepawhill.contentment.position.RightOf
 import org.geepawhill.contentment.position.TopLeft
 import org.geepawhill.contentment.position.TopRight
 import org.geepawhill.contentment.step.ScriptBuilder
-import org.geepawhill.contentment.style.Dash
 import org.geepawhill.contentment.style.Frames
 import org.geepawhill.contentment.style.TypeFace
 import org.geepawhill.contentment.utility.JfxUtility
@@ -29,9 +28,6 @@ import kotlin.random.Random
 class BicScript : ScriptBuilder<BicScript>() {
 
     private val formats = FormatTable()
-
-    private val communityFormat = Format(Frames.frame(formats.primary, 2.0, 1.0, Dash.dash(4.0, 4.0)))
-    private val balanceFormat = Format(Frames.frame(formats.tertiary, 1.0, 1.0, Dash.dash(15.0, 20.0)))
 
     private val secondaryJumbo: Format
     private val secondaryNormal: Format
@@ -61,12 +57,14 @@ class BicScript : ScriptBuilder<BicScript>() {
     val teamLine = secondaryLine
     private val master = Grid()
     private val viewport = master.nested(INSET, 15, 100 - INSET, 100 - INSET)
-    private val leftView = master.nested(INSET, 25, 47, 100 - INSET)
-    private val rightView = master.nested(53, 25, 100 - INSET, 100 - INSET)
+    private val leftView = master.nested(INSET, 18, 47, 100 - INSET)
+    private val rightView = master.nested(53, 18, 100 - INSET, 100 - INSET)
     private val rightOutline = Flow(world, rightView.all())
+    private val leftOutline = Flow(world, leftView.all())
 
     private val quarterView = master.nested(20, 25, 100 - INSET, 100 - INSET)
     private val quarterOutline = Flow(world, quarterView.all())
+    private val baseOutline = Flow(world, viewport.area(0, 80, 100, 100))
 
 
     private val outline: Flow
@@ -99,28 +97,10 @@ class BicScript : ScriptBuilder<BicScript>() {
     }
 
     fun make(): Script {
-        scene(0)
-        assume(primaryLine)
-        val curvedOne = connector()
-        curvedOne.actor.from(200, 400, true).to(1400, 400, true).arc(200)
-        curvedOne.sketch(2000.0)
-
-        val straightOne = connector()
-        straightOne.actor.from(250, 450, true).to(1350, 450, true)
-        straightOne.sketch(2000.0)
-
-        val curvedTwo = connector()
-        curvedTwo.actor.from(750, 100, true).to(750, 800, true).arc(200)
-        curvedTwo.sketch(2000.0)
-
-        val curvedThree = connector()
-        curvedThree.actor.from(850, 800, true).to(850, 100, true).arc(200)
-        curvedThree.sketch(2000.0)
-
-        val curvedFour = connector()
-        curvedFour.actor.from(1400, 500, true).to(200, 500, true).arc(200)
-        curvedFour.sketch(2000.0)
         pause()
+        dynamic()
+        unity()
+        dynamicUnity()
         leadIn()
         welcome()
         alice()
@@ -161,6 +141,70 @@ class BicScript : ScriptBuilder<BicScript>() {
         assume(emphaticSmall)
         letters("Copyright (C) 2019, GeePawHill. All rights reserved.").at(TopLeft(20.0, 825.0)).appear()
         endChord()
+        pause()
+        wipe()
+    }
+
+    private fun dynamic() {
+        header("\"Dynamic\"")
+        rightOutline.load(
+                "pnDynamic means changing...\n" +
+                        "pn...in varied modes...\n" +
+                        "ss    components\n" +
+                        "ss    arrangement\n" +
+                        "ss    ordering\n" +
+                        "pn...with varied flows...\n" +
+                        "ss    sequence\n" +
+                        "ss    cycle\n" +
+                        "pn...from varied causes...\n" +
+                        "pn...to varied effects."
+        )
+        rightOutline.blurt()
+        pause()
+        val dynamic = art("bic/dynamic.png", leftView.all().width()).at(TopLeft(leftView.nw()))
+        dynamic.fadeIn()
+        pause()
+
+        wipe()
+    }
+
+    private fun unity() {
+        header("\"Unity\"")
+        leftOutline.load(
+                "pnUnity means one thing...\n" +
+                        "ss    an inside\n" +
+                        "ss    an outside\n" +
+                        "ss    a boundary\n" +
+                        "pn...the same thing...\n" +
+                        "ss    across time\n" +
+                        "ss    acrross space\n" +
+                        "pn...as seen by another"
+        )
+        leftOutline.blurt()
+        pause()
+        val unity = art("bic/unity.png", rightView.all().width()).at(TopLeft(rightView.nw()))
+        unity.fadeIn()
+        pause()
+        wipe()
+    }
+
+    private fun dynamicUnity() {
+        header("\"Dynamic Unity\"")
+        rightOutline.load(
+                "enA thing that is...\n" +
+                        "ss    self-sustaining\n" +
+                        "ss    self-building\n" +
+                        "ss    self-extending\n" +
+                        "ss    self-bounding\n" +
+                        "ss    self-repairing\n" +
+                        "ss    self-organizing\n" +
+                        "enchange after change,\n" +
+                        "enworld without end,\n"
+        )
+        rightOutline.blurt()
+        pause()
+        val dynamicUnity = art("bic/dynamicUnity.png", leftView.all().width()).at(TopLeft(leftView.nw()))
+        dynamicUnity.fadeIn()
         pause()
         wipe()
     }
