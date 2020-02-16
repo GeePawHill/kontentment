@@ -98,10 +98,11 @@ class BicScript : ScriptBuilder<BicScript>() {
 
     fun make(): Script {
         pause()
+        leadIn()
+        geepaw()
         dynamic()
         unity()
         dynamicUnity()
-        leadIn()
         welcome()
         alice()
         anotherWay()
@@ -135,12 +136,32 @@ class BicScript : ScriptBuilder<BicScript>() {
         buildChord()
         letters("GeePaw's Notebook:").format(primaryJumbo).at(TopLeft(XMARGIN, YMARGIN)).called("header").appear()
         assume(secondaryJumbo)
-        letters("Change Changing").at(TopLeft(100.0, 300.0)).appear()
+        letters("Changing Changing Software").at(TopLeft(100.0, 300.0)).appear()
         assume(secondaryNormal)
-        letters("How To Make Effective Transformations").at(TopLeft(100.0, 400.0)).appear()
+        letters("An Intro to the Change-Harvester's Approach").at(TopLeft(100.0, 400.0)).appear()
         assume(emphaticSmall)
-        letters("Copyright (C) 2019, GeePawHill. All rights reserved.").at(TopLeft(20.0, 825.0)).appear()
+        letters("Copyright (C) 2020, GeePawHill. All rights reserved.").at(TopLeft(20.0, 825.0)).appear()
         endChord()
+        pause()
+        wipe()
+    }
+
+    private fun geepaw() {
+        header("What's GeePaw's Story?")
+        outline.load(
+                "pnGeePaw Hill\n" +
+                        "ss    yes, it's really GeePaw\n" +
+                        "ss    a grandfather from an early age\n" +
+                        "pnFour Decades in the Geek Trades\n" +
+                        "ss    programmer, teacher, coach, consultant, writer, speaker\n" +
+                        "ss    a lot of roles, but just one job\n"
+        )
+        outline.blurt()
+        assume(emphaticJumbo)
+        letters("helping people harvest the value of change").centered(800, 575).appear()
+        assume(secondaryNormal)
+        letters("in code, in individuals, in teams").centered(800, 675).appear()
+        letters("in process, in s/w departments, in organizations").centered(800, 725).appear()
         pause()
         wipe()
     }
