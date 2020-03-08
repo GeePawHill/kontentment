@@ -163,6 +163,10 @@ class MainView(private val stage: Stage, private val player: Player) : View() {
             player.forward()
             return
         }
+        if (event.isControlDown && event.button == MouseButton.PRIMARY) {
+            player.play()
+            return
+        }
         if (event.button == MouseButton.SECONDARY)
             player.backward()
         else

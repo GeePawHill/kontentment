@@ -1,11 +1,11 @@
 package org.geepawhill.contentment.core
 
-import javafx.scene.paint.Paint
 import javafx.scene.text.Font
 import javafx.scene.text.FontPosture
 import org.geepawhill.contentment.actor.Appearance
 import org.geepawhill.contentment.actors.Art
 import org.geepawhill.contentment.actors.Connector
+import org.geepawhill.contentment.actors.Letters
 import org.geepawhill.contentment.flow.Color
 import org.geepawhill.contentment.flow.Flow
 import org.geepawhill.contentment.flow.FormatTable
@@ -25,29 +25,30 @@ import org.geepawhill.contentment.style.TypeFace
 import org.geepawhill.contentment.utility.JfxUtility
 import kotlin.random.Random
 
-class BicScript : ScriptBuilder<BicScript>() {
+class BicScript : ScriptBuilder<BicScript>() //MediaRhythm(File("C:\\GeePawHillDotOrgWip\\wip\\ccs talks\\Beauty In Code 2020\\bic2020-raw-tonal.mp4"))) {
+{
 
     private val formats = FormatTable()
 
-    private val secondaryJumbo: Format
-    private val secondaryNormal: Format
+
+    private val primaryJumbo = formats.get(Size.Jumbo, Color.Primary)
+    private val primaryNormal = formats.get(Size.Normal, Color.Primary)
+    private val primarySmall = formats.get(Size.Small, Color.Primary)
+
+    private val secondaryJumbo = formats.get(Size.Jumbo, Color.Secondary)
+    private val secondaryNormal = formats.get(Size.Normal, Color.Secondary)
     private val secondarySmall = formats.get(Size.Small, Color.Secondary)
 
-    private val primaryJumbo: Format
-    private val primaryNormal: Format
+    private val TertiaryJumbo = formats.get(Size.Jumbo, Color.Tertiary)
 
     private val emphaticGigantic = formats.get(Size.Gigantic, Color.Emphatic)
-    private val emphaticJumbo: Format
-    private val emphaticNormal: Format
-    private val emphaticSmall: Format
+    private val emphaticJumbo = formats.get(Size.Jumbo, Color.Emphatic)
+    private val emphaticNormal = formats.get(Size.Normal, Color.Emphatic)
+    private val emphaticSmall = Format(formats.get(Size.Small, Color.Emphatic), Frames.frame(formats.emphatic, 3.0, .7))
 
-    private val tertiaryNormal: Format
-
-    private val emphatic: Paint = formats.emphatic
-
-    private val headerFormat: Format
-
-    private val primarySmall = formats.get(Size.Small, Color.Primary)
+    private val header = Font.font("Chewed Pen BB", FontPosture.ITALIC, 65.0)
+    private val headerFormat = Format(primaryJumbo, TypeFace.font(header, 3.0, 1.0),
+            TypeFace.color(JfxUtility.color(180, 180, 180), 1.0))
 
     private val primaryLine = Format(formats.get(Size.Small, Color.Primary), Frames.frame(formats.primary, 3.0, .7))
     private val secondaryLine = Format(formats.get(Size.Normal, Color.Secondary), Frames.frame(formats.secondary, 3.0, .7))
@@ -57,8 +58,8 @@ class BicScript : ScriptBuilder<BicScript>() {
     val teamLine = secondaryLine
     private val master = Grid()
     private val viewport = master.nested(INSET, 15, 100 - INSET, 100 - INSET)
-    private val leftView = master.nested(INSET, 18, 47, 100 - INSET)
-    private val rightView = master.nested(53, 18, 100 - INSET, 100 - INSET)
+    private val leftView = master.nested(INSET, 15, 47, 100 - INSET)
+    private val rightView = master.nested(53, 15, 100 - INSET, 100 - INSET)
     private val rightOutline = Flow(world, rightView.all())
     private val leftOutline = Flow(world, leftView.all())
 
@@ -66,67 +67,196 @@ class BicScript : ScriptBuilder<BicScript>() {
     private val quarterOutline = Flow(world, quarterView.all())
     private val baseOutline = Flow(world, viewport.area(0, 80, 100, 100))
 
+    private var nextHeader = 0
 
     private val outline: Flow
 
     init {
+        //super()
         // super(new MediaRhythm(new
         // File("D:\\GeePawHillDotOrg\\videos\\lumpOfCoding\\lumpOfCodingFaceover.mp4")));
         // new SimpleRhythm());
 
         outline = Flow(world, viewport.all())
 
-        primaryJumbo = formats.get(Size.Jumbo, Color.Primary)
-        primaryNormal = formats.get(Size.Normal, Color.Primary)
-
-        secondaryJumbo = formats.get(Size.Jumbo, Color.Secondary)
-        secondaryNormal = formats.get(Size.Normal, Color.Secondary)
-
-        formats.get(Size.Jumbo, Color.Tertiary)
-        tertiaryNormal = formats.get(Size.Normal, Color.Tertiary)
-
-        emphaticJumbo = formats.get(Size.Jumbo, Color.Emphatic)
-        emphaticNormal = formats.get(Size.Normal, Color.Emphatic)
-        emphaticSmall = Format(formats.get(Size.Small, Color.Emphatic), Frames.frame(emphatic, 3.0, .7))
-
-
-        val header = Font.font("Chewed Pen BB", FontPosture.ITALIC, 65.0)
-        headerFormat = Format(primaryJumbo, TypeFace.font(header, 3.0, 1.0),
-                TypeFace.color(JfxUtility.color(180, 180, 180), 1.0))
 
     }
 
     fun make(): Script {
         pause()
-        leadIn()
-        geepaw()
-        dynamic()
-        unity()
-        dynamicUnity()
-        welcome()
-        alice()
-        anotherWay()
+        scene(0)
+        cycledHeader(0, "Hello, Beauty In Code 2020!")
+        cycledHeader(22, "Thank You!")
+        cycledHeader(35, "Thanks, Alastair!")
+        cycledHeader(46, "I Appreciate Living.It!")
+        cycledHeader(62, "Thank You So Much, Martin Stenlund!")
+        cycledHeader(96, "About GeePaw")
+        cycledHeader(130, "Programmer, Coach, Consultant")
+        cycledHeader(162, "Harvesting Value From Change")
+        cycledHeader(185, "Changing Changing Software")
+        cycledHeader(200, "The Why")
+        cycledHeader(210, "The Trade is Terrific!")
+        cycledHeader(237, "Software's Everywhere, And Lucrative")
+        cycledHeader(258, "The Trade is Terrible!")
+        cycledHeader(301, "Let's Change This")
+        cycledHeader(318, "Changing Changing Software")
+        cycledHeader(334, "Dynamic Unity")
+        cycledHeader(349, "Unity -- One Thing")
+        cycledHeader(366, "Dynamic -- Constant Change")
+        cycledHeader(380, "Always The Same, Always Different")
+        cycledHeader(411, "You Are A Dynamic Unity")
+        cycledHeader(436, "Dynamic You")
+        cycledHeader(455, "True When We Zoom Out")
+        cycledHeader(477, "Cycles & Sequences")
+        cycledHeader(504, "Lifelong Continuous Change")
+        cycledHeader(525, "And Your Mind, Too")
+        cycledHeader(540, "Are You The Same?")
+        cycledHeader(555, "What's The Change Doing?")
+        cycledHeader(580, "Change, Harvest, Change, Harvest")
+        cycledHeader(605, "Your Organization Is A Dynamic Unity")
+        cycledHeader(635, "The How")
+        cycledHeader(655, "The City On The Hill")
+        cycledHeader(680, "South Craptown")
+        cycledHeader(695, "Procedural")
+        cycledHeader(713, "Global")
+        cycledHeader(725, "Precisely Targeted")
+        cycledHeader(744, "Given")
+        cycledHeader(760, "Final")
+        cycledHeader(787, "Whoops!")
+        cycledHeader(799, "The Wrong Way")
+        cycledHeader(815, "The Change-Harvester's How")
+        cycledHeader(825, "Human, Local, Oriented, Taken, Iterative")
+        cycledHeader(840, "Human Change")
+        cycledHeader(860, "Individual, Group, Culture, Species")
+        cycledHeader(880, "Direct Social Interaction")
+        cycledHeader(900, "Ordinary Conversation")
+        cycledHeader(910, "Don't Discount Yourself")
+        cycledHeader(945, "The Human Mind")
+        cycledHeader(960, "Rhythm")
+        cycledHeader(978, "Why *Human* Change?")
+        cycledHeader(990, "Humans Determine Success & Failure")
+        cycledHeader(1022, "Humans Are Superpowers")
+        cycledHeader(1035, "Local Change")
+        cycledHeader(1050, "Neighborhood: Minds, Situation, Ability, Time")
+        cycledHeader(1069, "No, Smaller Please")
+        cycledHeader(1079, "Why *Local* Change?")
+        cycledHeader(1115, "Oriented Change")
+        cycledHeader(1130, "How To Choose?")
+        cycledHeader(1150, "Not Terribly Wrong")
+        cycledHeader(1174, "Act Then Look")
+        cycledHeader(1183, "Why *Oriented* Change?")
+        cycledHeader(1200, "Optimizing The Wrong Choice")
+        cycledHeader(1218, "Multivalence")
+        cycledHeader(1235, "Many Kinds of Value")
+        cycledHeader(1250, "Better Is Better")
+        cycledHeader(1270, "Rhythm Is Better")
+        cycledHeader(1290, "Steering Is Better")
+        cycledHeader(1304, "Locked In")
+        cycledHeader(1318, "Accuracy Over Distance")
+        cycledHeader(1327, "A Slope and A Nose-Dive")
+        cycledHeader(1350, "Nonsense")
+        cycledHeader(1386, "Taken Change")
+        cycledHeader(1400, "Work With What's There")
+        cycledHeader(1420, "Greenfield: The Blank Page")
+        cycledHeader(1455, "Brownfield: The Full Page")
+        cycledHeader(1479, "Green To Brown")
+        cycledHeader(1502, "What's There Now Dominates")
+        cycledHeader(1530, "Why *Taken* Change?")
+        cycledHeader(1552, "Code: Already Shipping")
+        cycledHeader(1575, "Team: Already Working")
+        cycledHeader(1594, "Tacit > Explicit, Erasure Is Expensive")
+        cycledHeader(1615, "Taken -> What's Already There")
+        cycledHeader(1630, "Iterative")
+        cycledHeader(1650, "One Turn Of The Wheel")
+        cycledHeader(1680, "Behaviors & Habits Of Change")
+        cycledHeader(1708, "Linear Error Epsilon Of Prediction")
+        cycledHeader(1747, "Invalid In Complex Adaptive Systems")
+        cycledHeader(1767, "Succeeds Under Imperfection")
+        cycledHeader(1789, "Mathematics, Not Mysticism")
+        cycledHeader(1820, "Embrace Change")
+        cycledHeader(1840, "Lowered Stakes")
+        cycledHeader(1852, "The Cost Of Prediction")
+        cycledHeader(1860, "Human, Local, Oriented, Taken, Iterative")
+        cycledHeader(1872, "Extreme Programming (XP)")
+        cycledHeader(1890, "Storying, TDD, Pairing")
+        cycledHeader(1909, "One Story At A Time: Local")
+        cycledHeader(1937, "One Story At A Time: Iterative")
+        cycledHeader(1955, "TDD & Refactoring")
+        cycledHeader(1981, "Red, Green, Refactor, Push")
+        cycledHeader(2000, "TDD: Human Bandwidth")
+        cycledHeader(2017, "TDD: Human Rhythm")
+        cycledHeader(2040, "Refactoring: Human Understanding")
+        cycledHeader(2084, "Refactoring: Taken")
+        cycledHeader(2094, "TDD: Micro-Local & Iterative")
+        cycledHeader(2091, "TDD: Micro-Local")
+        cycledHeader(2112, "Pairing: Human Social Nature")
+        cycledHeader(2134, "Beyond Programming")
+        cycledHeader(2156, "Human, Local, Oriented, Taken, Iterative")
+        cycledHeader(2202, "Cart Before The Horse")
+        cycledHeader(2228, "We Have To Change")
+        cycledHeader(2252, "The Cart Is The Horse, The Horse Is The Cart")
+        cycledHeader(2280, "What To Change: How To Change")
+        cycledHeader(2303, "Change Changing Software")
+        cycledHeader(2314, "Human, Local, Oriented, Taken, Iterative")
 
-        proceduralToHuman()
-        collaboration()
-        judgments()
-
-        givenToTaken()
-        experienceNotArgument()
-        iBetters()
-        tBetters()
-
-        sweepingToLocal()
-        enof()
-        tryDifferent()
-
-        finalToIterative()
-        theHabitOfChange()
-        reset()
-
-        change()
-        theQuestion()
-
+//
+//        leadIn()
+//        geepaw()
+//        theTrade()
+//        changingChangingSoftware()
+//        dynamic()
+//        unity()
+//        dynamicUnity()
+//        you()
+//
+//        howToChange()
+//
+//        human()
+//        whyHuman()
+//        humanCases()
+//
+//        local()
+//        whyLocal()
+//        localCases()
+//
+//        oriented()
+//        whyOriented()
+//        orientedCases()
+//
+//        taken()
+//        whyTaken()
+//        takenCases()
+//
+//        iterative()
+//        whyIterative()
+//        iterativeCases()
+//
+//        cartBeforeHorse()
+//        leadOut()
+//
+//        welcome()
+//        alice()
+//        anotherWay()
+//
+//        collaboration()
+//        judgments()
+//
+//        givenToTaken()
+//        experienceNotArgument()
+//        iBetters()
+//        tBetters()
+//
+//        sweepingToLocal()
+//        enof()
+//        tryDifferent()
+//
+//        finalToIterative()
+//        theHabitOfChange()
+//        reset()
+//
+//        change()
+//        theQuestion()
+//
         end()
         return script
     }
@@ -162,6 +292,48 @@ class BicScript : ScriptBuilder<BicScript>() {
         assume(secondaryNormal)
         letters("in code, in individuals, in teams").centered(800, 675).appear()
         letters("in process, in s/w departments, in organizations").centered(800, 725).appear()
+        pause()
+        wipe()
+    }
+
+    private fun theTrade() {
+        header("The Software Trade")
+        leftOutline.load(
+                "pjTerrific!\n" +
+                        "ps    crazy growth\n" +
+                        "ss        25 million developers\n" +
+                        "ss        doubling every 5 years\n" +
+                        "ps    money money money\n" +
+                        "ss        1 trillion $/year\n" +
+                        "ss        fortune 50: amazon, google, microsoft\n" +
+                        "ps    present everywhere\n" +
+                        "ss        computers & phones\n" +
+                        "ss        cars & refrigerators\n"
+        )
+        leftOutline.blurt()
+        pause()
+        rightOutline.load(
+                "pjTerrible!\n" +
+                        "ss    executives: no value\n" +
+                        "ss    makers: no joy\n" +
+                        "ss    managers: no control\n" +
+                        "ss    operations: no peace\n" +
+                        "ss    security: no safety\n" +
+                        "ss    designers: no usability\n" +
+                        "ss    customers: no stability\n" +
+                        "ss    analysts: no predictability\n" +
+                        "ss    everyone: NO HAPPINESS"
+        )
+        rightOutline.blurt()
+        pause()
+        assume(emphaticJumbo)
+        letters("So Which Is It?").centered(800, 800).appear()
+        pause()
+        wipe()
+    }
+
+    private fun changingChangingSoftware() {
+        header("Changing Changing Software")
         pause()
         wipe()
     }
@@ -229,6 +401,247 @@ class BicScript : ScriptBuilder<BicScript>() {
         pause()
         wipe()
     }
+
+    private fun you() {
+        header("The Nearest Dynamic Unity: You")
+        pause()
+        wipe()
+    }
+
+    private fun howToChange() {
+        header("How To Change Things")
+        outline.load(
+                """
+pnHuman -> relentlessly focused on the humans in our systems
+ss    "leaning in" to human scale, long & weak suits, energy
+pnLocal -> narrow in scope, complexity, and time
+ss    the easiest change that creates value
+pnOriented -> turned broadly towards a horizon of "better" 
+ss    opportunistic, improvised, adaptive
+pnTaken -> drawn from inside the context, not outside
+ss    using, transforming, what is already there
+pnIterative -> continuous, ongoing, and repetitive
+ss    in full confidence we'll change it once, then change it again
+                """.trimIndent()
+        )
+        outline.blurt()
+        pause()
+        wipe()
+    }
+
+    private fun human() {
+        header("Human Change!")
+        outline.load(
+                """
+pnWe want our changes to optimize the system for the humans.
+ss    humans have limited mental bandwidth
+es        smaller tasks, fewer balls in the air, narrower scope
+es        reduced multi-tasking, rapid response to blockage
+ss    humans are highly skilled at social interaction
+es        emphasize direct directed dialog
+es        fewer meetings, more haykumeer protocol 
+ss    humans need a steady flow of tension & release (rhythm)
+es        work distributed in small steps and cycles
+es        orient towards "relaxed with pep"
+ss    humans are alike in a few ways and different in many
+es        so we'll need a culture of safety
+es        beyond tolerance: actively seek difference
+                """.trimIndent()
+        )
+        outline.blurt()
+        pause()
+        wipe()
+    }
+
+    private fun whyHuman() {
+        header("Why Human?")
+        outline.load(
+                """
+pnSoftware development is always a mixed system
+ss    humans
+ss    not-humans
+ss    procedures, methods, artifacts, forms
+pnProcedures are powerful, but humans are super-powerful
+pn    For good...
+ss        old-school accident investigation (via sydney dekker)
+ss        "operator error" vs "system error"
+ss        humans are the primary source of safety in mixed systems
+pn    For ill...
+ss        did you ever hear of a work-to-rule strike?
+ss        (or a teenager?)
+                """.trimIndent()
+        )
+        outline.blurt()
+
+        pause()
+        wipe()
+    }
+
+    private fun humanCases() {
+        header("Human Cases")
+        outline.load(
+                """
+pnEveryday
+ss    Memorizing the menu number that will get you quickest to a human
+ss    Making a short to-do list, then adding an item you've already done
+                """.trimIndent()
+        )
+        outline.blurt()
+
+        pause()
+        wipe()
+    }
+
+    private fun local() {
+        header("Local Change!")
+        outline.load(
+                """
+pnWe want our changes to be close, small, and fast
+ss   locality seeks to minimize the answers to *all* of these
+es       what next?
+es       when can we start?
+es       how hard will it be?
+es       how long will it take?
+es       how soon can we tell?
+ss   "No, smaller!" is the mantra
+es       what is the smallest change whose effect we can detect?
+                """.trimIndent()
+        )
+        outline.blurt()
+        pause()
+        wipe()
+    }
+
+    private fun whyLocal() {
+        header("Why Local?")
+        outline.load(
+                """
+pnSimply put, it's more effective all around
+pnEvery small change...
+ss     addresses a small issue
+ss     proves facts reasoning & argumentation can't prove
+ss     provides humans with narrowed scope and with rhythm
+ss     is an opportunity-point, a place we can steer
+ss     clears brush so larger issues can be approached
+ss     builds the *habit* of change
+pnUnderlying theory -> non-linear effects
+ss     curves with sharp knees
+ss     curves that look like an 's'
+""".trimIndent()
+        )
+        outline.blurt()
+
+        pause()
+        wipe()
+    }
+
+    private fun localCases() {
+        header("Local Cases")
+        outline.load(
+                """
+pnSoftware development is always a mixed system
+ss    humans
+ss    not-humans
+ss    procedures, methods, artifacts, forms
+pnProcedures are powerful, but humans are super-powerful
+pn    For good...
+ss        old-school accident investigation (via sydney dekker)
+ss        "operator error" vs "system error"
+ss        humans are the primary source of safety in mixed systems
+pn    For ill...
+ss        did you ever hear of a work-to-rule strike?
+ss        (or a teenager?)
+                """.trimIndent()
+        )
+        outline.blurt()
+
+        pause()
+        wipe()
+    }
+
+    private fun oriented() {
+        header("Oriented Change!")
+        outline.load(
+                """
+pnWe want our changes turned towards the horizon of "better"
+pnEvery small change...
+ss     addresses a small issue
+ss     proves facts reasoning & argumentation can't prove
+ss     provides humans with narrowed scope and with rhythm
+ss     is an opportunity-point, a place we can steer
+ss     clears brush so larger issues can be approached
+ss     builds the *habit* of change
+pnUnderlying theory -> non-linear effects
+ss     curves with sharp knees
+ss     curves that look like an 's'
+""".trimIndent()
+        )
+        outline.blurt()
+
+        pause()
+        wipe()
+    }
+
+    private fun whyOriented() {
+        header("Why Oriented?")
+        pause()
+        wipe()
+    }
+
+    private fun orientedCases() {
+        header("Oriented Cases")
+        pause()
+        wipe()
+    }
+
+    private fun taken() {
+        header("Taken Change")
+        pause()
+        wipe()
+    }
+
+    private fun whyTaken() {
+        header("Why Taken?")
+        pause()
+        wipe()
+    }
+
+    private fun takenCases() {
+        header("Taken Cases")
+        pause()
+        wipe()
+    }
+
+    private fun iterative() {
+        header("Iterative Change")
+        pause()
+        wipe()
+    }
+
+    private fun whyIterative() {
+        header("Why Iterative")
+        pause()
+        wipe()
+    }
+
+    private fun iterativeCases() {
+        header("Iterative Cases")
+        pause()
+        wipe()
+    }
+
+    private fun cartBeforeHorse() {
+        header("The Cart Before The Horse?")
+        pause()
+        wipe()
+    }
+
+    private fun leadOut() {
+        header("How To Change")
+        pause()
+        wipe()
+    }
+
 
     private fun welcome() {
         wipe()
@@ -373,30 +786,6 @@ class BicScript : ScriptBuilder<BicScript>() {
         wipe()
     }
 
-    private fun proceduralToHuman() {
-        wipe()
-        header("Procedural -> Human")
-        outline.load(
-                """
-pnSoftware development is always a mixed system
-ss    humans
-ss    not-humans
-ss    procedures, methods, artifacts, forms
-pnProcedures are powerful, but humans are super-powerful
-pn    For good...
-ss        old-school accident investigation (via sydney dekker)
-ss        "operator error" vs "system error"
-ss        humans are the primary source of safety in mixed systems
-pn    For ill...
-ss        did you ever hear of a work-to-rule strike?
-ss        (or a teenager?)
-                """.trimIndent()
-        )
-        outline.blurt()
-
-        pause()
-        wipe()
-    }
 
     private fun collaboration() {
         wipe()
@@ -791,7 +1180,24 @@ ss   hammer on provisionality & experiment
     }
 
     fun header(text: String) {
-        letters(text).format(headerFormat).at(TopRight(master.point(100 - INSET, INSET))).called("header").appear()
+        letters(text).format(headerFormat).at(TopLeft(master.point(INSET, INSET))).called("header").appear()
+    }
+
+    fun cycledHeader(sync: Long, text: String) {
+        scene(sync)
+        val appearance = appearanceFor(text)
+        sync(5)
+        appearance.fadeOut()
+        nextHeader = (nextHeader + 1) % 4
+    }
+
+    private fun appearanceFor(text: String): Appearance<Letters> {
+        return when (nextHeader % 4) {
+            0 -> letters(text).format(emphaticJumbo).at(TopLeft(master.point(INSET, INSET))).appear()
+            1 -> letters(text).format(primaryJumbo).at(TopRight(master.point(100 - INSET, INSET))).appear()
+            2 -> letters(text).format(secondaryJumbo).at(TopLeft(master.point(INSET, 100 - INSET - 10))).appear()
+            else -> letters(text).format(TertiaryJumbo).at(TopRight(master.point(100 - INSET, 100 - INSET - 10))).appear()
+        }
     }
 
     private fun headerEnd(end: String) {
