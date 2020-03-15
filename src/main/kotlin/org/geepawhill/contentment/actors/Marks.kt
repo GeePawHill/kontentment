@@ -7,7 +7,6 @@ import org.geepawhill.contentment.format.Format
 import org.geepawhill.contentment.fragments.Entrance
 import org.geepawhill.contentment.fragments.Mark
 import org.geepawhill.contentment.geometry.Bezier
-import org.geepawhill.contentment.geometry.BezierSource
 import org.geepawhill.contentment.geometry.PointPair
 import org.geepawhill.contentment.position.Position
 import org.geepawhill.contentment.step.Single
@@ -22,7 +21,7 @@ class Marks(private val world: ScriptWorld, vararg beziers: Bezier) : Actor {
         this.entrance = Entrance(group)
         this.marks = mutableListOf<Mark>()
         for (bezier in beziers) {
-            marks.add(Mark(group, BezierSource.value(bezier)))
+            marks.add(Mark(group) { bezier })
         }
     }
 

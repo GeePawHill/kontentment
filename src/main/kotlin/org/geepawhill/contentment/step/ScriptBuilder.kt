@@ -1,6 +1,5 @@
 package org.geepawhill.contentment.step
 
-import javafx.scene.Group
 import org.geepawhill.contentment.actor.Actor
 import org.geepawhill.contentment.actor.Appearance
 import org.geepawhill.contentment.actor.ScriptWorld
@@ -112,7 +111,7 @@ abstract class ScriptBuilder<SUBCLASS> @JvmOverloads constructor(rhythm: Rhythm 
     }
 
     fun cross(name: String, xsize: Double, ysize: Double, xoffset: Double, yoffset: Double): Appearance<Cross> {
-        return Appearance(world, Cross(world, Group(), actor(name).entrance(), xsize, ysize, xoffset, yoffset))
+        return Appearance(world, Cross(world, actor(name).entrance(), xsize, ysize, xoffset, yoffset))
     }
 
     fun outline(points: List<Point>) {

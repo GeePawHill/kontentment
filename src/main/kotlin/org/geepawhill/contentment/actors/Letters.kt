@@ -7,7 +7,10 @@ import org.geepawhill.contentment.format.Format
 import org.geepawhill.contentment.fragments.Entrance
 import org.geepawhill.contentment.fragments.Mark
 import org.geepawhill.contentment.fragments.Type
-import org.geepawhill.contentment.geometry.*
+import org.geepawhill.contentment.geometry.Bezier
+import org.geepawhill.contentment.geometry.Jiggler
+import org.geepawhill.contentment.geometry.Point
+import org.geepawhill.contentment.geometry.PointPair
 import org.geepawhill.contentment.position.Centered
 import org.geepawhill.contentment.position.Position
 import org.geepawhill.contentment.step.Timed
@@ -26,20 +29,6 @@ class Letters(protected val world: ScriptWorld, source: String) : Actor {
     protected val entrance: Entrance
     protected val group: Group
 
-    internal inner class EastGetter : BezierSource {
-
-        override fun get(): Bezier {
-            return eastHalfPoints()
-        }
-    }
-
-    internal inner class WestGetter : BezierSource {
-
-        override fun get(): Bezier {
-            return westHalfPoints()
-        }
-    }
-
     init {
         this.group = Group()
         this.entrance = Entrance(group)
@@ -47,8 +36,8 @@ class Letters(protected val world: ScriptWorld, source: String) : Actor {
         this.controlJiggler = Jiggler(.4, 30.0)
 
         this.letters = Type(group, source, Format.DEFAULT, Position.DEFAULT)
-        this.east = Mark(group, EastGetter())
-        this.west = Mark(group, WestGetter())
+        this.east = Mark(group) { eastHalfPoints() }
+        this.west = Mark(group) { westHalfPoints() }
     }
 
     fun withOval(): Letters {

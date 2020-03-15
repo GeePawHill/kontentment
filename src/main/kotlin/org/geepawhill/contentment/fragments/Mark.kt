@@ -6,7 +6,6 @@ import org.geepawhill.contentment.core.Context
 import org.geepawhill.contentment.core.Fragment
 import org.geepawhill.contentment.format.Format
 import org.geepawhill.contentment.geometry.Bezier
-import org.geepawhill.contentment.geometry.BezierSource
 import org.geepawhill.contentment.style.Frames
 
 /**
@@ -16,7 +15,6 @@ import org.geepawhill.contentment.style.Frames
  * @author GeePaw
  */
 class Mark(owner: Group, private val source: () -> Bezier) : Fragment {
-    constructor(owner: Group, source: BezierSource) : this(owner, { source.get() })
 
     private val path: Path = Path()
     private var format: Format? = null
