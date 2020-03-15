@@ -2,7 +2,6 @@ package org.geepawhill.contentment.core
 
 import javafx.application.Platform
 import javafx.beans.binding.Bindings
-import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.geometry.Orientation
 import javafx.scene.Cursor
@@ -141,9 +140,6 @@ class MainView(private val stage: Stage, private val player: Player) : View() {
         // non-media background
 
         val listener = ScaleListener(owner, player.context().canvas, media as MediaView)
-        owner.widthProperty().addListener(listener)
-        owner.heightProperty().addListener(listener)
-        listener.changed(SimpleObjectProperty(0.0), 300, 300)
 
         owner.setOnMouseClicked { event -> mouseClicked(event) }
 
