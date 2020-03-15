@@ -21,8 +21,9 @@ class Main : Application() {
             stage.fullScreenExitHint = ""
             stage.show()
 //            player.load(TddPremisesScript().make())
-            player.load(AgileAndBeyondScript().make())
-//            player.load(BicScript().make())
+            player.load(BicScript().make())
+//            player.load(OptimizingForCollaboration().make())
+            player.load(BicScript().make())
         } catch (e: Exception) {
             e.printStackTrace()
             Platform.exit()

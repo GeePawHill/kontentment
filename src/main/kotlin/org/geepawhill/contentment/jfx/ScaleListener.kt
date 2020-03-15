@@ -1,30 +1,36 @@
 package org.geepawhill.contentment.jfx
 
+import javafx.beans.property.Property
+import javafx.beans.property.ReadOnlyProperty
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.value.ChangeListener
 import javafx.beans.value.ObservableValue
-import javafx.scene.Group
-import javafx.scene.layout.Pane
-import javafx.scene.media.MediaView
+import javafx.collections.ObservableList
 import javafx.scene.transform.Scale
+import javafx.scene.transform.Transform
 
-class ScaleListener(private val host: Pane, private val child: Group, private val media: MediaView) : ChangeListener<Number> {
+class ScaleListener(
+        private val hostWidth: ReadOnlyProperty<Number>,
+        private val hostHeight: ReadOnlyProperty<Number>,
+        private val transforms: ObservableList<Transform>,
+        private val mediaWidth: Property<Number>)
+    : ChangeListener<Number> {
 
     init {
-        host.widthProperty().addListener(this)
-        host.heightProperty().addListener(this)
+        hostWidth.addListener(this)
+        hostHeight.addListener(this)
         changed(SimpleObjectProperty(0.0), 300, 300)
     }
 
     override fun changed(observable: ObservableValue<out Number>, oldValue: Number, newValue: Number) {
-        val newWidth = host.width
-        media.fitWidth = newWidth
-        val newHeight = host.height
+        val newWidth = hostWidth.value.toDouble()
+        val newHeight = hostHeight.value.toDouble()
         val scaleFactor = if (newWidth / newHeight > ASPECT_RATIO) newHeight / FORCED_HEIGHT else newWidth / FORCED_WIDTH
         val newScale = Scale(scaleFactor, scaleFactor)
         newScale.pivotX = 0.0
         newScale.pivotY = 0.0
-        child.transforms.setAll(newScale)
+        mediaWidth.value = newWidth
+        transforms.setAll(newScale)
     }
 
     companion object {

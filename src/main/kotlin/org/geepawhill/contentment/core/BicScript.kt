@@ -19,14 +19,15 @@ import org.geepawhill.contentment.player.Script
 import org.geepawhill.contentment.position.RightOf
 import org.geepawhill.contentment.position.TopLeft
 import org.geepawhill.contentment.position.TopRight
+import org.geepawhill.contentment.rhythm.MediaRhythm
 import org.geepawhill.contentment.step.ScriptBuilder
 import org.geepawhill.contentment.style.Frames
 import org.geepawhill.contentment.style.TypeFace
 import org.geepawhill.contentment.utility.JfxUtility
+import java.io.File
 import kotlin.random.Random
 
-class BicScript : ScriptBuilder<BicScript>() //MediaRhythm(File("C:\\GeePawHillDotOrgWip\\wip\\ccs talks\\Beauty In Code 2020\\bic2020-raw-tonal.mp4"))) {
-{
+class BicScript : ScriptBuilder<BicScript>(MediaRhythm(File("C:\\GeePawHillDotOrgWip\\wip\\ccs talks\\Beauty In Code 2020\\bic2020-raw-tonal.mp4"))) {
 
     private val formats = FormatTable()
 

@@ -139,7 +139,7 @@ class MainView(private val stage: Stage, private val player: Player) : View() {
 
         // non-media background
 
-        val listener = ScaleListener(owner, player.context().canvas, media as MediaView)
+        val listener = ScaleListener(owner.widthProperty(), owner.heightProperty(), player.context().canvas.transforms, media!!.fitWidthProperty())
 
         owner.setOnMouseClicked { event -> mouseClicked(event) }
 
