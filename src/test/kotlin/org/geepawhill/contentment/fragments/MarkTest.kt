@@ -7,7 +7,6 @@ import javafx.scene.shape.Path
 import org.assertj.core.api.Assertions.assertThat
 import org.geepawhill.contentment.core.Context
 import org.geepawhill.contentment.geometry.Bezier
-import org.geepawhill.contentment.geometry.BezierSource
 import org.geepawhill.contentment.geometry.Point
 import org.geepawhill.contentment.geometry.PointPair
 import org.geepawhill.contentment.test.ContentmentAssertions.Companion.assertThat
@@ -20,14 +19,14 @@ class MarkTest {
 
     @Test
     fun addsPath() {
-        val mark = Mark(group, BezierSource.value(bezier))
+        val mark = Mark(group) { bezier }
         mark.prepare(context)
         assertThat(group.children.size).isEqualTo(1)
     }
 
     @Test
     fun pathClearedAtZero() {
-        val mark = Mark(group, BezierSource.value(bezier))
+        val mark = Mark(group) { bezier }
         mark.prepare(context)
         assertThat(group.children.size).isEqualTo(1)
         val path = group.children[0] as Path
@@ -37,7 +36,7 @@ class MarkTest {
 
     @Test
     fun addsTwoStepPath() {
-        val mark = Mark(group, BezierSource.value(bezier))
+        val mark = Mark(group) { bezier }
         mark.prepare(context)
         mark.interpolate(context, .25)
         assertThat(group.children.size).isEqualTo(1)
@@ -49,7 +48,7 @@ class MarkTest {
 
     @Test
     fun completedPathValues() {
-        val mark = Mark(group, BezierSource.value(bezier))
+        val mark = Mark(group) { bezier }
         mark.prepare(context)
         mark.interpolate(context, 1.0)
         val path = group.children[0] as Path
@@ -61,7 +60,7 @@ class MarkTest {
 
     @Test
     fun partialPathValues() {
-        val mark = Mark(group, BezierSource.value(bezier))
+        val mark = Mark(group) { bezier }
         mark.prepare(context)
         mark.interpolate(context, .5)
         val path = group.children[0] as Path
