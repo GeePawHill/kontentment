@@ -17,15 +17,14 @@ import org.geepawhill.contentment.style.Frames
 class Mark(owner: Group, private val source: () -> Bezier) : Fragment {
 
     private val path: Path = Path()
-    private var format: Format? = null
+    private var format: Format = Format.DEFAULT
 
     init {
         owner.children.add(path)
-        this.format = Format.DEFAULT
     }
 
     override fun prepare(context: Context) {
-        format!!.apply(Frames.KEY, path)
+        format.apply(Frames.KEY, path)
         interpolate(context, 0.0)
     }
 
