@@ -69,8 +69,8 @@ class Connector(private val world: ScriptWorld) : Actor {
         return ConnectorBeziers(
                 main,
                 chooseBezier(fromArrowHead.top),
-                chooseBezier(toArrowHead.top),
                 chooseBezier(fromArrowHead.bottom),
+                chooseBezier(toArrowHead.top),
                 chooseBezier(toArrowHead.bottom)
         )
     }
@@ -86,8 +86,8 @@ class Connector(private val world: ScriptWorld) : Actor {
         return ConnectorBeziers(
                 chooseBezier(main),
                 chooseBezier(fromArrowHead.top),
-                chooseBezier(toArrowHead.top),
                 chooseBezier(fromArrowHead.bottom),
+                chooseBezier(toArrowHead.top),
                 chooseBezier(toArrowHead.bottom)
         )
     }
@@ -164,16 +164,16 @@ class Connector(private val world: ScriptWorld) : Actor {
     override fun draw(ms: Double): Connector {
         val steps = ArrayList<Mark>()
         if (spec.arrowheadAtFrom) {
-            steps!!.add(fromTopStep)
-            steps!!.add(fromBottomStep)
+            steps.add(fromTopStep)
+            steps.add(fromBottomStep)
         }
         if (spec.arrowheadAtTo) {
-            steps!!.add(toTopStep)
-            steps!!.add(toBottomStep)
+            steps.add(toTopStep)
+            steps.add(toBottomStep)
         }
         val sequence = Timed(ms)
         sequence.add(Timing.weighted(.9), mainStep)
-        for (step in steps!!) {
+        for (step in steps) {
             sequence.add(Timing.weighted(.1), step)
         }
         world.add(sequence)

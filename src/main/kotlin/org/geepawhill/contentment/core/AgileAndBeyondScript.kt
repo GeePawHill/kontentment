@@ -140,6 +140,10 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
         assume(emphaticSmall)
         letters("Copyright (C) 2019, GeePawHill. All rights reserved.").at(TopLeft(20.0, 825.0)).appear()
         endChord()
+
+        val x = connector()
+        x.actor.from(100, 100, false).to(400, 400, true)
+        x.sketch()
         pause()
         wipe()
     }
