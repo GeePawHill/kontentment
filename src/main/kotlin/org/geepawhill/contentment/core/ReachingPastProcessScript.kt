@@ -748,7 +748,7 @@ ss   the *process* works for you
     }
 
     private fun headerEnd(end: String) {
-        letters(end).format(secondaryJumbo).at(RightOf(actor("header").entrance())).sketch()
+        letters(end).format(secondaryJumbo).at(RightOf(actor("header"))).sketch()
     }
 
     internal fun polygon(sides: Int, radius: Double, at: Point): List<Point> {

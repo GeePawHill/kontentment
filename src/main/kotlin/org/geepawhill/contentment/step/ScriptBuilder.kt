@@ -111,7 +111,7 @@ abstract class ScriptBuilder<SUBCLASS> @JvmOverloads constructor(rhythm: Rhythm 
     }
 
     fun cross(name: String, xsize: Double, ysize: Double, xoffset: Double, yoffset: Double): Appearance<Cross> {
-        return Appearance(world, Cross(world, actor(name).entrance(), xsize, ysize, xoffset, yoffset))
+        return Appearance(world, Cross(world, actor(name), xsize, ysize, xoffset, yoffset))
     }
 
     fun outline(points: List<Point>) {

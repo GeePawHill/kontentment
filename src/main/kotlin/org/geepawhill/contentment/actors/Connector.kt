@@ -106,7 +106,7 @@ class Connector(private val world: ScriptWorld) : Actor {
 
     @JvmOverloads
     fun from(target: String, withHead: Boolean = false): Connector {
-        return from(world.actor(target).entrance(), withHead)
+        return from(world.actor(target), withHead)
     }
 
     @JvmOverloads
@@ -129,7 +129,7 @@ class Connector(private val world: ScriptWorld) : Actor {
 
     @JvmOverloads
     fun to(target: String, withHead: Boolean = false): Connector {
-        return to(world.actor(target).entrance(), withHead)
+        return to(world.actor(target), withHead)
     }
 
     @JvmOverloads
