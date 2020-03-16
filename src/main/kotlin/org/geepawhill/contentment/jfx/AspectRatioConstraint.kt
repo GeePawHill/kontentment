@@ -9,7 +9,7 @@ import javafx.collections.ObservableList
 import javafx.scene.transform.Scale
 import javafx.scene.transform.Transform
 
-class ScaleListener(
+class AspectRatioConstraint(
         private val hostWidth: ReadOnlyProperty<Number>,
         private val hostHeight: ReadOnlyProperty<Number>,
         private val transforms: ObservableList<Transform>,

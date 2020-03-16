@@ -20,7 +20,7 @@ import javafx.scene.text.Text
 import javafx.stage.Stage
 import javafx.util.converter.IntegerStringConverter
 import org.geepawhill.contentment.geometry.PointPair
-import org.geepawhill.contentment.jfx.ScaleListener
+import org.geepawhill.contentment.jfx.AspectRatioConstraint
 import org.geepawhill.contentment.player.Player
 import org.geepawhill.contentment.player.PlayerState
 import org.geepawhill.contentment.rhythm.Rhythm
@@ -139,7 +139,7 @@ class MainView(private val stage: Stage, private val player: Player) : View() {
 
         // non-media background
 
-        val listener = ScaleListener(owner.widthProperty(), owner.heightProperty(), player.context().canvas.transforms, media!!.fitWidthProperty())
+        val listener = AspectRatioConstraint(owner.widthProperty(), owner.heightProperty(), player.context().canvas.transforms, media!!.fitWidthProperty())
 
         owner.setOnMouseClicked { event -> mouseClicked(event) }
 
