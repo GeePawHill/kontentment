@@ -17,7 +17,6 @@ import javafx.scene.media.MediaView
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import javafx.scene.text.Text
-import javafx.stage.Stage
 import javafx.util.converter.IntegerStringConverter
 import org.geepawhill.contentment.geometry.PointPair
 import org.geepawhill.contentment.jfx.AspectRatioConstraint
@@ -28,7 +27,9 @@ import org.geepawhill.contentment.utility.JfxUtility
 import tornadofx.*
 import java.util.concurrent.Callable
 
-class MainView(private val stage: Stage, private val player: Player) : View() {
+class MainView() : View() {
+    private val stage = FX.primaryStage
+    val player = Player()
 
     private val isPlayingCallable = Callable { player.state == PlayerState.Playing }
     private val trueIfPlaying = Bindings.createBooleanBinding(isPlayingCallable, player.stateProperty())
@@ -118,12 +119,21 @@ class MainView(private val stage: Stage, private val player: Player) : View() {
     private var media: MediaView? = null
 
     init {
+        preloadFontFile("/org/geepawhill/scripts/ChewedPenBB.otf")
+        preloadFontFile("/org/geepawhill/scripts/ChewedPenBB_ital.otf")
         stage.fullScreenProperty().addListener { _, _, n -> fullscreenChanged(n!!) }
+        stage.isMaximized = true
+        stage.fullScreenExitHint = ""
+        player.load(BicScript().make())
         root.widthProperty().addListener { _, _, _ ->
             elapsed.x = root.width - 100.0
             elapsed.y = root.height - 20.0
         }
         root.children.add(elapsed)
+    }
+
+    private fun preloadFontFile(fontfile: String) {
+        Font.loadFont(Main::class.java.getResource(fontfile).toExternalForm(), 50.0)
     }
 
     private fun makeViewport(): Pane {
