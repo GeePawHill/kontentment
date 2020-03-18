@@ -1,42 +1,43 @@
 package org.geepawhill.contentment.player
 
 import javafx.beans.property.ObjectProperty
+import javafx.beans.property.ReadOnlyObjectWrapper
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleObjectProperty
 import javafx.concurrent.Task
 import org.geepawhill.contentment.core.Context
 import org.geepawhill.contentment.core.OnFinished
 import org.geepawhill.contentment.rhythm.Rhythm
+import tornadofx.*
 import java.lang.Thread.sleep
 import java.util.function.Supplier
-
 
 class Player {
 
     private var position: Int = 0
     private val context: Context = Context()
 
-    private val scriptProperty: SimpleObjectProperty<Script> = SimpleObjectProperty(Script())
     private val atStartProperty: SimpleBooleanProperty = SimpleBooleanProperty(true)
     private val atEndProperty: SimpleBooleanProperty = SimpleBooleanProperty(false)
 
-    val stateProperty = SimpleObjectProperty(PlayerState.Stepping)
-    val state
-        get() = stateProperty.get()
+    private val stateProperty = SimpleObjectProperty(PlayerState.Stepping)
+    private var state by stateProperty
 
     val elapsedProperty = SimpleObjectProperty(0)
 
+    val isPlaying = booleanBinding(stateProperty) { state == PlayerState.Playing }
+
+    private val scriptProperty = ReadOnlyObjectWrapper(Script())
+    val script: Script by scriptProperty
+
     val rhythm: Rhythm
         get() = script.rhythm()
-
-    val script: Script
-        get() = scriptProperty.get()
 
 
     private val elapsedTask =
             object : Task<Unit>() {
                 @Throws(Exception::class)
-                protected override fun call() {
+                override fun call() {
                     while (true) {
                         sleep(60000)
                         val left = elapsedProperty.value

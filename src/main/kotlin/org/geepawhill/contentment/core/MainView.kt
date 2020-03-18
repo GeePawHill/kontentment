@@ -1,7 +1,6 @@
 package org.geepawhill.contentment.core
 
 import javafx.application.Platform
-import javafx.beans.binding.Bindings
 import javafx.beans.property.SimpleStringProperty
 import javafx.geometry.Orientation
 import javafx.scene.Cursor
@@ -21,17 +20,13 @@ import javafx.util.converter.IntegerStringConverter
 import org.geepawhill.contentment.geometry.PointPair
 import org.geepawhill.contentment.jfx.AspectRatioConstraint
 import org.geepawhill.contentment.player.Player
-import org.geepawhill.contentment.player.PlayerState
 import org.geepawhill.contentment.rhythm.Rhythm
 import org.geepawhill.contentment.utility.JfxUtility
 import tornadofx.*
-import java.util.concurrent.Callable
 
 class MainView() : View() {
     val player = Player()
 
-    private val isPlayingCallable = Callable { player.state == PlayerState.Playing }
-    private val trueIfPlaying = Bindings.createBooleanBinding(isPlayingCallable, player.stateProperty)
     private lateinit var elapsed: Text
     private lateinit var timing: Text
 
@@ -53,42 +48,42 @@ class MainView() : View() {
             }
             button("||<--") {
                 action { player.start() }
-                disableWhen { trueIfPlaying }
+                disableWhen { player.isPlaying }
             }
             button("OneOff") {
                 action { oneOff() }
             }
             button("<--") {
                 action { player.backward() }
-                disableWhen { trueIfPlaying }
+                disableWhen { player.isPlaying }
             }
             button(">") {
                 action { player.play() }
-                disableWhen { trueIfPlaying }
+                disableWhen { player.isPlaying }
             }
             button(">|") {
                 action { player.playOne() }
-                disableWhen { trueIfPlaying }
+                disableWhen { player.isPlaying }
             }
             button("-->") {
                 action { player.forward() }
-                disableWhen { trueIfPlaying }
+                disableWhen { player.isPlaying }
             }
             button("-->||") {
                 action { player.end() }
-                disableWhen { trueIfPlaying }
+                disableWhen { player.isPlaying }
             }
             button("T-2") {
                 action { player.penultimate() }
-                disableWhen { trueIfPlaying }
+                disableWhen { player.isPlaying }
             }
             button("T-1") {
                 action { player.ultimate() }
-                disableWhen { trueIfPlaying }
+                disableWhen { player.isPlaying }
             }
             button("Mark") {
                 action { markHere(this@toolbar) }
-                enableWhen { trueIfPlaying }
+                enableWhen { player.isPlaying }
             }
             region { prefWidth = 100.0 }
             checkbox {
@@ -118,6 +113,11 @@ class MainView() : View() {
     private var media: MediaView? = null
 
     init {
+        preloadFontFile("/org/geepawhill/scripts/ChewedPenBB.otf")
+        preloadFontFile("/org/geepawhill/scripts/ChewedPenBB_ital.otf")
+        FX.primaryStage.isMaximized = true
+        FX.primaryStage.fullScreenExitHint = ""
+
         player.load(BicScript().make())
         root.widthProperty().addListener { _, _, _ ->
             elapsed.x = root.width - 100.0
@@ -127,6 +127,9 @@ class MainView() : View() {
         FX.primaryStage.fullScreenProperty().addListener { _, _, n -> fullscreenChanged(n!!) }
     }
 
+    private fun preloadFontFile(fontfile: String) {
+        Font.loadFont(Main::class.java.getResource(fontfile).toExternalForm(), 50.0)
+    }
 
     private fun makeViewport(): Pane {
         val owner = Pane()
