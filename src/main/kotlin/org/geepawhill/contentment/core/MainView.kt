@@ -28,11 +28,10 @@ import tornadofx.*
 import java.util.concurrent.Callable
 
 class MainView() : View() {
-    private val stage = FX.primaryStage
     val player = Player()
 
     private val isPlayingCallable = Callable { player.state == PlayerState.Playing }
-    private val trueIfPlaying = Bindings.createBooleanBinding(isPlayingCallable, player.stateProperty())
+    private val trueIfPlaying = Bindings.createBooleanBinding(isPlayingCallable, player.stateProperty)
     private lateinit var elapsed: Text
     private lateinit var timing: Text
 
@@ -50,7 +49,7 @@ class MainView() : View() {
             orientation = Orientation.HORIZONTAL
             timing = makeTiming()
             button("Full") {
-                action { stage.isFullScreen = true }
+                action { FX.primaryStage.isFullScreen = true }
             }
             button("||<--") {
                 action { player.start() }
@@ -119,22 +118,15 @@ class MainView() : View() {
     private var media: MediaView? = null
 
     init {
-        preloadFontFile("/org/geepawhill/scripts/ChewedPenBB.otf")
-        preloadFontFile("/org/geepawhill/scripts/ChewedPenBB_ital.otf")
-        stage.fullScreenProperty().addListener { _, _, n -> fullscreenChanged(n!!) }
-        stage.isMaximized = true
-        stage.fullScreenExitHint = ""
         player.load(BicScript().make())
         root.widthProperty().addListener { _, _, _ ->
             elapsed.x = root.width - 100.0
             elapsed.y = root.height - 20.0
         }
         root.children.add(elapsed)
+        FX.primaryStage.fullScreenProperty().addListener { _, _, n -> fullscreenChanged(n!!) }
     }
 
-    private fun preloadFontFile(fontfile: String) {
-        Font.loadFont(Main::class.java.getResource(fontfile).toExternalForm(), 50.0)
-    }
 
     private fun makeViewport(): Pane {
         val owner = Pane()
@@ -180,7 +172,7 @@ class MainView() : View() {
     }
 
     private fun oneOff() {
-        JfxUtility.capture(stage.scene.root)
+        JfxUtility.capture(FX.primaryStage.scene.root)
         dumpNode(player.context().canvas, 0)
     }
 
@@ -217,10 +209,10 @@ class MainView() : View() {
     private fun fullscreenChanged(newValue: Boolean) {
         if (!newValue) {
             root.top.show()
-            stage.scene.cursor = Cursor.DEFAULT
+            FX.primaryStage.scene.cursor = Cursor.DEFAULT
         } else {
             root.top.hide()
-            stage.scene.cursor = Cursor.NONE
+            FX.primaryStage.scene.cursor = Cursor.NONE
         }
     }
 

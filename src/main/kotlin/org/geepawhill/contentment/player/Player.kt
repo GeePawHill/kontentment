@@ -1,6 +1,5 @@
 package org.geepawhill.contentment.player
 
-import javafx.beans.property.BooleanProperty
 import javafx.beans.property.ObjectProperty
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleObjectProperty
@@ -13,17 +12,28 @@ import java.util.function.Supplier
 
 
 class Player {
-    private var position: Int = 0
-    private val context: Context
 
-    private val scriptProperty: SimpleObjectProperty<Script>
-    private val stateProperty: SimpleObjectProperty<PlayerState>
-    private val atStartProperty: SimpleBooleanProperty
-    private val atEndProperty: SimpleBooleanProperty
+    private var position: Int = 0
+    private val context: Context = Context()
+
+    private val scriptProperty: SimpleObjectProperty<Script> = SimpleObjectProperty(Script())
+    private val atStartProperty: SimpleBooleanProperty = SimpleBooleanProperty(true)
+    private val atEndProperty: SimpleBooleanProperty = SimpleBooleanProperty(false)
+
+    val stateProperty = SimpleObjectProperty(PlayerState.Stepping)
+    val state
+        get() = stateProperty.get()
 
     val elapsedProperty = SimpleObjectProperty(0)
 
-    val elapsedTask =
+    val rhythm: Rhythm
+        get() = script.rhythm()
+
+    val script: Script
+        get() = scriptProperty.get()
+
+
+    private val elapsedTask =
             object : Task<Unit>() {
                 @Throws(Exception::class)
                 protected override fun call() {
@@ -40,31 +50,16 @@ class Player {
                 }
             };
 
-    val state: PlayerState
-        get() = stateProperty.get()
 
-    val isPlayOneDone: Boolean
+    private val isPlayOneDone: Boolean
         get() = if (position < script.size() - 1) {
-            if (rhythm.beat() >= getSync(position + 1).target)
-                true
-            else
-                false
+            rhythm.beat() >= getSync(position + 1).target
         } else {
             rhythm.isAtEnd
         }
 
-    val rhythm: Rhythm
-        get() = script.rhythm()
-
-    val script: Script
-        get() = scriptProperty.get()
 
     init {
-        this.atStartProperty = SimpleBooleanProperty(true)
-        this.atEndProperty = SimpleBooleanProperty(false)
-        this.stateProperty = SimpleObjectProperty(PlayerState.Stepping)
-        this.scriptProperty = SimpleObjectProperty(Script())
-        this.context = Context()
         this.position = 0
         val th = Thread(elapsedTask)
         th.setDaemon(true)
@@ -75,19 +70,11 @@ class Player {
         return context
     }
 
-    fun atStartProperty(): BooleanProperty {
-        return atStartProperty
-    }
-
-    fun atEndProperty(): BooleanProperty {
-        return atEndProperty
-    }
-
-    fun atStart(): Boolean {
+    private fun atStart(): Boolean {
         return atStartProperty.get()
     }
 
-    fun atEnd(): Boolean {
+    private fun atEnd(): Boolean {
         return atEndProperty.get()
     }
 
@@ -99,7 +86,7 @@ class Player {
         context.setRhythm(script.rhythm())
     }
 
-    fun position(): Int {
+    private fun position(): Int {
         return position
     }
 
@@ -137,13 +124,6 @@ class Player {
             else
                 rhythm.seekHard(nextSync().target)
         }
-        //		mustBeStepping();
-        //		if (!atStart())
-        //		{
-        //			setPosition(position() - 1);
-        //			nextSync().phrase.undo(context);
-        //			getRhythm().seekHard(nextSync().target);
-        //		}
     }
 
     fun playOne() {
@@ -161,7 +141,7 @@ class Player {
         }
     }
 
-    fun newPlayOneFinished() {
+    private fun newPlayOneFinished() {
         rhythm.pause()
         stateProperty.set(PlayerState.Stepping)
         setPosition(position() + 1)
@@ -171,7 +151,7 @@ class Player {
             rhythm.seekHard(nextSync().target)
     }
 
-    fun newPlayFinished() {
+    private fun newPlayFinished() {
         setPosition(position() + 1)
         if (!atEnd()) {
             BeatWaiter(context, nextSync().phrase,
@@ -233,15 +213,10 @@ class Player {
         backward()
     }
 
-    fun setPosition(position: Int) {
+    private fun setPosition(position: Int) {
         this.position = position
         atStartProperty.set(position == 0)
         atEndProperty.set(position == script.size())
-    }
-
-
-    fun stateProperty(): ObjectProperty<PlayerState> {
-        return stateProperty
     }
 
     fun scriptProperty(): ObjectProperty<Script> {
