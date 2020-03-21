@@ -51,7 +51,6 @@ class Player {
                 }
             };
 
-
     private val isPlayOneDone: Boolean
         get() = if (position < script.size() - 1) {
             rhythm.beat() >= getSync(position + 1).target
