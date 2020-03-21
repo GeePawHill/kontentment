@@ -6,7 +6,6 @@ import javafx.scene.Cursor
 import javafx.scene.Node
 import javafx.scene.Parent
 import javafx.scene.control.ToolBar
-import javafx.scene.media.MediaView
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import javafx.scene.text.Text
@@ -105,8 +104,6 @@ class MainView() : View() {
         center = ContentView(player).root
     }
 
-    private var media: MediaView? = null
-
     init {
         preloadFontFile("/org/geepawhill/scripts/ChewedPenBB.otf")
         preloadFontFile("/org/geepawhill/scripts/ChewedPenBB_ital.otf")
@@ -162,6 +159,4 @@ class MainView() : View() {
             FX.primaryStage.scene.cursor = Cursor.NONE
         }
     }
-
-
 }

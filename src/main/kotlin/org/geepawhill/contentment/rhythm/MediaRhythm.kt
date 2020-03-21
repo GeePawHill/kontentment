@@ -1,15 +1,16 @@
 package org.geepawhill.contentment.rhythm
 
-import java.io.File
-import java.net.URI
-import java.time.*
-
 import javafx.animation.AnimationTimer
-import javafx.beans.property.*
-import javafx.scene.media.*
+import javafx.beans.property.LongProperty
+import javafx.beans.property.SimpleLongProperty
+import javafx.scene.media.Media
+import javafx.scene.media.MediaPlayer
+import java.io.File
+import java.time.Duration
+import java.time.LocalDateTime
 
 class MediaRhythm(mediaString: String) : Rhythm {
-    private val beatProperty: SimpleLongProperty
+    private val beatProperty = SimpleLongProperty(0L)
     override var isPlaying: Boolean = false
     private var startedPlayingAt: LocalDateTime? = null
     private var startedPauseAt: Long = 0
@@ -23,8 +24,6 @@ class MediaRhythm(mediaString: String) : Rhythm {
     override val isAtEnd: Boolean
         get() = mediaPlayer!!.getCurrentTime() == mediaPlayer.getCycleDuration()
 
-    constructor(uri: URI) : this(uri.toString()) {}
-
     @JvmOverloads
     constructor(file: File = File("/01faceoverCut.mp4")) : this(file.toURI().toString()) {
     }
@@ -33,7 +32,6 @@ class MediaRhythm(mediaString: String) : Rhythm {
         val m = Media(mediaString)
         mediaPlayer = MediaPlayer(m)
         mediaPlayer.pause()
-        beatProperty = SimpleLongProperty(0L)
         isPlaying = false
         startedPauseAt = 0L
         timer = object : AnimationTimer() {
