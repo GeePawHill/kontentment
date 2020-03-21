@@ -1,24 +1,17 @@
 package org.geepawhill.contentment.core
 
-import javafx.application.Platform
 import javafx.beans.property.SimpleStringProperty
 import javafx.geometry.Orientation
 import javafx.scene.Cursor
 import javafx.scene.Node
 import javafx.scene.Parent
 import javafx.scene.control.ToolBar
-import javafx.scene.input.MouseButton
-import javafx.scene.input.MouseEvent
-import javafx.scene.layout.Background
-import javafx.scene.layout.BackgroundFill
-import javafx.scene.layout.Pane
 import javafx.scene.media.MediaView
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import javafx.scene.text.Text
 import javafx.util.converter.IntegerStringConverter
 import org.geepawhill.contentment.geometry.PointPair
-import org.geepawhill.contentment.jfx.AspectRatioConstraint
 import org.geepawhill.contentment.player.Player
 import org.geepawhill.contentment.rhythm.Rhythm
 import org.geepawhill.contentment.utility.JfxUtility
@@ -28,7 +21,6 @@ class MainView() : View() {
     val player = Player()
 
     private lateinit var elapsed: Text
-    private lateinit var timing: Text
 
     private val startElapsedProperty = SimpleStringProperty("45")
 
@@ -42,7 +34,20 @@ class MainView() : View() {
         }
         top = toolbar {
             orientation = Orientation.HORIZONTAL
-            timing = makeTiming()
+            text("00000000") {
+                font = Font("Consolas", 30.0)
+                stroke = Color.BLUE
+                fill = Color.BLUE
+                player.scriptProperty().addListener { _, _, _ ->
+                    player.script.rhythm().beatProperty().addListener { _, _, beat ->
+                        var newText = String.format("%8d", beat.toLong() / 1000)
+                        if (beat.toLong() == 0L) text = "   Start"
+                        if (beat.toLong() == Rhythm.MAX) text = "     End"
+                        text = newText
+                    }
+
+                }
+            }
             button("Full") {
                 action { FX.primaryStage.isFullScreen = true }
             }
@@ -97,17 +102,7 @@ class MainView() : View() {
             }
             textfield(startElapsedProperty)
         }
-
-        center = makeViewport()
-
-    }
-
-    private fun ToolBar.makeTiming(): Text {
-        return text("00000000") {
-            font = Font("Consolas", 30.0)
-            stroke = Color.BLUE
-            fill = Color.BLUE
-        }
+        center = ContentView(player).root
     }
 
     private var media: MediaView? = null
@@ -131,49 +126,6 @@ class MainView() : View() {
         Font.loadFont(Main::class.java.getResource(fontfile).toExternalForm(), 50.0)
     }
 
-    private fun makeViewport(): Pane {
-        val owner = Pane()
-        owner.setPrefSize(1600.0, 900.0)
-        val background = Background(BackgroundFill(Color.BLACK, null, null))
-        owner.background = background
-
-        player.scriptProperty().addListener { _, _, _ -> scriptChanged() }
-
-        media = MediaView()
-        owner.children.add(media)
-
-        // non-media background
-
-        val listener = AspectRatioConstraint(owner.widthProperty(), owner.heightProperty(), player.context().canvas.transforms, media!!.fitWidthProperty())
-
-        owner.setOnMouseClicked { event -> mouseClicked(event) }
-
-        owner.children.add(player.context().canvas)
-
-        return owner
-    }
-
-    private fun scriptChanged() {
-        player.rhythm.beatProperty().addListener { _, _, n -> beatChanged(n) }
-        beatChanged(0)
-        media!!.mediaPlayer = player.script.mediaPlayer
-    }
-
-    private fun mouseClicked(event: MouseEvent) {
-        if (event.isShiftDown && event.button == MouseButton.PRIMARY) {
-            player.forward()
-            return
-        }
-        if (event.isControlDown && event.button == MouseButton.PRIMARY) {
-            player.play()
-            return
-        }
-        if (event.button == MouseButton.SECONDARY)
-            player.backward()
-        else
-            player.playOne()
-    }
-
     private fun oneOff() {
         JfxUtility.capture(FX.primaryStage.scene.root)
         dumpNode(player.context().canvas, 0)
@@ -191,14 +143,6 @@ class MainView() : View() {
                 dumpNode(child, indent + 1)
             }
         }
-    }
-
-    private fun beatChanged(beat: Number) {
-        var text = String.format("%8d", beat.toLong() / 1000)
-        if (beat.toLong() == 0L) text = "   Start"
-        if (beat.toLong() == Rhythm.MAX) text = "     End"
-        val newText = text
-        Platform.runLater { timing.text = newText }
     }
 
     private fun markHere(bar: ToolBar) {
