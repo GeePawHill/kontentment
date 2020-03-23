@@ -172,10 +172,8 @@ class JavaFXDirectRenderingTest : Application() {
     private val opacity: DoubleProperty = SimpleDoubleProperty()
     private val cursorHandler: CursorHandler
 
-    private val nanoTimer: NanoTimer = object : NanoTimer(1000.0 / FPS) {
-        override fun onSucceeded() {
-            renderFrame()
-        }
+    private val nanoTimer = NanoTimer(1000.0 / FPS) {
+        renderFrame()
     }
 
     override fun start(primaryStage: Stage) {
