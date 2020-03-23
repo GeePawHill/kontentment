@@ -98,7 +98,7 @@ import java.nio.ByteBuffer
  * This approach now, along with JavaFX hardware acceleration, probably outperforms the corresponding implementation
  * that uses Swing/Java2D.
  */
-abstract class JavaFXDirectRenderingTest : Application() {
+class JavaFXDirectRenderingTest : Application() {
     /**
      * The vlcj media player factory.
      */
@@ -171,6 +171,12 @@ abstract class JavaFXDirectRenderingTest : Application() {
     private val y: DoubleProperty = SimpleDoubleProperty()
     private val opacity: DoubleProperty = SimpleDoubleProperty()
     private val cursorHandler: CursorHandler
+
+    private val nanoTimer: NanoTimer = object : NanoTimer(1000.0 / FPS) {
+        override fun onSucceeded() {
+            renderFrame()
+        }
+    }
 
     override fun start(primaryStage: Stage) {
         stage = primaryStage
@@ -406,33 +412,6 @@ Maximum: %d ms
         }
     }
 
-    /**
-     *
-     */
-    abstract fun startTimer()
-
-    /**
-     *
-     */
-    abstract fun pauseTimer()
-
-    /**
-     *
-     */
-    abstract fun stopTimer()
-
-    companion object {
-        private const val BLACK_BACKGROUND_STYLE = "-fx-background-color: rgb(0, 0, 0);"
-        private const val STATUS_BACKGROUND_STYLE = "-fx-background-color: rgb(232, 232, 232); -fx-label-padding: 8 8 8 8;"
-        private val BLACK = Color(0.0, 0.0, 0.0, 1.0)
-        private val WHITE = Color(1.0, 1.0, 1.0, 1.0)
-        private val FONT = Font.font("Monospace", 40.0)
-
-        /**
-         * Mouse pointer will be hidden when over the video surface after this inactivity timeout (milliseconds).
-         */
-        private const val MOUSE_TIMEOUT: Long = 3000
-    }
 
     /**
      *
@@ -523,5 +502,60 @@ Maximum: %d ms
         timeline2.play()
         cursorHandler = CursorHandler(canvas, MOUSE_TIMEOUT)
         cursorHandler.start()
+    }
+
+
+    fun startTimer() {
+        Platform.runLater {
+            if (!nanoTimer.isRunning) {
+                nanoTimer.reset()
+                nanoTimer.start()
+            }
+        }
+    }
+
+    fun pauseTimer() {
+        Platform.runLater {
+            if (nanoTimer.isRunning) {
+                nanoTimer.cancel()
+            }
+        }
+    }
+
+    fun stopTimer() {
+        Platform.runLater {
+            if (nanoTimer.isRunning) {
+                nanoTimer.cancel()
+            }
+        }
+    }
+
+    companion object {
+        private const val BLACK_BACKGROUND_STYLE = "-fx-background-color: rgb(0, 0, 0);"
+        private const val STATUS_BACKGROUND_STYLE = "-fx-background-color: rgb(232, 232, 232); -fx-label-padding: 8 8 8 8;"
+        private val BLACK = Color(0.0, 0.0, 0.0, 1.0)
+        private val WHITE = Color(1.0, 1.0, 1.0, 1.0)
+        private val FONT = Font.font("Monospace", 40.0)
+
+        /**
+         * Mouse pointer will be hidden when over the video surface after this inactivity timeout (milliseconds).
+         */
+        private const val MOUSE_TIMEOUT: Long = 3000
+
+        /**
+         *
+         */
+        private const val FPS = 60.0
+
+        /**
+         * Application entry point.
+         *
+         * @param args command-line arguments
+         */
+        @JvmStatic
+        fun main(args: Array<String>) //static method
+        {
+            Application.launch(JavaFXDirectRenderingTest::class.java)
+        }
     }
 }

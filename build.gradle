@@ -6,7 +6,7 @@ plugins {
 
 group 'org.geepawhill.contentment'
 //mainClassName = 'org.geepawhill.contentment.core.Main'
-mainClassName = 'org.geepawhill.contentment.core.NanoTimerJavaFXDirectRenderingTest'
+mainClassName = 'org.geepawhill.contentment.core.JavaFXDirectRenderingTest'
 
 repositories {
     mavenCentral()
