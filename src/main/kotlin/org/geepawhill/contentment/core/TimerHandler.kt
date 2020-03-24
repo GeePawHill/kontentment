@@ -10,36 +10,25 @@ import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter
  * No need to consume CPU if paused/stopped.
  */
 internal class TimerHandler(private val application: JavaFXDirectRenderingTest) : MediaPlayerEventAdapter() {
-    private fun startTimer() {
+
+    override fun playing(mediaPlayer: MediaPlayer) {
         application.startTimer()
     }
 
-    private fun pauseTimer() {
+    override fun paused(mediaPlayer: MediaPlayer) {
         application.pauseTimer()
     }
 
-    private fun stopTimer() {
+    override fun stopped(mediaPlayer: MediaPlayer) {
         application.stopTimer()
     }
 
-    override fun playing(mediaPlayer: MediaPlayer) {
-        startTimer()
-    }
-
-    override fun paused(mediaPlayer: MediaPlayer) {
-        pauseTimer()
-    }
-
-    override fun stopped(mediaPlayer: MediaPlayer) {
-        stopTimer()
-    }
-
     override fun finished(mediaPlayer: MediaPlayer) {
-        stopTimer()
+        application.stopTimer()
     }
 
     override fun error(mediaPlayer: MediaPlayer) {
-        stopTimer()
+        application.stopTimer()
     }
 
 }

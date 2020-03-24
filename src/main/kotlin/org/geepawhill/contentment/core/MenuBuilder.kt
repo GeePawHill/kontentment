@@ -36,7 +36,7 @@ internal object MenuBuilder {
      * @return menu
      */
     fun createMenu(application: JavaFXDirectRenderingTest): MenuBar {
-        val mediaPlayer = application.mediaPlayer()
+        val mediaPlayer = application.mediaPlayer
         val menuBar = MenuBar()
         val mediaMenu = Menu("_Media")
         mediaMenu.isMnemonicParsing = true

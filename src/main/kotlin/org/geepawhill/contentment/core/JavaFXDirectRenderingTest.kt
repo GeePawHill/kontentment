@@ -28,7 +28,6 @@ import javafx.beans.Observable
 import javafx.beans.property.DoubleProperty
 import javafx.beans.property.SimpleDoubleProperty
 import javafx.event.EventHandler
-import javafx.geometry.Rectangle2D
 import javafx.scene.Scene
 import javafx.scene.canvas.Canvas
 import javafx.scene.canvas.GraphicsContext
@@ -57,110 +56,30 @@ import uk.co.caprica.vlcj.player.embedded.videosurface.callback.format.RV32Buffe
 import java.io.File
 import java.nio.ByteBuffer
 
-// README IMPORTANT
-//
-// This class is a hacked-up version of the original JavaFX vlcj demo class with changes to use the new experimental
-// JavaFX PixelBuffer - the implementation may still not be optimal and may not use best practice for the pixel buffer,
-// but this was knocked together quickly with minimal changes from the original pixel writer version
-//
-// Some things to be considered:
-//
-//  1. There is no synchronisation - nothing prevents the buffer from being rendered while it is being updated by the
-//     native thread, although in practice this seems to cause no apparent problem
-//  2. The timer should ideally be paused (and later resumed) when playback is paused, stopped, finished or in error,
-//     and also when the application is minimised etc
-//  3. It does not seem to make much difference whether the buffer is marked as updated in the native display callback,
-//     or if you wait until the renderFrame() method (so this is native thread vs timer implementation) - both
-//     approaches work with minimal performance differences
-//  4. The timeline control is not perfect, it has some small issues which would need to be ironed out for a real
-//     application rather than a demo (like clicking and releasing inside the control without touching the slider or
-//     its track-bar can cause a sub-optimal position change)
-/**
- * Example showing how to render video to a JavaFX Canvas component.
- *
- *
- * The target is to render full HD video (1920x1080) at a reasonable frame rate (>25fps).
- *
- *
- * Originally based on an example long ago contributed by John Hendrikx, now almost completely reimplemented with a
- * different approach to video scaling - the video is always rendered at its native size, but the graphics context
- * itself is scaled to resize the video, a similar implementation to how the equivalent Swing version now works.
- *
- *
- * This version requires a build of JavaFX with the proposed PixelBuffer class, currently this is available only as a
- * custom build of JavaFX from here https://mail.openjdk.java.net/pipermail/openjfx-dev/2019-June/023347.html.
- *
- *
- * Using the PixelBuffer means that LibVLC can now render directly into a native video buffer that is shared with the
- * JavaFX image used to render the video frame.
- *
- *
- * This approach now, along with JavaFX hardware acceleration, probably outperforms the corresponding implementation
- * that uses Swing/Java2D.
- */
 class JavaFXDirectRenderingTest : Application() {
-    /**
-     * The vlcj media player factory.
-     */
-    private val mediaPlayerFactory: MediaPlayerFactory
+    private val pixelFormat: WritablePixelFormat<ByteBuffer?> = PixelFormat.getByteBgraPreInstance()
+    private val mediaPlayerFactory: MediaPlayerFactory = MediaPlayerFactory()
+    val mediaPlayer: EmbeddedMediaPlayer = mediaPlayerFactory.mediaPlayers().newEmbeddedMediaPlayer()
 
-    /**
-     * The vlcj direct rendering media player component.
-     */
-    private val mediaPlayer: EmbeddedMediaPlayer
+    private val borderPane: BorderPane = BorderPane()
+    private val stackPane = StackPane()
+    private val canvas: Canvas = Canvas()
+    private val canvasPane: Pane = Pane()
+    private val imageView: ImageView = ImageView(Image(javaClass.getResourceAsStream("/vlcj-logo.png")))
 
-    /**
-     * Standard pixel format for the video buffer.
-     */
-    private val pixelFormat: WritablePixelFormat<ByteBuffer?>
+    private val fileChooser: FileChooser = FileChooser()
 
-    /**
-     * Lightweight JavaFX canvas, the video is rendered here.
-     */
-    private val canvas: Canvas
-
-    /**
-     * Wrapper component for the video surface, to manage resizes properly.
-     */
-    private val canvasPane: Pane
-
-    /**
-     * Alternate main view when media is not playing.
-     */
-    private val imageView: ImageView
-
-    /**
-     * Component holding the main views that can be switched between.
-     */
-    private val stackPane: StackPane
-
-    /**
-     *
-     */
-    private val borderPane: BorderPane
-    private val fileChooser: FileChooser
-
-    /**
-     *
-     */
     private var stage: Stage? = null
     private var videoControlsStage: Stage? = null
 
-    /**
-     *
-     */
     private var scene: Scene? = null
-    private val menuBar: MenuBar
-    private val controlsPane: ControlsPane
+    private val menuBar: MenuBar = MenuBuilder.createMenu(this)
+    private val controlsPane = ControlsPane(mediaPlayer)
     private var bufferWidth = 0
     private var bufferHeight = 0
 
-    /**
-     *
-     */
     private var pixelBuffer: PixelBuffer<*>? = null
     private var img: WritableImage? = null
-    private var updatedBuffer: Rectangle2D? = null
     private var showStats = true
     private var showAnimation = true
     private var start: Long = 0
@@ -174,6 +93,83 @@ class JavaFXDirectRenderingTest : Application() {
 
     private val nanoTimer = NanoTimer(1000.0 / FPS) {
         renderFrame()
+    }
+
+    init {
+        mediaPlayer.events().addMediaPlayerEventListener(TimerHandler(this))
+        mediaPlayer.videoSurface().set(JavaFxVideoSurface())
+        borderPane.style = BLACK_BACKGROUND_STYLE
+        canvas.style = BLACK_BACKGROUND_STYLE
+        canvasPane.style = BLACK_BACKGROUND_STYLE
+        canvasPane.children.add(canvas)
+        canvas.widthProperty().bind(canvasPane.widthProperty())
+        canvas.heightProperty().bind(canvasPane.heightProperty())
+
+        // Listen to width/height changes to force the video surface to re-render if the media player is not currently
+        // playing - this is necessary to repaint damaged regions because the repaint timer is stopped/paused while the
+        // media player is not playing
+        canvas.widthProperty().addListener { event: Observable? -> if (!mediaPlayer.status().isPlaying) renderFrame() }
+        canvas.heightProperty().addListener { event: Observable? -> if (!mediaPlayer.status().isPlaying) renderFrame() }
+        stackPane.children.addAll(canvasPane, imageView)
+        val statusPane = Pane()
+        borderPane.center = stackPane
+        statusPane.style = STATUS_BACKGROUND_STYLE
+        val statusLabel = Label("vlcj-javafx with PixelBuffer is ready for awesome")
+        statusLabel.style = STATUS_BACKGROUND_STYLE
+        statusPane.children.add(statusLabel)
+        borderPane.bottom = statusPane
+        borderPane.bottom = controlsPane
+        borderPane.top = menuBar
+        fileChooser.title = "Open Media File"
+        fileChooser.initialDirectory = File(System.getProperty("user.home"))
+        fileChooser.extensionFilters.addAll(
+                FileChooser.ExtensionFilter("Media Files", "*.avi", "*.flv", "*.mp4", "*.mpeg", "*.mpg", ".wmv"),
+                FileChooser.ExtensionFilter("All Files", "*.*")
+        )
+        mediaPlayer.events().addMediaPlayerEventListener(object : MediaPlayerEventAdapter() {
+            override fun finished(mediaPlayer: MediaPlayer) {
+                if (!mediaPlayer.controls().repeat) {
+                    showVideo(false)
+                }
+            }
+
+            override fun error(mediaPlayer: MediaPlayer) {
+                showVideo(false)
+            }
+
+            override fun playing(mediaPlayer: MediaPlayer) {
+                showVideo(true)
+                // Reset the frame stats each time the media is started (otherwise e.g. a pause would mess with the
+                // stats (like FPS)
+                resetStats()
+            }
+        })
+        val timeline = Timeline(
+                KeyFrame(Duration.seconds(0.0),
+                        KeyValue(x, 10, Interpolator.EASE_BOTH),
+                        KeyValue(y, 10)
+                ),
+                KeyFrame(Duration.seconds(0.5),
+                        KeyValue(x, 70, Interpolator.EASE_BOTH),
+                        KeyValue(y, 10)
+                )
+        )
+        timeline.isAutoReverse = true
+        timeline.cycleCount = Timeline.INDEFINITE
+        val timeline2 = Timeline(
+                KeyFrame(Duration.seconds(0.0),
+                        KeyValue(opacity, 0, Interpolator.EASE_BOTH)
+                ),
+                KeyFrame(Duration.seconds(0.5),
+                        KeyValue(opacity, 1, Interpolator.EASE_BOTH)
+                )
+        )
+        timeline2.isAutoReverse = true
+        timeline2.cycleCount = Timeline.INDEFINITE
+        timeline.play()
+        timeline2.play()
+        cursorHandler = CursorHandler(canvas, MOUSE_TIMEOUT)
+        cursorHandler.start()
     }
 
     override fun start(primaryStage: Stage) {
@@ -207,6 +203,7 @@ class JavaFXDirectRenderingTest : Application() {
     }
 
     private inner class JavaFxVideoSurface internal constructor() : CallbackVideoSurface(JavaFxBufferFormatCallback(), JavaFxRenderCallback(), true, VideoSurfaceAdapters.getVideoSurfaceAdapter())
+
     private inner class JavaFxBufferFormatCallback : BufferFormatCallback {
         override fun getBufferFormat(sourceWidth: Int, sourceHeight: Int): BufferFormat {
             bufferWidth = sourceWidth
@@ -222,8 +219,6 @@ class JavaFXDirectRenderingTest : Application() {
             // full-frame buffer copy here
             pixelBuffer = PixelBuffer(bufferWidth, bufferHeight, buffers[0], pixelFormat)
             img = WritableImage(pixelBuffer)
-            // Since for every frame the entire buffer will be updated, we can optimise by caching the result here
-            updatedBuffer = Rectangle2D(0.0, 0.0, bufferWidth.toDouble(), bufferHeight.toDouble())
         }
     }
 
@@ -231,12 +226,9 @@ class JavaFXDirectRenderingTest : Application() {
     // handled by the demo sub-classes)
     private inner class JavaFxRenderCallback : RenderCallback {
         override fun display(mediaPlayer: MediaPlayer, nativeBuffers: Array<ByteBuffer>, bufferFormat: BufferFormat) {
-            // We only need to tell the pixel buffer which pixels were updated (in this case all of them) - the
-            // pre-cached value is used
-            Platform.runLater {
-                pixelBuffer!!.updateBuffer(
-                        { pixBuf: Any? -> updatedBuffer })
-            }
+//            Platform.runLater {
+//                pixelBuffer!!.updateBuffer { pixBuf: Any? -> null }
+//            }
         }
     }
 
@@ -274,8 +266,7 @@ class JavaFXDirectRenderingTest : Application() {
                 g.scale(sf, sf)
             }
 
-            // You can do this here if you want, instead of the display() callback, doesn't seem to make much difference
-//            pixelBuffer!!.updateBuffer({ pixBuf -> updatedBuffer });
+            pixelBuffer!!.updateBuffer { pixBuf -> null };
             g.drawImage(img, 0.0, 0.0)
             val fps = 1000.toDouble() * frames / (renderStart - start)
             val meanFrameTime = totalFrameTime / frames.toDouble()
@@ -399,10 +390,6 @@ Maximum: %d ms
         alert.showAndWait()
     }
 
-    fun mediaPlayer(): MediaPlayer {
-        return mediaPlayer
-    }
-
     private fun showVideo(show: Boolean) {
         Platform.runLater {
             canvasPane.isVisible = show
@@ -414,95 +401,6 @@ Maximum: %d ms
     /**
      *
      */
-    init {
-        pixelFormat = PixelFormat.getByteBgraPreInstance()
-        mediaPlayerFactory = MediaPlayerFactory()
-        mediaPlayer = mediaPlayerFactory.mediaPlayers().newEmbeddedMediaPlayer()
-        mediaPlayer.events().addMediaPlayerEventListener(TimerHandler(this))
-        mediaPlayer.videoSurface().set(JavaFxVideoSurface())
-        borderPane = BorderPane()
-        borderPane.style = BLACK_BACKGROUND_STYLE
-        canvas = Canvas()
-        canvas.style = BLACK_BACKGROUND_STYLE
-        canvasPane = Pane()
-        canvasPane.style = BLACK_BACKGROUND_STYLE
-        canvasPane.children.add(canvas)
-        canvas.widthProperty().bind(canvasPane.widthProperty())
-        canvas.heightProperty().bind(canvasPane.heightProperty())
-
-        // Listen to width/height changes to force the video surface to re-render if the media player is not currently
-        // playing - this is necessary to repaint damaged regions because the repaint timer is stopped/paused while the
-        // media player is not playing
-        canvas.widthProperty().addListener { event: Observable? -> if (!mediaPlayer.status().isPlaying) renderFrame() }
-        canvas.heightProperty().addListener { event: Observable? -> if (!mediaPlayer.status().isPlaying) renderFrame() }
-        imageView = ImageView(Image(javaClass.getResourceAsStream("/vlcj-logo.png")))
-        stackPane = StackPane()
-        stackPane.children.addAll(canvasPane, imageView)
-        borderPane.center = stackPane
-        val statusPane = Pane()
-        statusPane.style = STATUS_BACKGROUND_STYLE
-        val statusLabel = Label("vlcj-javafx with PixelBuffer is ready for awesome")
-        statusLabel.style = STATUS_BACKGROUND_STYLE
-        statusPane.children.add(statusLabel)
-        borderPane.bottom = statusPane
-        controlsPane = ControlsPane(mediaPlayer)
-        borderPane.bottom = controlsPane
-        menuBar = MenuBuilder.createMenu(this)
-        borderPane.top = menuBar
-        fileChooser = FileChooser()
-        fileChooser.title = "Open Media File"
-        fileChooser.initialDirectory = File(System.getProperty("user.home"))
-        fileChooser.extensionFilters.addAll(
-                FileChooser.ExtensionFilter("Media Files", "*.avi", "*.flv", "*.mp4", "*.mpeg", "*.mpg", ".wmv"),
-                FileChooser.ExtensionFilter("All Files", "*.*")
-        )
-        mediaPlayer.events().addMediaPlayerEventListener(object : MediaPlayerEventAdapter() {
-            override fun finished(mediaPlayer: MediaPlayer) {
-                if (!mediaPlayer.controls().repeat) {
-                    showVideo(false)
-                }
-            }
-
-            override fun error(mediaPlayer: MediaPlayer) {
-                showVideo(false)
-            }
-
-            override fun playing(mediaPlayer: MediaPlayer) {
-                showVideo(true)
-                // Reset the frame stats each time the media is started (otherwise e.g. a pause would mess with the
-                // stats (like FPS)
-                resetStats()
-            }
-        })
-        val timeline = Timeline(
-                KeyFrame(Duration.seconds(0.0),
-                        KeyValue(x, 10, Interpolator.EASE_BOTH),
-                        KeyValue(y, 10)
-                ),
-                KeyFrame(Duration.seconds(0.5),
-                        KeyValue(x, 70, Interpolator.EASE_BOTH),
-                        KeyValue(y, 10)
-                )
-        )
-        timeline.isAutoReverse = true
-        timeline.cycleCount = Timeline.INDEFINITE
-        val timeline2 = Timeline(
-                KeyFrame(Duration.seconds(0.0),
-                        KeyValue(opacity, 0, Interpolator.EASE_BOTH)
-                ),
-                KeyFrame(Duration.seconds(0.5),
-                        KeyValue(opacity, 1, Interpolator.EASE_BOTH)
-                )
-        )
-        timeline2.isAutoReverse = true
-        timeline2.cycleCount = Timeline.INDEFINITE
-        timeline.play()
-        timeline2.play()
-        cursorHandler = CursorHandler(canvas, MOUSE_TIMEOUT)
-        cursorHandler.start()
-    }
-
-
     fun startTimer() {
         Platform.runLater {
             if (!nanoTimer.isRunning) {
