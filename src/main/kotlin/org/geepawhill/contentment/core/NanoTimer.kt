@@ -24,15 +24,11 @@ import javafx.util.Duration
 import java.util.concurrent.Executors
 import java.util.concurrent.ThreadFactory
 
-class NanoTimer(period: Double, val pulse: () -> Unit) : ScheduledService<Void>() {
-    private val ONE_NANO = 1000000000L
-    private val ONE_NANO_INV = 1f / 1000000000L.toDouble()
-    private var startTime: Long = 0
-    private var previousTime: Long = 0
-    var frameRate = 0.0
-        private set
-    var deltaTime = 0.0
-        private set
+class NanoTimer(period: Double, val pulse: () -> Unit) : ScheduledService<Unit>() {
+    private var startTime = 0L
+    private var previousTime = 0L
+    private var frameRate = 0.0
+    private var deltaTime = 0.0
     val time: Long
         get() = System.nanoTime() - startTime
 
@@ -57,12 +53,11 @@ class NanoTimer(period: Double, val pulse: () -> Unit) : ScheduledService<Void>(
         previousTime = time
     }
 
-    override fun createTask(): Task<Void> {
-        return object : Task<Void>() {
+    override fun createTask(): Task<Unit> {
+        return object : Task<Unit>() {
             @Throws(Exception::class)
-            override fun call(): Void? {
+            override fun call() {
                 updateTimer()
-                return null
             }
         }
     }
@@ -89,5 +84,10 @@ class NanoTimer(period: Double, val pulse: () -> Unit) : ScheduledService<Void>(
             thread.isDaemon = true
             return thread
         }
+    }
+
+    companion object {
+        private const val ONE_NANO = 1000000000L
+        private const val ONE_NANO_INV = 1f / 1000000000L.toDouble()
     }
 }
