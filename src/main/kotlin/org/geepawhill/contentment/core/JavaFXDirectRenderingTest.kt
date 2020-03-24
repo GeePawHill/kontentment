@@ -96,7 +96,7 @@ class JavaFXDirectRenderingTest : Application() {
     }
 
     init {
-        mediaPlayer.events().addMediaPlayerEventListener(TimerHandler(this))
+        mediaPlayer.events().addMediaPlayerEventListener(TimerHandler(nanoTimer))
         mediaPlayer.videoSurface().set(JavaFxVideoSurface())
         borderPane.style = BLACK_BACKGROUND_STYLE
         canvas.style = BLACK_BACKGROUND_STYLE

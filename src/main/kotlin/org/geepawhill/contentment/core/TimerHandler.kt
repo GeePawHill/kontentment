@@ -1,34 +1,46 @@
 package org.geepawhill.contentment.core
 
+import javafx.application.Platform
 import uk.co.caprica.vlcj.player.base.MediaPlayer
 import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter
 
-/**
- * A media player event listener dedicated to managing the repaint timer.
- *
- *
- * No need to consume CPU if paused/stopped.
- */
-internal class TimerHandler(private val application: JavaFXDirectRenderingTest) : MediaPlayerEventAdapter() {
+class TimerHandler(private val timer: NanoTimer) : MediaPlayerEventAdapter() {
 
     override fun playing(mediaPlayer: MediaPlayer) {
-        application.startTimer()
+        Platform.runLater {
+            if (!timer.isRunning) {
+                timer.reset()
+                timer.start()
+            }
+        }
     }
 
     override fun paused(mediaPlayer: MediaPlayer) {
-        application.pauseTimer()
+        Platform.runLater {
+            if (timer.isRunning) {
+                timer.cancel()
+            }
+        }
     }
 
     override fun stopped(mediaPlayer: MediaPlayer) {
-        application.stopTimer()
+        stopTimer()
     }
 
     override fun finished(mediaPlayer: MediaPlayer) {
-        application.stopTimer()
+        stopTimer()
     }
 
     override fun error(mediaPlayer: MediaPlayer) {
-        application.stopTimer()
+        stopTimer()
+    }
+
+    private fun stopTimer() {
+        Platform.runLater {
+            if (timer.isRunning) {
+                timer.cancel()
+            }
+        }
     }
 
 }
