@@ -98,6 +98,7 @@ class JavaFXDirectRenderingTest : Application() {
     init {
         mediaPlayer.events().addMediaPlayerEventListener(TimerHandler(nanoTimer))
         mediaPlayer.videoSurface().set(JavaFxVideoSurface())
+
         borderPane.style = BLACK_BACKGROUND_STYLE
         canvas.style = BLACK_BACKGROUND_STYLE
         canvasPane.style = BLACK_BACKGROUND_STYLE
@@ -206,6 +207,7 @@ class JavaFXDirectRenderingTest : Application() {
 
     private inner class JavaFxBufferFormatCallback : BufferFormatCallback {
         override fun getBufferFormat(sourceWidth: Int, sourceHeight: Int): BufferFormat {
+            println("gbf")
             bufferWidth = sourceWidth
             bufferHeight = sourceHeight
 
@@ -217,6 +219,7 @@ class JavaFXDirectRenderingTest : Application() {
         override fun allocatedBuffers(buffers: Array<ByteBuffer>) {
             // This is the new magic sauce, the native video buffer is used directly for the image buffer - there is no
             // full-frame buffer copy here
+            println("ab")
             pixelBuffer = PixelBuffer(bufferWidth, bufferHeight, buffers[0], pixelFormat)
             img = WritableImage(pixelBuffer)
         }
@@ -224,11 +227,8 @@ class JavaFXDirectRenderingTest : Application() {
 
     // This is correct as far as it goes, but we need to use one of the timers to get smooth rendering (the timer is
     // handled by the demo sub-classes)
-    private inner class JavaFxRenderCallback : RenderCallback {
+    private class JavaFxRenderCallback : RenderCallback {
         override fun display(mediaPlayer: MediaPlayer, nativeBuffers: Array<ByteBuffer>, bufferFormat: BufferFormat) {
-//            Platform.runLater {
-//                pixelBuffer!!.updateBuffer { pixBuf: Any? -> null }
-//            }
         }
     }
 
@@ -398,9 +398,6 @@ Maximum: %d ms
     }
 
 
-    /**
-     *
-     */
     fun startTimer() {
         Platform.runLater {
             if (!nanoTimer.isRunning) {

@@ -17,11 +17,12 @@ import java.util.concurrent.atomic.AtomicBoolean
  * quite simple how it is and is good enough for demo purposes.
  */
 class CursorHandler(private val node: Node, private val timeout: Long) {
-    private val timer: Timer
+    private val timer: Timer = Timer()
 
     @Volatile
     private var lastMouse: Long = 0
     private val hidden = AtomicBoolean(false)
+
     fun start() {
         timer.scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
@@ -46,7 +47,6 @@ class CursorHandler(private val node: Node, private val timeout: Long) {
     }
 
     init {
-        timer = Timer()
         node.onMouseMoved = EventHandler { mouseEvent: MouseEvent? -> showCursor() }
     }
 }
