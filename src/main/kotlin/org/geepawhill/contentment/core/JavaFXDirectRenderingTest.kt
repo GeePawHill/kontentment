@@ -43,6 +43,7 @@ import javafx.scene.text.Font
 import javafx.scene.text.TextAlignment
 import javafx.stage.*
 import javafx.util.Duration
+import tornadofx.*
 import uk.co.caprica.vlcj.factory.MediaPlayerFactory
 import uk.co.caprica.vlcj.player.base.MediaPlayer
 import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter
@@ -74,7 +75,9 @@ class JavaFXDirectRenderingTest : Application() {
 
     private var scene: Scene? = null
     private val menuBar: MenuBar = MenuBuilder.createMenu(this)
-    private val controlsPane = ControlsPane(mediaPlayer)
+    private val controlsPane = ControlsPane(mediaPlayer) {
+        renderFrame()
+    }
     private var bufferWidth = 0
     private var bufferHeight = 0
 
@@ -250,6 +253,7 @@ class JavaFXDirectRenderingTest : Application() {
         g.fill = Color(0.0, 0.0, 0.0, 0.0)
         g.fillRect(0.0, 0.0, width, height)
         if (img != null) {
+            println("i")
             val imageWidth = img!!.width
             val imageHeight = img!!.height
             val sx = width / imageWidth
@@ -333,7 +337,15 @@ Maximum: %d ms
     fun openFile() {
         val selectedFile = fileChooser.showOpenDialog(stage)
         if (selectedFile != null) {
-            mediaPlayer.media().play(selectedFile.absolutePath)
+            showVideo(true)
+            mediaPlayer.media().prepare(selectedFile.absolutePath)
+            mediaPlayer.controls().setPosition(0f)
+            mediaPlayer.controls().start()
+            mediaPlayer.controls().pause()
+            runLater {
+                mediaPlayer.controls().nextFrame()
+                renderFrame()
+            }
         }
     }
 

@@ -34,6 +34,7 @@ import javafx.scene.layout.HBox
 import javafx.scene.layout.Priority
 import javafx.scene.layout.TilePane
 import javafx.scene.layout.VBox
+import tornadofx.*
 import uk.co.caprica.vlcj.player.base.MediaPlayer
 import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter
 import java.util.*
@@ -42,13 +43,14 @@ import java.util.concurrent.atomic.AtomicBoolean
 /**
  * A component containing simple media player controls.
  */
-class ControlsPane(private val mediaPlayer: MediaPlayer) : VBox() {
+class ControlsPane(private val mediaPlayer: MediaPlayer, private val pulse: () -> Unit) : VBox() {
     private val currentTimeLabel: Label
     private val timelineSlider: Slider
     private val durationLabel: Label
     private val playButton: Button
     private val pauseButton: Button
     private val stopButton: Button
+    private val forwardButton: Button
     private val tracking = AtomicBoolean()
     private var clockTimer: Timer? = null
     private fun createButton(name: String, icon: String): Button {
@@ -95,6 +97,10 @@ class ControlsPane(private val mediaPlayer: MediaPlayer) : VBox() {
         tracking.set(false)
         // This deals with the case where there was an absolute click in the timeline rather than a drag
         mediaPlayer.controls().setPosition(timelineSlider.value.toFloat() / 100)
+        runLater {
+            mediaPlayer.controls().nextFrame()
+            pulse()
+        }
     }
 
     @Synchronized
@@ -125,12 +131,18 @@ class ControlsPane(private val mediaPlayer: MediaPlayer) : VBox() {
         playButton = createButton("Play", "play")
         pauseButton = createButton("Pause", "pause")
         stopButton = createButton("Stop", "stop")
+        forwardButton = createButton("Forward", "next")
+
         style = COMPONENT_STYLE
         children.addAll(box, buttonsPane)
-        buttonsPane.children.addAll(playButton, pauseButton, stopButton)
+        buttonsPane.children.addAll(playButton, pauseButton, stopButton, forwardButton)
         playButton.onAction = EventHandler { actionEvent: ActionEvent? -> mediaPlayer.controls().play() }
         pauseButton.onAction = EventHandler { actionEvent: ActionEvent? -> mediaPlayer.controls().pause() }
         stopButton.onAction = EventHandler { actionEvent: ActionEvent? -> mediaPlayer.controls().stop() }
+        forwardButton.onAction = EventHandler { _ ->
+            mediaPlayer.controls().nextFrame()
+            pulse()
+        }
         mediaPlayer.events().addMediaPlayerEventListener(object : MediaPlayerEventAdapter() {
             override fun playing(mediaPlayer: MediaPlayer) {
                 startTimer()
