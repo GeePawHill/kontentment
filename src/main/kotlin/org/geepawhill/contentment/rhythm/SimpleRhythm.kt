@@ -1,10 +1,11 @@
 package org.geepawhill.contentment.rhythm
 
-import java.time.*
-
 import javafx.animation.AnimationTimer
-import javafx.beans.property.*
+import javafx.beans.property.LongProperty
+import javafx.beans.property.SimpleLongProperty
 import javafx.scene.media.MediaPlayer
+import java.time.Duration
+import java.time.LocalDateTime
 
 class SimpleRhythm : Rhythm {
     private val beatProperty: SimpleLongProperty = SimpleLongProperty(0L)
@@ -50,7 +51,7 @@ class SimpleRhythm : Rhythm {
         startedPauseAt = ms
     }
 
-    override fun update() {
+    private fun update() {
         val newBeat = playerTime
         beatProperty.set(newBeat)
     }

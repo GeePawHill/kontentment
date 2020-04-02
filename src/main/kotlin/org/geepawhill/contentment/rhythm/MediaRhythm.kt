@@ -63,7 +63,7 @@ class MediaRhythm(mediaString: String) : Rhythm {
         startedPauseAt = ms
     }
 
-    override fun update() {
+    private fun update() {
         val newBeat = playerTime
         beatProperty.set(newBeat)
     }

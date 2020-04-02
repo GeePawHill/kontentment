@@ -1,10 +1,9 @@
 package org.geepawhill.contentment.rhythm
 
-import org.geepawhill.contentment.test.ContentmentTest
-import org.junit.jupiter.api.Test
-
 import org.assertj.core.api.Assertions.assertThat
+import org.geepawhill.contentment.test.ContentmentTest
 import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Test
 
 class SimpleRhythmTest : ContentmentTest() {
 
@@ -58,7 +57,6 @@ class SimpleRhythmTest : ContentmentTest() {
         rhythm.pause()
         val atPause = rhythm.beat()
         Thread.sleep(SHORT_TIME)
-        rhythm.update()
         assertThat(rhythm.beat()).isEqualTo(atPause)
     }
 
