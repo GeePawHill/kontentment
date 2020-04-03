@@ -1,14 +1,15 @@
 package org.geepawhill.contentment.rhythm
 
 import javafx.animation.AnimationTimer
-import javafx.beans.property.LongProperty
-import javafx.beans.property.SimpleLongProperty
+import javafx.beans.property.ReadOnlyLongProperty
+import javafx.beans.property.ReadOnlyLongWrapper
 import javafx.scene.media.MediaPlayer
 import java.time.Duration
 import java.time.LocalDateTime
 
 class SimpleRhythm : Rhythm {
-    private val beatProperty: SimpleLongProperty = SimpleLongProperty(0L)
+    private val privateBeatProperty = ReadOnlyLongWrapper(0L)
+    override val beatProperty: ReadOnlyLongProperty = privateBeatProperty.readOnlyProperty
     private var isPlaying = false
     private var startedPlayingAt: LocalDateTime? = null
     private var startedPauseAt: Long = 0
@@ -34,10 +35,6 @@ class SimpleRhythm : Rhythm {
         }
     }
 
-    override fun beatProperty(): LongProperty {
-        return beatProperty
-    }
-
     override fun beat(): Long {
         update()
         return beatProperty.get()
@@ -45,13 +42,12 @@ class SimpleRhythm : Rhythm {
 
     override fun seekHard(ms: Long) {
         if (isPlaying) pause()
-        beatProperty.set(ms)
+        privateBeatProperty.set(ms)
         startedPauseAt = ms
     }
 
     private fun update() {
-        val newBeat = playerTime
-        beatProperty.set(newBeat)
+        privateBeatProperty.set(playerTime)
     }
 
     override fun play() {

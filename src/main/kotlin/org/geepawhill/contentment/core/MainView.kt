@@ -38,7 +38,7 @@ class MainView() : View() {
                 stroke = Color.BLUE
                 fill = Color.BLUE
                 player.scriptProperty().addListener { _, _, _ ->
-                    player.script.rhythm().beatProperty().addListener { _, _, beat ->
+                    player.script.rhythm().beatProperty.addListener { _, _, beat ->
                         var newText = String.format("%8d", beat.toLong() / 1000)
                         if (beat.toLong() == 0L) text = "   Start"
                         if (beat.toLong() == Rhythm.MAX) text = "     End"

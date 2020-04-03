@@ -1,8 +1,8 @@
 package org.geepawhill.contentment.rhythm
 
 import javafx.animation.AnimationTimer
-import javafx.beans.property.LongProperty
-import javafx.beans.property.SimpleLongProperty
+import javafx.beans.property.ReadOnlyLongProperty
+import javafx.beans.property.ReadOnlyLongWrapper
 import javafx.scene.media.Media
 import javafx.scene.media.MediaPlayer
 import java.io.File
@@ -10,13 +10,15 @@ import java.time.Duration
 import java.time.LocalDateTime
 
 class MediaRhythm(mediaString: String) : Rhythm {
-    private val beatProperty = SimpleLongProperty(0L)
+    private val privateBeatProperty = ReadOnlyLongWrapper(0L)
+    override val beatProperty: ReadOnlyLongProperty = privateBeatProperty.readOnlyProperty
+    override val mediaPlayer: MediaPlayer?
+
     private var isPlaying = false
     private var startedPlayingAt: LocalDateTime? = null
     private var startedPauseAt: Long = 0
 
     private val timer: AnimationTimer
-    override val mediaPlayer: MediaPlayer?
 
     private val playerTime: Long
         get() = if (isPlaying) startedPauseAt + Duration.between(startedPlayingAt!!, LocalDateTime.now()).toMillis() else startedPauseAt
@@ -43,12 +45,7 @@ class MediaRhythm(mediaString: String) : Rhythm {
 
     }
 
-    override fun beatProperty(): LongProperty {
-        return beatProperty
-    }
-
     override fun beat(): Long {
-        update()
         return beatProperty.get()
     }
 
@@ -59,13 +56,13 @@ class MediaRhythm(mediaString: String) : Rhythm {
         } else {
             mediaPlayer!!.seek(javafx.util.Duration.millis(ms.toDouble()))
         }
-        beatProperty.set(ms)
+        privateBeatProperty.set(ms)
         startedPauseAt = ms
     }
 
     private fun update() {
         val newBeat = playerTime
-        beatProperty.set(newBeat)
+        privateBeatProperty.set(newBeat)
     }
 
     override fun play() {
