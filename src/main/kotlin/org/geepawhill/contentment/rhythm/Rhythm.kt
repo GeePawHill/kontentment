@@ -4,7 +4,6 @@ import javafx.beans.property.LongProperty
 import javafx.scene.media.MediaPlayer
 
 interface Rhythm {
-    var isPlaying: Boolean
     val isAtEnd: Boolean
     val mediaPlayer: MediaPlayer?
 

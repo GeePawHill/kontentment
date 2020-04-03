@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 
 class SimpleRhythm : Rhythm {
     private val beatProperty: SimpleLongProperty = SimpleLongProperty(0L)
-    override var isPlaying: Boolean = false
+    private var isPlaying = false
     private var startedPlayingAt: LocalDateTime? = null
     private var startedPauseAt: Long = 0
 
@@ -28,10 +28,8 @@ class SimpleRhythm : Rhythm {
         isPlaying = false
         startedPauseAt = 0L
         timer = object : AnimationTimer() {
-
             override fun handle(now: Long) {
                 update()
-
             }
         }
     }

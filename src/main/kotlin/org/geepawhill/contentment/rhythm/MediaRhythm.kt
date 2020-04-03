@@ -11,7 +11,7 @@ import java.time.LocalDateTime
 
 class MediaRhythm(mediaString: String) : Rhythm {
     private val beatProperty = SimpleLongProperty(0L)
-    override var isPlaying: Boolean = false
+    private var isPlaying = false
     private var startedPlayingAt: LocalDateTime? = null
     private var startedPauseAt: Long = 0
 
