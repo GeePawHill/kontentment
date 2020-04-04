@@ -35,7 +35,6 @@ class SimpleRhythmTest : ContentmentTest() {
     }
 
     @Test
-    @Throws(InterruptedException::class)
     fun changesBeatWhenPlayed() {
         task {
             rhythm.play()
@@ -46,7 +45,6 @@ class SimpleRhythmTest : ContentmentTest() {
     }
 
     @Test
-    @Throws(InterruptedException::class)
     fun pauseDoesntChangeBeat() {
         val atPause = rhythm.beat()
         Thread.sleep(SHORT_TIME)
@@ -54,9 +52,10 @@ class SimpleRhythmTest : ContentmentTest() {
     }
 
     @Test
-    @Throws(InterruptedException::class)
     fun pausePauses() {
-        rhythm.play()
+        task {
+            rhythm.play()
+        }
         Thread.sleep(SHORT_TIME)
         rhythm.pause()
         val atPause = rhythm.beat()
@@ -81,6 +80,6 @@ class SimpleRhythmTest : ContentmentTest() {
     }
 
     companion object {
-        internal val SHORT_TIME: Long = 20
+        internal const val SHORT_TIME: Long = 20
     }
 }
