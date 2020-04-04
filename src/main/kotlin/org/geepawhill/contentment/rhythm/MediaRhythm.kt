@@ -47,7 +47,7 @@ class MediaRhythm(mediaString: String) : Rhythm {
 
     }
 
-    override fun seekHard(ms: Long) {
+    override fun seek(ms: Long) {
         if (isPlaying) pause()
         if (ms == Rhythm.MAX) {
             mediaPlayer!!.seek(javafx.util.Duration.millis(mediaPlayer.getTotalDuration().toMillis() - 50.0))

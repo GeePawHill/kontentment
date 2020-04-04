@@ -81,7 +81,7 @@ class Player {
     fun load(script: Script) {
         this.scriptProperty.set(script)
         this.setPosition(0)
-        rhythm.seekHard(0.toLong())
+        rhythm.seek(0.toLong())
         stateProperty.set(PlayerState.Stepping)
         context.setRhythm(script.rhythm())
     }
@@ -96,9 +96,9 @@ class Player {
             nextSync().phrase.fast(context)
             setPosition(position() + 1)
             if (atEnd())
-                rhythm.seekHard(Rhythm.MAX)
+                rhythm.seek(Rhythm.MAX)
             else
-                rhythm.seekHard(nextSync().target)
+                rhythm.seek(nextSync().target)
         }
     }
 
@@ -120,9 +120,9 @@ class Player {
                 forward()
             }
             if (atEnd())
-                rhythm.seekHard(Rhythm.MAX)
+                rhythm.seek(Rhythm.MAX)
             else
-                rhythm.seekHard(nextSync().target)
+                rhythm.seek(nextSync().target)
         }
     }
 
@@ -146,9 +146,9 @@ class Player {
         stateProperty.set(PlayerState.Stepping)
         setPosition(position() + 1)
         if (atEnd())
-            rhythm.seekHard(Rhythm.MAX)
+            rhythm.seek(Rhythm.MAX)
         else
-            rhythm.seekHard(nextSync().target)
+            rhythm.seek(nextSync().target)
     }
 
     private fun newPlayFinished() {

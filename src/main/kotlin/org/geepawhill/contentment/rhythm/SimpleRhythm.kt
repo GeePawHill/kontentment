@@ -10,22 +10,15 @@ import java.time.LocalDateTime
 
 class SimpleRhythm : Rhythm {
     private val privateBeatProperty = ReadOnlyLongWrapper(0L)
-    override val beatProperty: ReadOnlyLongProperty = privateBeatProperty.readOnlyProperty
-    override val beat: Long by beatProperty
     private var isPlaying = false
     private var startedPlayingAt: LocalDateTime? = null
     private var startedPauseAt: Long = 0
-
     private val timer: AnimationTimer
 
-    private val playerTime: Long
-        get() = if (isPlaying) startedPauseAt + Duration.between(startedPlayingAt!!, LocalDateTime.now()).toMillis() else startedPauseAt
-
-    override val isAtEnd: Boolean
-        get() = true
-
-    override val mediaPlayer: MediaPlayer?
-        get() = null
+    override val beatProperty: ReadOnlyLongProperty = privateBeatProperty.readOnlyProperty
+    override val beat: Long by beatProperty
+    override val isAtEnd: Boolean = true
+    override val mediaPlayer: MediaPlayer? = null
 
     init {
         isPlaying = false
@@ -37,13 +30,14 @@ class SimpleRhythm : Rhythm {
         }
     }
 
-    override fun seekHard(ms: Long) {
+    override fun seek(ms: Long) {
         if (isPlaying) pause()
         privateBeatProperty.set(ms)
         startedPauseAt = ms
     }
 
     private fun update() {
+        val playerTime = if (isPlaying) startedPauseAt + Duration.between(startedPlayingAt!!, LocalDateTime.now()).toMillis() else startedPauseAt
         privateBeatProperty.set(playerTime)
     }
 
@@ -60,5 +54,4 @@ class SimpleRhythm : Rhythm {
         startedPauseAt = beat
         isPlaying = false
     }
-
 }

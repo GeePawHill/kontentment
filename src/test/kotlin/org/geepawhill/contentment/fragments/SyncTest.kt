@@ -23,7 +23,7 @@ class SyncTest {
 
     @Test
     fun finishesIfThere() {
-        rhythm.seekHard(2000)
+        rhythm.seek(2000)
         assertThat(sync.interpolate(context, 0.0)).isFalse()
     }
 

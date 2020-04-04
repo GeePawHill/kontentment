@@ -17,7 +17,7 @@ class SimpleRhythmTest : ContentmentTest() {
 
     @Test
     fun seekChangesClock() {
-        rhythm.seekHard(100L)
+        rhythm.seek(100L)
         assertThat(rhythm.beat).isEqualTo(100L)
     }
 

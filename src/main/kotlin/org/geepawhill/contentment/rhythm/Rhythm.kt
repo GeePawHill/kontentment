@@ -8,11 +8,11 @@ interface Rhythm {
     val mediaPlayer: MediaPlayer?
     val beatProperty: ReadOnlyLongProperty
     val beat: Long
-    fun seekHard(ms: Long)
+    fun seek(ms: Long)
     fun play()
     fun pause()
 
     companion object {
-        val MAX = java.lang.Long.MAX_VALUE
+        const val MAX = java.lang.Long.MAX_VALUE
     }
 }
