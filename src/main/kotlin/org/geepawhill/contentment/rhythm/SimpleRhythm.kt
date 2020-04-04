@@ -9,6 +9,7 @@ import java.time.Duration
 import java.time.LocalDateTime
 
 class SimpleRhythm : Rhythm {
+    private val listeners = AnalogListenerList()
     private val privateBeatProperty = ReadOnlyLongWrapper(0L)
     private var isPlaying = false
     private var startedPlayingAt: LocalDateTime? = null
@@ -53,5 +54,13 @@ class SimpleRhythm : Rhythm {
         timer.stop()
         startedPauseAt = beat
         isPlaying = false
+    }
+
+    override fun addListener(listener: AnalogRhythmListener) {
+        listeners.add(listener)
+    }
+
+    override fun removeListener(listener: AnalogRhythmListener) {
+        listeners.remove(listener)
     }
 }

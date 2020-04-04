@@ -11,20 +11,16 @@ import java.time.Duration
 import java.time.LocalDateTime
 
 class MediaRhythm(mediaString: String) : Rhythm {
+    private val listeners = AnalogListenerList()
     private val privateBeatProperty = ReadOnlyLongWrapper(0L)
-    override val beatProperty: ReadOnlyLongProperty = privateBeatProperty.readOnlyProperty
-    override val mediaPlayer: MediaPlayer?
-    override val beat: Long by beatProperty
-
     private var isPlaying = false
     private var startedPlayingAt: LocalDateTime? = null
     private var startedPauseAt: Long = 0
-
     private val timer: AnimationTimer
 
-    private val playerTime: Long
-        get() = if (isPlaying) startedPauseAt + Duration.between(startedPlayingAt!!, LocalDateTime.now()).toMillis() else startedPauseAt
-
+    override val beatProperty: ReadOnlyLongProperty = privateBeatProperty.readOnlyProperty
+    override val mediaPlayer: MediaPlayer?
+    override val beat: Long by beatProperty
     override val isAtEnd: Boolean
         get() = mediaPlayer!!.getCurrentTime() == mediaPlayer.getCycleDuration()
 
@@ -39,7 +35,6 @@ class MediaRhythm(mediaString: String) : Rhythm {
         isPlaying = false
         startedPauseAt = 0L
         timer = object : AnimationTimer() {
-
             override fun handle(now: Long) {
                 update()
             }
@@ -59,8 +54,8 @@ class MediaRhythm(mediaString: String) : Rhythm {
     }
 
     private fun update() {
-        val newBeat = playerTime
-        privateBeatProperty.set(newBeat)
+        val playerTime = if (isPlaying) startedPauseAt + Duration.between(startedPlayingAt!!, LocalDateTime.now()).toMillis() else startedPauseAt
+        privateBeatProperty.set(playerTime)
     }
 
     override fun play() {
@@ -79,4 +74,6 @@ class MediaRhythm(mediaString: String) : Rhythm {
         isPlaying = false
     }
 
+    override fun addListener(listener: AnalogRhythmListener) = listeners.add(listener)
+    override fun removeListener(listener: AnalogRhythmListener) = listeners.remove(listener)
 }
