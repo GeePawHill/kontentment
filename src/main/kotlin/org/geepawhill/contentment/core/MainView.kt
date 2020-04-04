@@ -143,7 +143,7 @@ class MainView() : View() {
     }
 
     private fun markHere(bar: ToolBar) {
-        val text = Text(String.format("%8d", player.rhythm.beat() / 1000))
+        val text = Text(String.format("%8d", player.rhythm.beat / 1000))
         text.font = Font("Consolas", 30.0)
         text.stroke = Color.BLUE
         text.fill = Color.BLUE

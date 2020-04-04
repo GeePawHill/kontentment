@@ -12,13 +12,13 @@ class SimpleRhythmTest : ContentmentTest() {
 
     @Test
     fun newBeatIsZero() {
-        assertThat(rhythm.beat()).isEqualTo(0L)
+        assertThat(rhythm.beat).isEqualTo(0L)
     }
 
     @Test
     fun seekChangesClock() {
         rhythm.seekHard(100L)
-        assertThat(rhythm.beat()).isEqualTo(100L)
+        assertThat(rhythm.beat).isEqualTo(100L)
     }
 
     @Test
@@ -39,16 +39,16 @@ class SimpleRhythmTest : ContentmentTest() {
         task {
             rhythm.play()
         }
-        val oldBeat = rhythm.beat()
+        val oldBeat = rhythm.beat
         Thread.sleep(SHORT_TIME * 2)
-        assertThat(rhythm.beat()).isGreaterThanOrEqualTo(oldBeat + SHORT_TIME)
+        assertThat(rhythm.beat).isGreaterThanOrEqualTo(oldBeat + SHORT_TIME)
     }
 
     @Test
     fun pauseDoesntChangeBeat() {
-        val atPause = rhythm.beat()
+        val atPause = rhythm.beat
         Thread.sleep(SHORT_TIME)
-        assertThat(rhythm.beat()).isEqualTo(atPause)
+        assertThat(rhythm.beat).isEqualTo(atPause)
     }
 
     @Test
@@ -58,9 +58,9 @@ class SimpleRhythmTest : ContentmentTest() {
         }
         Thread.sleep(SHORT_TIME)
         rhythm.pause()
-        val atPause = rhythm.beat()
+        val atPause = rhythm.beat
         Thread.sleep(SHORT_TIME)
-        assertThat(rhythm.beat()).isEqualTo(atPause)
+        assertThat(rhythm.beat).isEqualTo(atPause)
     }
 
     @Test
@@ -71,12 +71,12 @@ class SimpleRhythmTest : ContentmentTest() {
         }
         Thread.sleep(SHORT_TIME)
         rhythm.pause()
-        val atPause = rhythm.beat()
+        val atPause = rhythm.beat
         task {
             rhythm.play()
         }
         Thread.sleep(SHORT_TIME * 2)
-        assertThat(rhythm.beat()).isGreaterThanOrEqualTo(SHORT_TIME + atPause)
+        assertThat(rhythm.beat).isGreaterThanOrEqualTo(SHORT_TIME + atPause)
     }
 
     companion object {

@@ -1,8 +1,7 @@
 package org.geepawhill.contentment.core
 
-import org.geepawhill.contentment.rhythm.Rhythm
-
 import javafx.scene.Group
+import org.geepawhill.contentment.rhythm.Rhythm
 
 class Context {
     val canvas: Group = Group()
@@ -18,7 +17,7 @@ class Context {
     }
 
     fun beat(): Long {
-        return rhythm!!.beat()
+        return rhythm!!.beat
     }
 
     fun wipe() {

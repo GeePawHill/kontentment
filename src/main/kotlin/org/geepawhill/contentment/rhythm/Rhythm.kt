@@ -7,7 +7,7 @@ interface Rhythm {
     val isAtEnd: Boolean
     val mediaPlayer: MediaPlayer?
     val beatProperty: ReadOnlyLongProperty
-    fun beat(): Long
+    val beat: Long
     fun seekHard(ms: Long)
     fun play()
     fun pause()

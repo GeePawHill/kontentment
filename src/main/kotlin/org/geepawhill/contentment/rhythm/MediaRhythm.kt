@@ -5,6 +5,7 @@ import javafx.beans.property.ReadOnlyLongProperty
 import javafx.beans.property.ReadOnlyLongWrapper
 import javafx.scene.media.Media
 import javafx.scene.media.MediaPlayer
+import tornadofx.*
 import java.io.File
 import java.time.Duration
 import java.time.LocalDateTime
@@ -13,6 +14,7 @@ class MediaRhythm(mediaString: String) : Rhythm {
     private val privateBeatProperty = ReadOnlyLongWrapper(0L)
     override val beatProperty: ReadOnlyLongProperty = privateBeatProperty.readOnlyProperty
     override val mediaPlayer: MediaPlayer?
+    override val beat: Long by beatProperty
 
     private var isPlaying = false
     private var startedPlayingAt: LocalDateTime? = null
@@ -45,10 +47,6 @@ class MediaRhythm(mediaString: String) : Rhythm {
 
     }
 
-    override fun beat(): Long {
-        return beatProperty.get()
-    }
-
     override fun seekHard(ms: Long) {
         if (isPlaying) pause()
         if (ms == Rhythm.MAX) {
@@ -77,7 +75,7 @@ class MediaRhythm(mediaString: String) : Rhythm {
         if (!isPlaying) throw RuntimeException("Can't pause when not playing.")
         mediaPlayer!!.pause()
         timer.stop()
-        startedPauseAt = beat()
+        startedPauseAt = beat
         isPlaying = false
     }
 

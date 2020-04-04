@@ -4,12 +4,14 @@ import javafx.animation.AnimationTimer
 import javafx.beans.property.ReadOnlyLongProperty
 import javafx.beans.property.ReadOnlyLongWrapper
 import javafx.scene.media.MediaPlayer
+import tornadofx.*
 import java.time.Duration
 import java.time.LocalDateTime
 
 class SimpleRhythm : Rhythm {
     private val privateBeatProperty = ReadOnlyLongWrapper(0L)
     override val beatProperty: ReadOnlyLongProperty = privateBeatProperty.readOnlyProperty
+    override val beat: Long by beatProperty
     private var isPlaying = false
     private var startedPlayingAt: LocalDateTime? = null
     private var startedPauseAt: Long = 0
@@ -35,10 +37,6 @@ class SimpleRhythm : Rhythm {
         }
     }
 
-    override fun beat(): Long {
-        return beatProperty.get()
-    }
-
     override fun seekHard(ms: Long) {
         if (isPlaying) pause()
         privateBeatProperty.set(ms)
@@ -59,7 +57,7 @@ class SimpleRhythm : Rhythm {
     override fun pause() {
         if (!isPlaying) throw RuntimeException("Can't pause when not playing.")
         timer.stop()
-        startedPauseAt = beat()
+        startedPauseAt = beat
         isPlaying = false
     }
 
