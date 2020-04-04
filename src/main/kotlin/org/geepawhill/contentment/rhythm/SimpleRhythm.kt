@@ -36,7 +36,6 @@ class SimpleRhythm : Rhythm {
     }
 
     override fun beat(): Long {
-        update()
         return beatProperty.get()
     }
 

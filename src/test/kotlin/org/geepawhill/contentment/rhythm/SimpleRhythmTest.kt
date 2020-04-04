@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.geepawhill.contentment.test.ContentmentTest
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
+import tornadofx.*
 
 class SimpleRhythmTest : ContentmentTest() {
 
@@ -36,9 +37,12 @@ class SimpleRhythmTest : ContentmentTest() {
     @Test
     @Throws(InterruptedException::class)
     fun changesBeatWhenPlayed() {
-        rhythm.play()
-        Thread.sleep(SHORT_TIME)
-        assertThat(rhythm.beat()).isGreaterThanOrEqualTo(SHORT_TIME)
+        task {
+            rhythm.play()
+        }
+        val oldBeat = rhythm.beat()
+        Thread.sleep(SHORT_TIME * 2)
+        assertThat(rhythm.beat()).isGreaterThanOrEqualTo(oldBeat + SHORT_TIME)
     }
 
     @Test
@@ -63,12 +67,16 @@ class SimpleRhythmTest : ContentmentTest() {
     @Test
     @Throws(InterruptedException::class)
     fun playAfterPauseWorks() {
-        rhythm.play()
+        task {
+            rhythm.play()
+        }
         Thread.sleep(SHORT_TIME)
         rhythm.pause()
         val atPause = rhythm.beat()
-        rhythm.play()
-        Thread.sleep(SHORT_TIME)
+        task {
+            rhythm.play()
+        }
+        Thread.sleep(SHORT_TIME * 2)
         assertThat(rhythm.beat()).isGreaterThanOrEqualTo(SHORT_TIME + atPause)
     }
 
