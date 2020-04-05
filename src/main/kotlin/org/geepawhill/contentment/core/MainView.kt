@@ -16,7 +16,7 @@ import org.geepawhill.contentment.rhythm.Rhythm
 import org.geepawhill.contentment.utility.JfxUtility
 import tornadofx.*
 
-class MainView() : View() {
+class MainView : View() {
     val player = Player()
 
     private lateinit var elapsed: Text
@@ -39,7 +39,7 @@ class MainView() : View() {
                 fill = Color.BLUE
                 player.scriptProperty().addListener { _, _, _ ->
                     player.script.rhythm().beatProperty.addListener { _, _, beat ->
-                        var newText = String.format("%8d", beat.toLong() / 1000)
+                        val newText = String.format("%8d", beat.toLong() / 1000)
                         if (beat.toLong() == 0L) text = "   Start"
                         if (beat.toLong() == Rhythm.MAX) text = "     End"
                         text = newText
@@ -110,7 +110,7 @@ class MainView() : View() {
         FX.primaryStage.isMaximized = true
         FX.primaryStage.fullScreenExitHint = ""
 
-        player.load(BicScript().make())
+        player.load(AgileAndBeyondScript().make())
         root.widthProperty().addListener { _, _, _ ->
             elapsed.x = root.width - 100.0
             elapsed.y = root.height - 20.0
