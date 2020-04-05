@@ -11,16 +11,13 @@ import org.geepawhill.contentment.flow.Flow
 import org.geepawhill.contentment.flow.FormatTable
 import org.geepawhill.contentment.flow.Size
 import org.geepawhill.contentment.format.Format
-import org.geepawhill.contentment.geometry.Point
 import org.geepawhill.contentment.geometry.PointPair
 import org.geepawhill.contentment.geometry.ViewPort
 import org.geepawhill.contentment.grid.Grid
 import org.geepawhill.contentment.player.Script
-import org.geepawhill.contentment.position.RightOf
 import org.geepawhill.contentment.position.TopLeft
 import org.geepawhill.contentment.position.TopRight
 import org.geepawhill.contentment.step.ScriptBuilder
-import org.geepawhill.contentment.style.Dash
 import org.geepawhill.contentment.style.Frames
 import org.geepawhill.contentment.style.TypeFace
 import org.geepawhill.contentment.utility.JfxUtility
@@ -30,17 +27,14 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
 
     private val formats = FormatTable()
 
-    private val communityFormat = Format(Frames.frame(formats.primary, 2.0, 1.0, Dash.dash(4.0, 4.0)))
-    private val balanceFormat = Format(Frames.frame(formats.tertiary, 1.0, 1.0, Dash.dash(15.0, 20.0)))
-
     private val secondaryJumbo: Format
     private val secondaryNormal: Format
-    private val secondarySmall = formats.get(Size.Small, Color.Secondary)
+    private val secondarySmall = formats[Size.Small, Color.Secondary]
 
     private val primaryJumbo: Format
     private val primaryNormal: Format
 
-    private val emphaticGigantic = formats.get(Size.Gigantic, Color.Emphatic)
+    private val emphaticGigantic = formats[Size.Gigantic, Color.Emphatic]
     private val emphaticJumbo: Format
     private val emphaticNormal: Format
     private val emphaticSmall: Format
@@ -51,22 +45,16 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
 
     private val headerFormat: Format
 
-    private val primarySmall = formats.get(Size.Small, Color.Primary)
+    private val primaryLine = Format(formats[Size.Small, Color.Primary], Frames.frame(formats.primary, 3.0, .7))
+    private val secondaryLine = Format(formats[Size.Normal, Color.Secondary], Frames.frame(formats.secondary, 3.0, .7))
 
-    private val primaryLine = Format(formats.get(Size.Small, Color.Primary), Frames.frame(formats.primary, 3.0, .7))
-    private val secondaryLine = Format(formats.get(Size.Normal, Color.Secondary), Frames.frame(formats.secondary, 3.0, .7))
-    private val tertiaryLine = Format(formats.get(Size.Normal, Color.Tertiary), Frames.frame(formats.tertiary, 3.0, .7))
-
-    val individualLine = primaryLine
-    val teamLine = secondaryLine
+    private val individualLine = primaryLine
+    private val teamLine = secondaryLine
     private val master = Grid()
     private val viewport = master.nested(INSET, 15, 100 - INSET, 100 - INSET)
     private val leftView = master.nested(INSET, 25, 47, 100 - INSET)
     private val rightView = master.nested(53, 25, 100 - INSET, 100 - INSET)
     private val rightOutline = Flow(world, rightView.all())
-
-    private val quarterView = master.nested(20, 25, 100 - INSET, 100 - INSET)
-    private val quarterOutline = Flow(world, quarterView.all())
 
 
     private val outline: Flow
@@ -78,18 +66,18 @@ class AgileAndBeyondScript : ScriptBuilder<AgileAndBeyondScript>() {
 
         outline = Flow(world, viewport.all())
 
-        primaryJumbo = formats.get(Size.Jumbo, Color.Primary)
-        primaryNormal = formats.get(Size.Normal, Color.Primary)
+        primaryJumbo = formats[Size.Jumbo, Color.Primary]
+        primaryNormal = formats[Size.Normal, Color.Primary]
 
-        secondaryJumbo = formats.get(Size.Jumbo, Color.Secondary)
-        secondaryNormal = formats.get(Size.Normal, Color.Secondary)
+        secondaryJumbo = formats[Size.Jumbo, Color.Secondary]
+        secondaryNormal = formats[Size.Normal, Color.Secondary]
 
-        formats.get(Size.Jumbo, Color.Tertiary)
-        tertiaryNormal = formats.get(Size.Normal, Color.Tertiary)
+        formats[Size.Jumbo, Color.Tertiary]
+        tertiaryNormal = formats[Size.Normal, Color.Tertiary]
 
-        emphaticJumbo = formats.get(Size.Jumbo, Color.Emphatic)
-        emphaticNormal = formats.get(Size.Normal, Color.Emphatic)
-        emphaticSmall = Format(formats.get(Size.Small, Color.Emphatic), Frames.frame(emphatic, 3.0, .7))
+        emphaticJumbo = formats[Size.Jumbo, Color.Emphatic]
+        emphaticNormal = formats[Size.Normal, Color.Emphatic]
+        emphaticSmall = Format(formats[Size.Small, Color.Emphatic], Frames.frame(emphatic, 3.0, .7))
 
 
         val header = Font.font("Chewed Pen BB", FontPosture.ITALIC, 65.0)
@@ -708,25 +696,8 @@ ss   hammer on provisionality & experiment
         endChord()
     }
 
-    fun header(text: String) {
+    private fun header(text: String) {
         letters(text).format(headerFormat).at(TopRight(master.point(100 - INSET, INSET))).called("header").appear()
-    }
-
-    private fun headerEnd(end: String) {
-        letters(end).format(secondaryJumbo).at(RightOf(actor("header"))).sketch()
-    }
-
-    internal fun polygon(sides: Int, radius: Double, at: Point): List<Point> {
-        val result = mutableListOf<Point>()
-        var i = 0
-        while (i < sides) {
-            val angle = i.toDouble() / sides.toDouble() * 2.0 * Math.PI
-            val pointX = Math.sin(angle) * radius + at.x
-            val pointY = Math.cos(angle) * radius + at.y
-            result.add(Point(pointX, pointY))
-            i += 1
-        }
-        return result
     }
 
     override fun downcast(): AgileAndBeyondScript {
@@ -735,8 +706,8 @@ ss   hammer on provisionality & experiment
 
     companion object {
 
-        private val INSET = 3
-        private val XMARGIN = 20.0
-        private val YMARGIN = 20.0
+        private const val INSET = 3
+        private const val XMARGIN = 20.0
+        private const val YMARGIN = 20.0
     }
 }
