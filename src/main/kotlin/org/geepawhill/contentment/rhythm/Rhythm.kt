@@ -11,8 +11,8 @@ interface Rhythm {
     fun seek(ms: Long)
     fun play()
     fun pause()
-    fun addListener(listener: AnalogRhythmListener)
-    fun removeListener(listener: AnalogRhythmListener)
+    fun addListener(syncer: RhythmSyncer)
+    fun removeListener(syncer: RhythmSyncer)
 
     companion object {
         const val MAX = java.lang.Long.MAX_VALUE

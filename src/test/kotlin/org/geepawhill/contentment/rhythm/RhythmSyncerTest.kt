@@ -4,10 +4,10 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
-class AnalogRhythmListenerTest {
-    private val list = AnalogListenerList()
+class RhythmSyncerTest {
+    private val list = RhythmSyncerList()
 
-    class DumbListener : AnalogRhythmListener {
+    class DumbSyncer : RhythmSyncer {
         var paused = 0
         var played = 0
         var seeked = 0
@@ -27,7 +27,7 @@ class AnalogRhythmListenerTest {
 
     @Test
     fun `add adds`() {
-        val listener = DumbListener()
+        val listener = DumbSyncer()
         list.add(listener)
         list.notify { pause() }
         assertThat(listener.paused).isEqualTo(1)
@@ -35,9 +35,9 @@ class AnalogRhythmListenerTest {
 
     @Test
     fun `multiple observers work`() {
-        val listenerOne = DumbListener()
+        val listenerOne = DumbSyncer()
         list.add(listenerOne)
-        val listenerTwo = DumbListener()
+        val listenerTwo = DumbSyncer()
         list.add(listenerTwo)
         list.notify { pause() }
         assertThat(listenerOne.paused).isEqualTo(1)
@@ -46,7 +46,7 @@ class AnalogRhythmListenerTest {
 
     @Test
     fun `remove removes`() {
-        val listener = DumbListener()
+        val listener = DumbSyncer()
         list.add(listener)
         list.notify { pause() }
         list.remove(listener)
@@ -57,7 +57,7 @@ class AnalogRhythmListenerTest {
     @Test
     fun `remove throws on not found`() {
         assertThrows<RuntimeException> {
-            val listener = DumbListener()
+            val listener = DumbSyncer()
             list.remove(listener)
         }
     }
@@ -65,7 +65,7 @@ class AnalogRhythmListenerTest {
     @Test
     fun `can't add twice`() {
         assertThrows<RuntimeException> {
-            val listener = DumbListener()
+            val listener = DumbSyncer()
             list.add(listener)
             list.add(listener)
         }

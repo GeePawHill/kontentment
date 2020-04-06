@@ -11,7 +11,7 @@ import java.time.Duration
 import java.time.LocalDateTime
 
 class MediaRhythm(mediaString: String) : Rhythm {
-    private val listeners = AnalogListenerList()
+    private val listeners = RhythmSyncerList()
     private val privateBeatProperty = ReadOnlyLongWrapper(0L)
     private var isPlaying = false
     private var startedPlayingAt: LocalDateTime? = null
@@ -61,6 +61,7 @@ class MediaRhythm(mediaString: String) : Rhythm {
     override fun play() {
         if (isPlaying) throw RuntimeException("Can't play when already playing.")
         mediaPlayer!!.play()
+        listeners.notify { play() }
         startedPlayingAt = LocalDateTime.now()
         isPlaying = true
         timer.start()
@@ -74,6 +75,6 @@ class MediaRhythm(mediaString: String) : Rhythm {
         isPlaying = false
     }
 
-    override fun addListener(listener: AnalogRhythmListener) = listeners.add(listener)
-    override fun removeListener(listener: AnalogRhythmListener) = listeners.remove(listener)
+    override fun addListener(syncer: RhythmSyncer) = listeners.add(syncer)
+    override fun removeListener(syncer: RhythmSyncer) = listeners.remove(syncer)
 }
