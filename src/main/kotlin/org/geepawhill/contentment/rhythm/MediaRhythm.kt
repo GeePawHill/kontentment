@@ -44,6 +44,7 @@ class MediaRhythm(mediaString: String) : Rhythm {
 
     override fun seek(ms: Long) {
         if (isPlaying) pause()
+        listeners.notify { seek(ms) }
         if (ms == Rhythm.MAX) {
             mediaPlayer!!.seek(javafx.util.Duration.millis(mediaPlayer.getTotalDuration().toMillis() - 50.0))
         } else {
@@ -69,6 +70,7 @@ class MediaRhythm(mediaString: String) : Rhythm {
 
     override fun pause() {
         if (!isPlaying) throw RuntimeException("Can't pause when not playing.")
+        listeners.notify { pause() }
         mediaPlayer!!.pause()
         timer.stop()
         startedPauseAt = beat
