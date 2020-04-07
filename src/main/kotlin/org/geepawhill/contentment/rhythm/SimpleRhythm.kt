@@ -18,7 +18,6 @@ class SimpleRhythm : Rhythm {
 
     override val beatProperty: ReadOnlyLongProperty = privateBeatProperty.readOnlyProperty
     override val beat: Long by beatProperty
-    override val isAtEnd: Boolean = true
     override val mediaPlayer: MediaPlayer? = null
 
     init {

@@ -21,8 +21,6 @@ class MediaRhythm(mediaString: String) : Rhythm {
     override val beatProperty: ReadOnlyLongProperty = privateBeatProperty.readOnlyProperty
     override val mediaPlayer: MediaPlayer?
     override val beat: Long by beatProperty
-    override val isAtEnd: Boolean
-        get() = mediaPlayer!!.getCurrentTime() == mediaPlayer.getCycleDuration()
 
     @JvmOverloads
     constructor(file: File = File("/01faceoverCut.mp4")) : this(file.toURI().toString()) {

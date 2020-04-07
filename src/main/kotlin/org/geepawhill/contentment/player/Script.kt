@@ -8,6 +8,9 @@ import java.util.*
 class Script @JvmOverloads constructor(private val rhythm: Rhythm = SimpleRhythm()) {
     internal var steps: ArrayList<Keyframe> = ArrayList()
 
+    val isAtEnd: Boolean
+        get() = if (mediaPlayer !== null) mediaPlayer!!.currentTime == mediaPlayer!!.cycleDuration else true
+
     val mediaPlayer: MediaPlayer?
         get() = rhythm.mediaPlayer
 

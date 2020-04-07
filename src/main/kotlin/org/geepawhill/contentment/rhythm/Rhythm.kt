@@ -4,7 +4,6 @@ import javafx.beans.property.ReadOnlyLongProperty
 import javafx.scene.media.MediaPlayer
 
 interface Rhythm {
-    val isAtEnd: Boolean
     val mediaPlayer: MediaPlayer?
     val beatProperty: ReadOnlyLongProperty
     val beat: Long
