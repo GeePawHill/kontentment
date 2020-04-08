@@ -18,7 +18,7 @@ import org.geepawhill.contentment.rhythm.Rhythm
 import org.geepawhill.contentment.rhythm.SimpleRhythm
 import org.geepawhill.contentment.timing.Timing
 
-abstract class ScriptBuilder<SUBCLASS> @JvmOverloads constructor(rhythm: Rhythm = SimpleRhythm()) {
+abstract class ScriptBuilder<SUBCLASS>(rhythm: Rhythm = SimpleRhythm()) {
     protected var world: ScriptWorld
     var script: Script
     protected var lastScene: Long = 0

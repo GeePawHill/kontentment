@@ -5,7 +5,7 @@ import org.geepawhill.contentment.rhythm.Rhythm
 import org.geepawhill.contentment.rhythm.SimpleRhythm
 import java.util.*
 
-class Script @JvmOverloads constructor(private val rhythm: Rhythm = SimpleRhythm()) {
+class Script(private val rhythm: Rhythm = SimpleRhythm()) {
     internal var steps: ArrayList<Keyframe> = ArrayList()
 
     val isAtEnd: Boolean
