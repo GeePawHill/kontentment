@@ -15,10 +15,9 @@ import org.geepawhill.contentment.geometry.PointPair
 import org.geepawhill.contentment.player.Keyframe
 import org.geepawhill.contentment.player.Script
 import org.geepawhill.contentment.rhythm.Rhythm
-import org.geepawhill.contentment.rhythm.SimpleRhythm
 import org.geepawhill.contentment.timing.Timing
 
-abstract class ScriptBuilder<SUBCLASS>(rhythm: Rhythm = SimpleRhythm()) {
+abstract class ScriptBuilder<SUBCLASS>(rhythm: Rhythm = Rhythm()) {
     protected var world: ScriptWorld = ScriptWorld()
     var script: Script = Script(rhythm)
     protected var lastScene: Long = -1L

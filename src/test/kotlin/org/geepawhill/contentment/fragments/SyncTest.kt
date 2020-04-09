@@ -2,12 +2,12 @@ package org.geepawhill.contentment.fragments
 
 import org.assertj.core.api.Assertions.assertThat
 import org.geepawhill.contentment.core.Context
-import org.geepawhill.contentment.rhythm.SimpleRhythm
+import org.geepawhill.contentment.rhythm.Rhythm
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class SyncTest {
-    private val rhythm = SimpleRhythm()
+    private val rhythm = Rhythm()
     private val context = Context()
     private val sync = Sync(1)
 

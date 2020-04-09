@@ -6,9 +6,9 @@ import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import tornadofx.*
 
-class SimpleRhythmTest : ContentmentTest() {
+class RhythmTest : ContentmentTest() {
 
-    private val rhythm = SimpleRhythm()
+    private val rhythm = Rhythm()
 
     @Test
     fun newBeatIsZero() {

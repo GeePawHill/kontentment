@@ -10,12 +10,11 @@ import org.geepawhill.contentment.grid.Grid
 import org.geepawhill.contentment.player.Script
 import org.geepawhill.contentment.position.TopLeft
 import org.geepawhill.contentment.position.TopRight
-import org.geepawhill.contentment.rhythm.MediaRhythm
 import org.geepawhill.contentment.step.ScriptBuilder
 import java.io.File
 
 @Suppress("unused")
-class BicScript : ScriptBuilder<BicScript>(MediaRhythm(File("C:\\GeePawHillDotOrgWip\\wip\\ccs talks\\Beauty In Code 2020\\bic2020-raw-tonal.mp4"))) {
+class BicScript : ScriptBuilder<BicScript>() {
 
     private val formats = FormatTable()
 
@@ -36,10 +35,7 @@ class BicScript : ScriptBuilder<BicScript>(MediaRhythm(File("C:\\GeePawHillDotOr
     private val outline: Flow
 
     init {
-        //super()
-        // super(new MediaRhythm(new
-        // File("D:\\GeePawHillDotOrg\\videos\\lumpOfCoding\\lumpOfCodingFaceover.mp4")));
-        // new SimpleRhythm());
+        script.media = File("C:\\GeePawHillDotOrgWip\\wip\\ccs talks\\Beauty In Code 2020\\bic2020-raw-tonal.mp4").toURI().toString()
         script.length = 2359000L
         outline = Flow(world, viewport.all())
     }

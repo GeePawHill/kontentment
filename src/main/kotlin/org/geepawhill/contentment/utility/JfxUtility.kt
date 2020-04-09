@@ -1,18 +1,19 @@
 package org.geepawhill.contentment.utility
 
-import java.io.*
-
-import javax.imageio.ImageIO
-
-import org.geepawhill.contentment.core.GroupSource
-
 import javafx.embed.swing.SwingFXUtils
 import javafx.geometry.VPos
-import javafx.scene.*
-import javafx.scene.image.WritableImage
+import javafx.scene.Group
+import javafx.scene.Node
+import javafx.scene.Parent
+import javafx.scene.SnapshotParameters
 import javafx.scene.layout.AnchorPane
-import javafx.scene.paint.*
+import javafx.scene.paint.Color
+import javafx.scene.paint.Paint
 import javafx.scene.text.Text
+import org.geepawhill.contentment.core.GroupSource
+import java.io.File
+import java.io.IOException
+import javax.imageio.ImageIO
 
 object JfxUtility {
     fun anchor(node: Node) {
@@ -42,7 +43,6 @@ object JfxUtility {
     fun capture(node: Node) {
         val image = node.snapshot(SnapshotParameters(), null)
 
-        // TODO: probably use a file chooser here
         var file = File("output_0.png")
         var i = 1
         while (file.exists()) file = File("output_" + i++ + ".png")
