@@ -19,16 +19,10 @@ import org.geepawhill.contentment.rhythm.SimpleRhythm
 import org.geepawhill.contentment.timing.Timing
 
 abstract class ScriptBuilder<SUBCLASS>(rhythm: Rhythm = SimpleRhythm()) {
-    protected var world: ScriptWorld
-    var script: Script
-    protected var lastScene: Long = 0
+    protected var world: ScriptWorld = ScriptWorld()
+    var script: Script = Script(rhythm)
+    protected var lastScene: Long = -1L
     protected var lastStall: Long = 0
-
-    init {
-        this.script = Script(rhythm)
-        this.lastScene = -1L
-        this.world = ScriptWorld()
-    }
 
     abstract fun downcast(): SUBCLASS
 
