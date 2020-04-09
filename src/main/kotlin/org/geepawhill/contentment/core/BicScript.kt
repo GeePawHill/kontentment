@@ -40,10 +40,8 @@ class BicScript : ScriptBuilder<BicScript>(MediaRhythm(File("C:\\GeePawHillDotOr
         // super(new MediaRhythm(new
         // File("D:\\GeePawHillDotOrg\\videos\\lumpOfCoding\\lumpOfCodingFaceover.mp4")));
         // new SimpleRhythm());
-
+        script.length = 2359000L
         outline = Flow(world, viewport.all())
-
-
     }
 
     fun make(): Script {

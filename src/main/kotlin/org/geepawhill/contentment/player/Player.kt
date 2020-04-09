@@ -55,7 +55,7 @@ class Player {
         get() = if (position < script.size() - 1) {
             rhythm.beat >= getSync(position + 1).target
         } else {
-            script.isAtEnd
+            rhythm.beat >= script.length
         }
 
 
