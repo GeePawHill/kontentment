@@ -29,11 +29,15 @@ class ContentView(private val player: Player) : View(), RhythmSyncer {
 
     private fun scriptChanged() {
         // make the mediaplayer when the script changes
-        val m = Media(player.script.media)
-        val mediaPlayer = MediaPlayer(m)
-        mediaPlayer.pause()
-        mediaView.mediaPlayer = mediaPlayer
-        player.rhythm.addListener(this)
+        val uri = player.script.media
+        if (uri != "") {
+            val m = Media(player.script.media)
+            val mediaPlayer = MediaPlayer(m)
+            mediaPlayer.pause()
+            mediaView.mediaPlayer = mediaPlayer
+            mediaView.show()
+            player.rhythm.addListener(this)
+        } else mediaView.hide()
     }
 
     private fun mouseClicked(event: MouseEvent) {

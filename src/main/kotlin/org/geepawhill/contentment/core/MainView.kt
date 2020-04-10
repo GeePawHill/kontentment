@@ -110,7 +110,7 @@ class MainView : View() {
         FX.primaryStage.isMaximized = true
         FX.primaryStage.fullScreenExitHint = ""
 
-        player.load(BicScript().make())
+        player.load(AgileAndBeyondScript().make())
         root.widthProperty().addListener { _, _, _ ->
             elapsed.x = root.width - 100.0
             elapsed.y = root.height - 20.0
