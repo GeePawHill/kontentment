@@ -11,10 +11,10 @@ import javafx.scene.paint.Color
 import javafx.util.Duration
 import org.geepawhill.contentment.jfx.AspectRatioConstraint
 import org.geepawhill.contentment.player.Player
-import org.geepawhill.contentment.rhythm.RhythmSyncer
+import org.geepawhill.contentment.rhythm.RhythmListener
 import tornadofx.*
 
-class ContentView(private val player: Player) : View(), RhythmSyncer {
+class ContentView(private val player: Player) : View(), RhythmListener {
     private val mediaView = MediaView()
 
     override val root = pane {

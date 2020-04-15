@@ -8,26 +8,22 @@ import java.time.Duration
 import java.time.LocalDateTime
 
 class Rhythm() {
-    private val listeners = RhythmSyncerList()
+
+    private class RhythmTimer(private val update: () -> Unit) : AnimationTimer() {
+        override fun handle(now: Long) {
+            update()
+        }
+    }
+
+    private val listeners = RhythmListeners()
     private val privateBeatProperty = ReadOnlyLongWrapper(0L)
     private var isPlaying = false
-    private var startedPlayingAt: LocalDateTime? = null
+    private var startedPlayingAt: LocalDateTime = LocalDateTime.now()
     private var startedPauseAt: Long = 0
-    private val timer: AnimationTimer
+    private val timer = RhythmTimer { update() }
 
     val beatProperty: ReadOnlyLongProperty = privateBeatProperty.readOnlyProperty
     val beat: Long by beatProperty
-
-    init {
-        isPlaying = false
-        startedPauseAt = 0L
-        timer = object : AnimationTimer() {
-            override fun handle(now: Long) {
-                update()
-            }
-        }
-
-    }
 
     fun seek(ms: Long) {
         if (isPlaying) pause()
@@ -37,9 +33,11 @@ class Rhythm() {
     }
 
     private fun update() {
-        val playerTime = if (isPlaying) startedPauseAt + Duration.between(startedPlayingAt!!, LocalDateTime.now()).toMillis() else startedPauseAt
-        privateBeatProperty.set(playerTime)
+        if (isPlaying) privateBeatProperty.set(startedPauseAt + millisSincePlay())
+        else privateBeatProperty.set(startedPauseAt)
     }
+
+    private fun millisSincePlay() = Duration.between(startedPlayingAt, LocalDateTime.now()).toMillis()
 
     fun play() {
         if (isPlaying) throw RuntimeException("Can't play when already playing.")
@@ -52,13 +50,13 @@ class Rhythm() {
     fun pause() {
         if (!isPlaying) throw RuntimeException("Can't pause when not playing.")
         listeners.notify { pause() }
-        timer.stop()
         startedPauseAt = beat
         isPlaying = false
+        timer.stop()
     }
 
-    fun addListener(syncer: RhythmSyncer) = listeners.add(syncer)
-    fun removeListener(syncer: RhythmSyncer) = listeners.remove(syncer)
+    fun addListener(listener: RhythmListener) = listeners.add(listener)
+    fun removeListener(listener: RhythmListener) = listeners.remove(listener)
 
     companion object {
         const val MAX = Long.MAX_VALUE
