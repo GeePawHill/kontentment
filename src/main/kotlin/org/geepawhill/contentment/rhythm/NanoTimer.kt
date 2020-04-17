@@ -16,7 +16,7 @@
  *
  * Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015 Caprica Software Limited.
  */
-package org.geepawhill.contentment.core
+package org.geepawhill.contentment.rhythm
 
 import javafx.concurrent.ScheduledService
 import javafx.concurrent.Task
@@ -24,7 +24,7 @@ import javafx.util.Duration
 import java.util.concurrent.Executors
 import java.util.concurrent.ThreadFactory
 
-class NanoTimer(period: Double, val pulse: () -> Unit) : ScheduledService<Unit>() {
+class NanoTimer(millis: Double, val pulse: () -> Unit) : ScheduledService<Unit>() {
     private var startTime = 0L
     private var previousTime = 0L
     private var frameRate = 0.0
@@ -36,7 +36,7 @@ class NanoTimer(period: Double, val pulse: () -> Unit) : ScheduledService<Unit>(
         get() = time * ONE_NANO_INV
 
     init {
-        this.period = Duration.millis(period)
+        this.period = Duration.millis(millis)
         executor = Executors.newCachedThreadPool(NanoThreadFactory())
     }
 

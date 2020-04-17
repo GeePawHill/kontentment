@@ -1,6 +1,7 @@
 package org.geepawhill.contentment.core
 
 import javafx.application.Platform
+import org.geepawhill.contentment.rhythm.NanoTimer
 import uk.co.caprica.vlcj.player.base.MediaPlayer
 import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter
 

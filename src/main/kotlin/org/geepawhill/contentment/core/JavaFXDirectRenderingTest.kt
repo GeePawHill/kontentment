@@ -40,9 +40,9 @@ import javafx.scene.layout.Pane
 import javafx.scene.layout.StackPane
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
-import javafx.scene.text.TextAlignment
 import javafx.stage.*
 import javafx.util.Duration
+import org.geepawhill.contentment.rhythm.NanoTimer
 import tornadofx.*
 import uk.co.caprica.vlcj.factory.MediaPlayerFactory
 import uk.co.caprica.vlcj.player.base.MediaPlayer
@@ -253,7 +253,6 @@ class JavaFXDirectRenderingTest : Application() {
         g.fill = Color(0.0, 0.0, 0.0, 0.0)
         g.fillRect(0.0, 0.0, width, height)
         if (img != null) {
-            println("i")
             val imageWidth = img!!.width
             val imageHeight = img!!.height
             val sx = width / imageWidth
@@ -284,17 +283,6 @@ Maximum: %d ms
                         frames, (renderStart - start) / 1000, fps, maxFrameTime, meanFrameTime
                 )
                 renderText(g, `val`, 100.0, 200.0)
-            }
-            if (showAnimation) {
-                g.fill = Color.CORNSILK
-                g.fillOval(
-                        x.doubleValue(),
-                        y.doubleValue(), 40.0, 40.0)
-                g.save()
-                g.globalAlpha = opacity.doubleValue()
-                g.textAlign = TextAlignment.CENTER
-                renderText(g, "vlcj JavaFX PixelBuffer Win!", img!!.width / 2, img!!.height - 120)
-                g.restore()
             }
             g.transform = ax
         }

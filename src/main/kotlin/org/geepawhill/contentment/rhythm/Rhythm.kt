@@ -7,6 +7,7 @@ import tornadofx.*
 import java.time.Duration
 import java.time.LocalDateTime
 
+
 class Rhythm() {
 
     private class RhythmTimer(private val update: () -> Unit) : AnimationTimer() {
@@ -20,7 +21,7 @@ class Rhythm() {
     private var isPlaying = false
     private var startedPlayingAt: LocalDateTime = LocalDateTime.now()
     private var startedPauseAt: Long = 0
-    private val timer = RhythmTimer { update() }
+    private val timer = NanoTimer(1000.0 / 60.0) { update() }
 
     val beatProperty: ReadOnlyLongProperty = privateBeatProperty.readOnlyProperty
     val beat: Long by beatProperty
@@ -52,7 +53,7 @@ class Rhythm() {
         listeners.notify { pause() }
         startedPauseAt = beat
         isPlaying = false
-        timer.stop()
+        timer.cancel()
     }
 
     fun addListener(listener: RhythmListener) = listeners.add(listener)
