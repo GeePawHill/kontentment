@@ -66,4 +66,7 @@ class ContentView(private val player: Player) : View(), RhythmListener {
     override fun seek(ms: Long) {
         mediaView.mediaPlayer.seek(Duration.millis(ms.toDouble()))
     }
+
+    override fun frame() {
+    }
 }

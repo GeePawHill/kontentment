@@ -1,6 +1,5 @@
 package org.geepawhill.contentment.rhythm
 
-import javafx.animation.AnimationTimer
 import javafx.beans.property.ReadOnlyLongProperty
 import javafx.beans.property.ReadOnlyLongWrapper
 import tornadofx.*
@@ -9,12 +8,6 @@ import java.time.LocalDateTime
 
 
 class Rhythm() {
-
-    private class RhythmTimer(private val update: () -> Unit) : AnimationTimer() {
-        override fun handle(now: Long) {
-            update()
-        }
-    }
 
     private val listeners = RhythmListeners()
     private val privateBeatProperty = ReadOnlyLongWrapper(0L)
@@ -34,8 +27,10 @@ class Rhythm() {
     }
 
     private fun update() {
-        if (isPlaying) privateBeatProperty.set(startedPauseAt + millisSincePlay())
-        else privateBeatProperty.set(startedPauseAt)
+        if (isPlaying) {
+            privateBeatProperty.set(startedPauseAt + millisSincePlay())
+            listeners.notify { frame() }
+        } else privateBeatProperty.set(startedPauseAt)
     }
 
     private fun millisSincePlay() = Duration.between(startedPlayingAt, LocalDateTime.now()).toMillis()

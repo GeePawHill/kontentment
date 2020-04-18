@@ -4,6 +4,7 @@ interface RhythmListener {
     fun pause()
     fun play()
     fun seek(ms: Long)
+    fun frame()
 }
 
 class RhythmListeners {
