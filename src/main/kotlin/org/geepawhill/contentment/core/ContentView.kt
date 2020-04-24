@@ -1,5 +1,6 @@
 package org.geepawhill.contentment.core
 
+import javafx.geometry.Orientation
 import javafx.scene.input.MouseButton
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.Background
@@ -17,14 +18,19 @@ import tornadofx.*
 class ContentView(private val player: Player) : View(), RhythmListener {
     private val mediaView = MediaView()
 
-    override val root = pane {
-        setPrefSize(1600.0, 900.0)
-        background = Background(BackgroundFill(Color.BLACK, null, null))
-        player.scriptProperty().addListener { _, _, _ -> scriptChanged() }
-        this += mediaView
-        AspectRatioConstraint(widthProperty(), heightProperty(), player.context().canvas.transforms, mediaView.fitWidthProperty())
-        setOnMouseClicked { event -> mouseClicked(event) }
-        this += player.context().canvas
+    override val root = splitpane(Orientation.VERTICAL) {
+        pane {
+            setPrefSize(1600.0, 900.0)
+            background = Background(BackgroundFill(Color.BLACK, null, null))
+            player.scriptProperty().addListener { _, _, _ -> scriptChanged() }
+            this += mediaView
+            AspectRatioConstraint(widthProperty(), heightProperty(), player.context().canvas.transforms, mediaView.fitWidthProperty())
+            setOnMouseClicked { event -> mouseClicked(event) }
+            this += player.context().canvas
+        }
+        pane {
+            this += VlcjView()
+        }
     }
 
     private fun scriptChanged() {
