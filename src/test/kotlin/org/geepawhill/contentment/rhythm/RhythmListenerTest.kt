@@ -23,6 +23,8 @@ class RhythmListenerTest {
             seeked += 1
         }
 
+        override fun frame() {}
+
     }
 
     @Test

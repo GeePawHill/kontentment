@@ -14,7 +14,7 @@ class Rhythm() {
     private var isPlaying = false
     private var startedPlayingAt: LocalDateTime = LocalDateTime.now()
     private var startedPauseAt: Long = 0
-    private val timer = NanoTimer(1000.0 / 60.0) { update() }
+    private val timer = FpsTimer(60) { update() }
 
     val beatProperty: ReadOnlyLongProperty = privateBeatProperty.readOnlyProperty
     val beat: Long by beatProperty
@@ -40,7 +40,7 @@ class Rhythm() {
         listeners.notify { play() }
         startedPlayingAt = LocalDateTime.now()
         isPlaying = true
-        timer.start()
+        timer.play()
     }
 
     fun pause() {
@@ -48,7 +48,7 @@ class Rhythm() {
         listeners.notify { pause() }
         startedPauseAt = beat
         isPlaying = false
-        timer.cancel()
+        timer.pause()
     }
 
     fun addListener(listener: RhythmListener) = listeners.add(listener)

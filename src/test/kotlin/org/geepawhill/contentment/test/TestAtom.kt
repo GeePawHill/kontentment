@@ -1,8 +1,8 @@
 package org.geepawhill.contentment.test
 
-import java.util.ArrayList
-
-import org.geepawhill.contentment.core.*
+import org.geepawhill.contentment.core.Context
+import org.geepawhill.contentment.core.Fragment
+import java.util.*
 
 class TestAtom : Fragment {
     var fractions: ArrayList<Double>
@@ -16,6 +16,7 @@ class TestAtom : Fragment {
     }
 
     override fun interpolate(context: Context, fraction: Double): Boolean {
+        println("+")
         fractions.add(fraction)
         return true
     }

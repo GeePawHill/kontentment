@@ -10,7 +10,7 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import java.util.function.Consumer
 
-class JavaFxRunner internal constructor() {
+class JavaFxRunner {
     var context: Context
 
     init {
@@ -37,6 +37,7 @@ class JavaFxRunner internal constructor() {
 
     class CountDownOnFinish(val latch: CountDownLatch) : OnFinished {
         override fun run() {
+            println("-")
             latch.countDown()
         }
     }
@@ -56,8 +57,14 @@ class JavaFxRunner internal constructor() {
 
     fun actLater(action: Consumer<CountDownLatch>) {
         val latch = CountDownLatch(1)
-        Platform.runLater { action.accept(latch) }
+        Platform.runLater {
+            println("RunLater start.")
+            action.accept(latch)
+            println("RunLater end.")
+        }
+        println("Waiting")
         waitForlatch(latch)
+        println("Latched")
     }
 
     private fun waitForlatch(latch: CountDownLatch) {
@@ -71,7 +78,9 @@ class JavaFxRunner internal constructor() {
     }
 
     fun play(ms: Long, atom: Fragment) {
-        val action = Consumer<CountDownLatch> { latch -> FragmentTransition(ms, atom, context, CountDownOnFinish(latch)).play() }
+        val action = Consumer<CountDownLatch> { latch ->
+            FragmentTransition(ms, atom, context, CountDownOnFinish(latch)).play()
+        }
         actLater(action)
     }
 }

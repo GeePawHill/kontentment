@@ -1,12 +1,9 @@
 package org.geepawhill.contentment.test
 
-import java.util.concurrent.CountDownLatch
-
-import javax.swing.SwingUtilities
-
-import org.geepawhill.contentment.core.Context
-
 import javafx.embed.swing.JFXPanel
+import org.geepawhill.contentment.core.Context
+import java.util.concurrent.CountDownLatch
+import javax.swing.SwingUtilities
 
 open class ContentmentTest {
     val runner = JavaFxRunner()
@@ -30,6 +27,7 @@ open class ContentmentTest {
     @Throws(InterruptedException::class)
     protected fun runJavaFx() {
         if (javaFxRunning) return
+        println("Running JavaFx")
         val timeMillis = System.currentTimeMillis()
         val latch = CountDownLatch(1)
         SwingUtilities.invokeLater(object : Runnable {
@@ -45,6 +43,7 @@ open class ContentmentTest {
 
         latch.await()
         javaFxRunning = true
+        println("Now running.")
     }
 
     companion object {

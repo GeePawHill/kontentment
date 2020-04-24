@@ -36,12 +36,12 @@ class RhythmTest : ContentmentTest() {
 
     @Test
     fun changesBeatWhenPlayed() {
+        assertThat(rhythm.beat).isEqualTo(0)
         task {
             rhythm.play()
         }
-        val oldBeat = rhythm.beat
         Thread.sleep(SHORT_TIME * 2)
-        assertThat(rhythm.beat).isGreaterThanOrEqualTo(oldBeat + SHORT_TIME)
+        assertThat(rhythm.beat).isGreaterThanOrEqualTo(SHORT_TIME)
     }
 
     @Test

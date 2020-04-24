@@ -2,6 +2,7 @@ package org.geepawhill.contentment.core
 
 import javafx.animation.Transition
 import javafx.util.Duration
+
 /**
  * Create a FragmentTransition that lasts ms long (minimum 1), playing the
  * Fragment against the Context, then calling the OnFinished callback.
@@ -18,7 +19,7 @@ class FragmentTransition(ms: Long, private val fragment: Fragment, private val c
         if (context == null) {
             println("null context")
         }
-        this.ms = if (ms > 0) ms else 1
+        this.ms = if (ms > 20) ms else 20
     }
 
     /**
@@ -28,6 +29,7 @@ class FragmentTransition(ms: Long, private val fragment: Fragment, private val c
      * @see javafx.animation.Animation.play
      */
     override fun play() {
+        println("p")
         cycleDuration = Duration.millis(ms.toDouble())
         setOnFinished { onFinished.run() }
         fragment.prepare(context!!)

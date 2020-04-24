@@ -6,10 +6,11 @@ package org.geepawhill.contentment.core
  * @author GeePaw
  */
 interface OnFinished : Runnable {
+
     companion object {
-        /**
-         * A no-op Runnable
-         */
-        val NONE = { }
+        val NOOP = object : OnFinished {
+            override fun run() {
+            }
+        }
     }
 }
