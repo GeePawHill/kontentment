@@ -4,13 +4,11 @@ import javafx.application.Platform
 import org.assertj.core.api.Assertions.assertThat
 import org.geepawhill.contentment.test.ContentmentTest
 import org.geepawhill.contentment.test.TestAtom
-import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.Test
 import tornadofx.*
 
 class AtomRunnerTest : ContentmentTest() {
     @Test
-    @RepeatedTest(1000)
     fun atZeroTime() {
         assertThat(Platform.isFxApplicationThread()).isFalse()
         val atom = TestAtom()
