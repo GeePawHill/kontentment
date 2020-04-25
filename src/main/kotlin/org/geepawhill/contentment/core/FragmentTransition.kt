@@ -29,7 +29,6 @@ class FragmentTransition(ms: Long, private val fragment: Fragment, private val c
      * @see javafx.animation.Animation.play
      */
     override fun play() {
-        println("p")
         cycleDuration = Duration.millis(ms.toDouble())
         setOnFinished { onFinished.run() }
         fragment.prepare(context!!)
