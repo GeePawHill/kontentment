@@ -29,7 +29,7 @@ class ContentView(private val player: Player) : View(), RhythmListener {
             this += player.context().canvas
         }
         pane {
-            this += VlcjView()
+            this += VlcjView(player)
         }
     }
 
