@@ -80,18 +80,11 @@ class VlcjView(private val player: Player) : View(), RhythmListener {
 
     override val root: Parent = stackpane {
         status = text("This is the VlcjView")
-        canvas = ResizableCanvas()
-        this += canvas
+        val canvasPane = CanvasPane()
+        this += canvasPane
+        canvas = canvasPane.canvas
         player.scriptProperty().addListener { _ ->
             player.rhythm.addListener(this@VlcjView)
-        }
-        canvas.widthProperty().bind(widthProperty())
-        canvas.heightProperty().bind(heightProperty())
-        widthProperty().addListener { _ ->
-            println("stack width: $width")
-        }
-        heightProperty().addListener { _ ->
-            println("stack height: $height")
         }
     }
 
@@ -128,8 +121,25 @@ class VlcjView(private val player: Player) : View(), RhythmListener {
     private fun render() {
         val g = canvas.graphicsContext2D
         if (img != null) {
+            val imageWidth = img!!.width
+            val imageHeight = img!!.height
+            val sx = canvas.width / imageWidth
+            val sy = canvas.height / imageHeight
+            val sf = Math.max(sx, sy)
+            val scaledW = imageWidth * sf
+            val scaledH = imageHeight * sf
+            val ax = g.transform
+            g.translate(
+                    (canvas.width - scaledW) / 2,
+                    (canvas.height - scaledH) / 2
+            )
+            if (sf != 1.0) {
+                g.scale(sf, sf)
+            }
+
             pixelBuffer!!.updateBuffer { pixBuf -> null };
             g.drawImage(img, 0.0, 0.0)
+            g.transform = ax
         }
     }
 }
