@@ -26,40 +26,37 @@ import java.nio.ByteBuffer
 class VlcjView(private val player: Player) : View(), RhythmListener {
     private lateinit var status: Text
     private lateinit var canvas: Canvas
-    private val pixelFormat: WritablePixelFormat<ByteBuffer?> = PixelFormat.getByteBgraPreInstance()
-    private var bufferWidth = 0
-    private var bufferHeight = 0
+    private val vlcjBuffer = JavaFxBufferFormatCallback()
 
-    private var pixelBuffer: PixelBuffer<*>? = null
-    private var img: WritableImage? = null
+    fun pixelBuffer(): PixelBuffer<*> = vlcjBuffer.pixelBuffer!!
+    fun image(): WritableImage = vlcjBuffer.img!!
 
     private val mediaPlayerFactory: MediaPlayerFactory = MediaPlayerFactory()
     val mediaPlayer: EmbeddedMediaPlayer = mediaPlayerFactory.mediaPlayers().newEmbeddedMediaPlayer()
 
-    private inner class JavaFxVideoSurface internal constructor() : CallbackVideoSurface(JavaFxBufferFormatCallback(), JavaFxRenderCallback(), true, VideoSurfaceAdapters.getVideoSurfaceAdapter())
+    private class JavaFxVideoSurface(vlcjBuffer: JavaFxBufferFormatCallback) :
+            CallbackVideoSurface(vlcjBuffer, JavaFxRenderCallback(), true, VideoSurfaceAdapters.getVideoSurfaceAdapter())
 
-    private inner class JavaFxBufferFormatCallback : BufferFormatCallback {
+    private class JavaFxBufferFormatCallback : BufferFormatCallback {
+        private val pixelFormat: WritablePixelFormat<ByteBuffer?> = PixelFormat.getByteBgraPreInstance()
+        var pixelBuffer: PixelBuffer<*>? = null
+        var img: WritableImage? = null
+
+        private var bufferWidth = 0
+        private var bufferHeight = 0
+
         override fun getBufferFormat(sourceWidth: Int, sourceHeight: Int): BufferFormat {
-            println("gbf")
             bufferWidth = sourceWidth
             bufferHeight = sourceHeight
-
-            // This does not need to be done here, but you could set the video surface size to match the native video
-            // size
             return RV32BufferFormat(sourceWidth, sourceHeight)
         }
 
         override fun allocatedBuffers(buffers: Array<ByteBuffer>) {
-            // This is the new magic sauce, the native video buffer is used directly for the image buffer - there is no
-            // full-frame buffer copy here
-            println("ab")
             pixelBuffer = PixelBuffer(bufferWidth, bufferHeight, buffers[0], pixelFormat)
             img = WritableImage(pixelBuffer)
         }
     }
 
-    // This is correct as far as it goes, but we need to use one of the timers to get smooth rendering (the timer is
-    // handled by the demo sub-classes)
     private class JavaFxRenderCallback : RenderCallback {
         override fun display(mediaPlayer: MediaPlayer, nativeBuffers: Array<ByteBuffer>, bufferFormat: BufferFormat) {
         }
@@ -91,7 +88,7 @@ class VlcjView(private val player: Player) : View(), RhythmListener {
     }
 
     init {
-        mediaPlayer.videoSurface().set(JavaFxVideoSurface())
+        mediaPlayer.videoSurface().set(JavaFxVideoSurface(vlcjBuffer))
         mediaPlayer.events().addMediaPlayerEventListener(FirstFrameListener())
         mediaPlayer.media().prepare(File("C:\\GeePawHillDotOrgWip\\wip\\ccs talks\\Beauty In Code 2020\\bic2020-raw-tonal.mp4").absolutePath)
         mediaPlayer.controls().setPosition(0f)
@@ -123,26 +120,24 @@ class VlcjView(private val player: Player) : View(), RhythmListener {
 
     private fun render() {
         val g = canvas.graphicsContext2D
-        if (img != null) {
-            val imageWidth = img!!.width
-            val imageHeight = img!!.height
-            val sx = canvas.width / imageWidth
-            val sy = canvas.height / imageHeight
-            val sf = Math.max(sx, sy)
-            val scaledW = imageWidth * sf
-            val scaledH = imageHeight * sf
-            val ax = g.transform
-            g.translate(
-                    (canvas.width - scaledW) / 2,
-                    (canvas.height - scaledH) / 2
-            )
-            if (sf != 1.0) {
-                g.scale(sf, sf)
-            }
-
-            pixelBuffer!!.updateBuffer { pixBuf -> null };
-            g.drawImage(img, 0.0, 0.0)
-            g.transform = ax
+        val imageWidth = image().width
+        val imageHeight = image().height
+        val sx = canvas.width / imageWidth
+        val sy = canvas.height / imageHeight
+        val sf = Math.max(sx, sy)
+        val scaledW = imageWidth * sf
+        val scaledH = imageHeight * sf
+        val ax = g.transform
+        g.translate(
+                (canvas.width - scaledW) / 2,
+                (canvas.height - scaledH) / 2
+        )
+        if (sf != 1.0) {
+            g.scale(sf, sf)
         }
+
+        pixelBuffer().updateBuffer { pixBuf -> null };
+        g.drawImage(image(), 0.0, 0.0)
+        g.transform = ax
     }
 }
