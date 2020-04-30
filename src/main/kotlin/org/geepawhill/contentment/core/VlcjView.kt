@@ -65,25 +65,17 @@ class VlcjView(private val player: Player) : View(), RhythmListener {
         }
     }
 
-    class ResizableCanvas : Canvas() {
-        override fun isResizable(): Boolean {
-            return true
-        }
-
-        override fun prefHeight(width: Double): Double {
-            return height
-        }
-
-        override fun prefWidth(height: Double): Double {
-            return width
-        }
-    }
-
     override val root: Parent = stackpane {
         status = text("This is the VlcjView")
         val canvasPane = CanvasPane()
         this += canvasPane
         canvas = canvasPane.canvas
+        canvas.widthProperty().addListener { _ ->
+            runLater { render() }
+        }
+        canvas.heightProperty().addListener { _ ->
+            runLater { render() }
+        }
         player.scriptProperty().addListener { _ ->
             player.rhythm.addListener(this@VlcjView)
         }
