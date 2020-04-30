@@ -12,6 +12,7 @@ import org.geepawhill.contentment.rhythm.RhythmListener
 import tornadofx.*
 import uk.co.caprica.vlcj.factory.MediaPlayerFactory
 import uk.co.caprica.vlcj.player.base.MediaPlayer
+import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter
 import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer
 import uk.co.caprica.vlcj.player.embedded.videosurface.CallbackVideoSurface
 import uk.co.caprica.vlcj.player.embedded.videosurface.VideoSurfaceAdapters
@@ -88,15 +89,22 @@ class VlcjView(private val player: Player) : View(), RhythmListener {
         }
     }
 
+    inner class FirstFrameListener : MediaPlayerEventAdapter() {
+        override fun paused(mediaPlayer: MediaPlayer?) {
+            runLater {
+                mediaPlayer!!.controls().nextFrame()
+                render()
+            }
+        }
+    }
+
     init {
         mediaPlayer.videoSurface().set(JavaFxVideoSurface())
+        mediaPlayer.events().addMediaPlayerEventListener(FirstFrameListener())
         mediaPlayer.media().prepare(File("C:\\GeePawHillDotOrgWip\\wip\\ccs talks\\Beauty In Code 2020\\bic2020-raw-tonal.mp4").absolutePath)
         mediaPlayer.controls().setPosition(0f)
         mediaPlayer.controls().start()
         mediaPlayer.controls().pause()
-        runLater {
-            mediaPlayer.controls().nextFrame()
-        }
     }
 
     override fun pause() {
@@ -110,6 +118,9 @@ class VlcjView(private val player: Player) : View(), RhythmListener {
     }
 
     override fun seek(ms: Long) {
+        val position = ms.toFloat() / player.script.length.toFloat()
+        mediaPlayer.controls().setPosition(position)
+        render()
     }
 
     override fun frame() {
