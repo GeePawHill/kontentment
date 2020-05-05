@@ -2,7 +2,6 @@ package org.geepawhill.contentment.core
 
 import javafx.scene.Parent
 import javafx.scene.canvas.Canvas
-import javafx.scene.text.Text
 import org.geepawhill.contentment.player.Player
 import org.geepawhill.contentment.rhythm.RhythmListener
 import org.geepawhill.contentment.vlcj.VlcjSurface
@@ -14,7 +13,6 @@ import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer
 import java.io.File
 
 class VlcjView(private val player: Player) : View(), RhythmListener {
-    private lateinit var status: Text
     private lateinit var canvas: Canvas
     private val surface = VlcjSurface()
     private val mediaPlayerFactory: MediaPlayerFactory = MediaPlayerFactory()
@@ -22,7 +20,6 @@ class VlcjView(private val player: Player) : View(), RhythmListener {
     val mediaPlayer: EmbeddedMediaPlayer = mediaPlayerFactory.mediaPlayers().newEmbeddedMediaPlayer()
 
     override val root: Parent = stackpane {
-        status = text("This is the VlcjView")
         val canvasPane = CanvasPane()
         this += canvasPane
         canvas = canvasPane.canvas
@@ -56,12 +53,10 @@ class VlcjView(private val player: Player) : View(), RhythmListener {
     }
 
     override fun pause() {
-        status.text = "Pause"
         mediaPlayer.controls().pause()
     }
 
     override fun play() {
-        status.text = "Play"
         mediaPlayer.controls().play()
     }
 
