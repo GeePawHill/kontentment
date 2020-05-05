@@ -28,7 +28,7 @@ class ContentView(private val player: Player) : View(), RhythmListener {
             setOnMouseClicked { event -> mouseClicked(event) }
             this += player.context().canvas
         }
-        this += VlcjView(player)
+        this += VlcjPane(player)
     }
 
     private fun scriptChanged() {

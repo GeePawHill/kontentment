@@ -2,6 +2,7 @@ package org.geepawhill.contentment.core
 
 import javafx.scene.Parent
 import javafx.scene.canvas.Canvas
+import javafx.scene.layout.Pane
 import org.geepawhill.contentment.player.Player
 import org.geepawhill.contentment.rhythm.RhythmListener
 import org.geepawhill.contentment.vlcj.VlcjSurface
@@ -12,26 +13,15 @@ import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter
 import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer
 import java.io.File
 
-class VlcjView(private val player: Player) : View(), RhythmListener {
-    private lateinit var canvas: Canvas
+class VlcjPane(private val player: Player) : Pane(), RhythmListener {
     private val surface = VlcjSurface()
+    val ratio = 9.0 / 16.0
+    val canvas = Canvas()
     private val mediaPlayerFactory: MediaPlayerFactory = MediaPlayerFactory()
 
     val mediaPlayer: EmbeddedMediaPlayer = mediaPlayerFactory.mediaPlayers().newEmbeddedMediaPlayer()
 
-    override val root: Parent = stackpane {
-        val canvasPane = CanvasPane()
-        this += canvasPane
-        canvas = canvasPane.canvas
-        canvas.widthProperty().addListener { _ ->
-            runLater { render() }
-        }
-        canvas.heightProperty().addListener { _ ->
-            runLater { render() }
-        }
-        player.scriptProperty().addListener { _ ->
-            player.rhythm.addListener(this@VlcjView)
-        }
+    val root: Parent = pane {
     }
 
     inner class FirstFrameListener : MediaPlayerEventAdapter() {
@@ -50,6 +40,30 @@ class VlcjView(private val player: Player) : View(), RhythmListener {
         mediaPlayer.controls().setPosition(0f)
         mediaPlayer.controls().start()
         mediaPlayer.controls().pause()
+        this += canvas
+        canvas.widthProperty().addListener { _ ->
+            runLater { render() }
+        }
+        canvas.heightProperty().addListener { _ ->
+            runLater { render() }
+        }
+        player.scriptProperty().addListener { _ ->
+            player.rhythm.addListener(this@VlcjPane)
+        }
+    }
+
+    override fun layoutChildren() {
+        val impliedHeightForWidth = ratio * width
+        if (impliedHeightForWidth < height) {
+            canvas.width = width
+            canvas.height = impliedHeightForWidth
+        } else {
+            val impliedWidthForHeight = (1.0 / ratio) * height
+            canvas.width = impliedWidthForHeight
+            canvas.height = height
+        }
+        canvas.translateX = (width - canvas.width) / 2.0
+        canvas.translateY = (height - canvas.height) / 2.0
     }
 
     override fun pause() {
