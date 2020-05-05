@@ -15,7 +15,7 @@ class CanvasPane : Pane() {
         val impliedHeightForWidth = ratio * width
         if (impliedHeightForWidth < height) {
             canvas.width = width
-            canvas.height = height
+            canvas.height = impliedHeightForWidth
         } else {
             val impliedWidthForHeight = (1.0 / ratio) * height
             canvas.width = impliedWidthForHeight
