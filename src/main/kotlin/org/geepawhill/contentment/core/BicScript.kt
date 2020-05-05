@@ -44,6 +44,9 @@ class BicScript : ScriptBuilder<BicScript>() {
         pause()
         scene(0)
         cycledHeader(0, "Hello, Beauty In Code 2020!")
+        cycledHeader(8, "Hi, Beauty In Code 2020!")
+        cycledHeader(16, "Bonjour, Beauty In Code 2020!")
+
         cycledHeader(22, "Thank You!")
         cycledHeader(35, "Thanks, Alastair!")
         cycledHeader(46, "I Appreciate Living.It!")

@@ -1,8 +1,10 @@
 package org.geepawhill.contentment.core
 
-import javafx.scene.Parent
 import javafx.scene.canvas.Canvas
 import javafx.scene.layout.Pane
+import javafx.scene.transform.Scale
+import javafx.scene.transform.Translate
+import org.geepawhill.contentment.geometry.AspectRatio
 import org.geepawhill.contentment.player.Player
 import org.geepawhill.contentment.rhythm.RhythmListener
 import org.geepawhill.contentment.vlcj.VlcjSurface
@@ -15,14 +17,12 @@ import java.io.File
 
 class VlcjPane(private val player: Player) : Pane(), RhythmListener {
     private val surface = VlcjSurface()
-    val ratio = 9.0 / 16.0
+    private val aspect = AspectRatio()
     val canvas = Canvas()
+
     private val mediaPlayerFactory: MediaPlayerFactory = MediaPlayerFactory()
 
     val mediaPlayer: EmbeddedMediaPlayer = mediaPlayerFactory.mediaPlayers().newEmbeddedMediaPlayer()
-
-    val root: Parent = pane {
-    }
 
     inner class FirstFrameListener : MediaPlayerEventAdapter() {
         override fun paused(mediaPlayer: MediaPlayer?) {
@@ -34,36 +34,43 @@ class VlcjPane(private val player: Player) : Pane(), RhythmListener {
     }
 
     init {
+        this += canvas
+        this += player.context().canvas
+        aspect.hostHeightProperty.bind(heightProperty())
+        aspect.hostWidthProperty.bind(widthProperty())
+        canvas.widthProperty().bind(aspect.widthProperty)
+        canvas.heightProperty().bind(aspect.heightProperty)
+        canvas.translateXProperty().bind(aspect.xProperty)
+        canvas.translateYProperty().bind(aspect.yProperty)
+
         mediaPlayer.videoSurface().set(surface)
         mediaPlayer.events().addMediaPlayerEventListener(FirstFrameListener())
         mediaPlayer.media().prepare(File("C:\\GeePawHillDotOrgWip\\wip\\ccs talks\\Beauty In Code 2020\\bic2020-raw-tonal.mp4").absolutePath)
         mediaPlayer.controls().setPosition(0f)
         mediaPlayer.controls().start()
         mediaPlayer.controls().pause()
-        this += canvas
-        canvas.widthProperty().addListener { _ ->
-            runLater { render() }
+        widthProperty().addListener { _ ->
+            runLater { resize() }
         }
-        canvas.heightProperty().addListener { _ ->
-            runLater { render() }
+        heightProperty().addListener { _ ->
+            runLater { resize() }
         }
         player.scriptProperty().addListener { _ ->
             player.rhythm.addListener(this@VlcjPane)
         }
     }
 
+    fun resize() {
+        val scaleFactor = aspect.width / 1600.0
+        val scale = Scale(scaleFactor, scaleFactor)
+        val translate = Translate(aspect.x / scaleFactor, aspect.y / scaleFactor)
+        println("r ${aspect.width} x ${aspect.height}")
+        println("t ${aspect.x}, ${aspect.y}")
+        player.context().canvas.transforms.setAll(scale, translate)
+        render()
+    }
+
     override fun layoutChildren() {
-        val impliedHeightForWidth = ratio * width
-        if (impliedHeightForWidth < height) {
-            canvas.width = width
-            canvas.height = impliedHeightForWidth
-        } else {
-            val impliedWidthForHeight = (1.0 / ratio) * height
-            canvas.width = impliedWidthForHeight
-            canvas.height = height
-        }
-        canvas.translateX = (width - canvas.width) / 2.0
-        canvas.translateY = (height - canvas.height) / 2.0
     }
 
     override fun pause() {
