@@ -43,7 +43,7 @@ class VlcjPane(private val player: Player) : Pane(), RhythmListener {
         canvas.translateXProperty().bind(aspect.xProperty)
         canvas.translateYProperty().bind(aspect.yProperty)
 
-        mediaPlayer.videoSurface().set(surface)
+        surface.attach(mediaPlayer)
         mediaPlayer.events().addMediaPlayerEventListener(FirstFrameListener())
         mediaPlayer.media().prepare(File("C:\\GeePawHillDotOrgWip\\wip\\ccs talks\\Beauty In Code 2020\\bic2020-raw-tonal.mp4").absolutePath)
         mediaPlayer.controls().setPosition(0f)
