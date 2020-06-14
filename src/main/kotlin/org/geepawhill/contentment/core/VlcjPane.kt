@@ -64,8 +64,6 @@ class VlcjPane(private val player: Player) : Pane(), RhythmListener {
         val scaleFactor = aspect.width / 1600.0
         val scale = Scale(scaleFactor, scaleFactor)
         val translate = Translate(aspect.x / scaleFactor, aspect.y / scaleFactor)
-        println("r ${aspect.width} x ${aspect.height}")
-        println("t ${aspect.x}, ${aspect.y}")
         player.context().canvas.transforms.setAll(scale, translate)
         render()
     }

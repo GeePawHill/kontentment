@@ -7,6 +7,8 @@ import javafx.scene.Node
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.scene.control.ToolBar
+import javafx.scene.layout.Background
+import javafx.scene.layout.BackgroundFill
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import javafx.scene.text.Text
@@ -175,12 +177,19 @@ class MainView : View() {
         }
         val pane = hiddensidespane {
             top = toolbar
-            minWidth = 1280.0
-            minHeight = 720.0
+            minWidth = 800.0
+            minHeight = 450.0
             animationDelay = Duration.ZERO
+            background = Background(BackgroundFill(Color.BLACK, null, null))
+            val canvas = player.context().canvas
+            canvas.scaleX = .5
+            canvas.scaleY = .5
+            content = canvas
         }
         val scene = Scene(pane)
         stage.scene = scene
+        stage.x = 0.0
+        stage.y = 0.0
         stage.show()
     }
 
