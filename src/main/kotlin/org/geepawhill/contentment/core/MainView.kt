@@ -5,12 +5,17 @@ import javafx.geometry.Orientation
 import javafx.scene.Cursor
 import javafx.scene.Node
 import javafx.scene.Parent
+import javafx.scene.Scene
 import javafx.scene.control.ToolBar
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import javafx.scene.text.Text
+import javafx.stage.Stage
+import javafx.stage.StageStyle
+import javafx.util.Duration
 import javafx.util.converter.IntegerStringConverter
 import org.geepawhill.contentment.geometry.PointPair
+import org.geepawhill.contentment.jfx.hiddensidespane
 import org.geepawhill.contentment.player.Player
 import org.geepawhill.contentment.rhythm.Rhythm
 import org.geepawhill.contentment.utility.JfxUtility
@@ -49,6 +54,9 @@ class MainView : View() {
             }
             button("Full") {
                 action { FX.primaryStage.isFullScreen = true }
+            }
+            button("Present") {
+                action { present() }
             }
             button("||<--") {
                 action { player.start() }
@@ -110,7 +118,7 @@ class MainView : View() {
         FX.primaryStage.isMaximized = true
         FX.primaryStage.fullScreenExitHint = ""
 
-        player.load(BicScript().make())
+        player.load(AgileAndBeyondScript().make())
         root.widthProperty().addListener { _, _, _ ->
             elapsed.x = root.width - 100.0
             elapsed.y = root.height - 20.0
@@ -159,4 +167,21 @@ class MainView : View() {
             FX.primaryStage.scene.cursor = Cursor.NONE
         }
     }
+
+    private fun present() {
+        val stage = Stage(StageStyle.UNDECORATED)
+        val toolbar = toolbar {
+            button("Here")
+        }
+        val pane = hiddensidespane {
+            top = toolbar
+            minWidth = 1280.0
+            minHeight = 720.0
+            animationDelay = Duration.ZERO
+        }
+        val scene = Scene(pane)
+        stage.scene = scene
+        stage.show()
+    }
+
 }

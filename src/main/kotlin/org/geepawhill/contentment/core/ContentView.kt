@@ -12,7 +12,7 @@ class ContentView(private val player: Player) : View() {
 
     override val root = stackpane {
         setPrefSize(1600.0, 900.0)
-        background = Background(BackgroundFill(Color.BLUE, null, null))
+        background = Background(BackgroundFill(Color.BLACK, null, null))
         setOnMouseClicked { event -> mouseClicked(event) }
         this += VlcjPane(player)
     }

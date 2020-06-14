@@ -21,7 +21,7 @@ test {
     useJUnitPlatform()
 }
 
-sourceCompatibility = '1.8'
+sourceCompatibility = '11'
 targetCompatibility = sourceCompatibility
 
 compileKotlin {
@@ -36,6 +36,8 @@ dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-reflect:1.3.61'
     implementation 'no.tornado:tornadofx:1.7.20'
     implementation 'uk.co.caprica:vlcj:4.2.0'
+    implementation group: 'org.controlsfx', name: 'controlsfx', version: '11.0.1'
+
     testImplementation('org.junit.jupiter:junit-jupiter-api:5.5.2')
     testRuntimeOnly('org.junit.jupiter:junit-jupiter-engine:5.5.2')
     testImplementation 'org.assertj:assertj-core:3.11.1'
