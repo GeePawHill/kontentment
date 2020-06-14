@@ -2,11 +2,12 @@ package org.geepawhill.contentment.geometry
 
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.data.Percentage
+import org.geepawhill.contentment.jfx.AspectMaintainer
 import org.junit.jupiter.api.Test
 
-class AspectRatioTest {
+class AspectMaintainerTest {
 
-    private val ratio = AspectRatio()
+    private val ratio = AspectMaintainer()
 
     @Test
     fun `defaults to 16 x 9`() {

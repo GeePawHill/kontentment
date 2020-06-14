@@ -4,7 +4,7 @@ import javafx.scene.canvas.Canvas
 import javafx.scene.layout.Pane
 import javafx.scene.transform.Scale
 import javafx.scene.transform.Translate
-import org.geepawhill.contentment.geometry.AspectRatio
+import org.geepawhill.contentment.jfx.AspectMaintainer
 import org.geepawhill.contentment.player.Player
 import org.geepawhill.contentment.rhythm.RhythmListener
 import org.geepawhill.contentment.vlcj.VlcjSurface
@@ -17,7 +17,7 @@ import java.io.File
 
 class VlcjPane(private val player: Player) : Pane(), RhythmListener {
     private val surface = VlcjSurface()
-    private val aspect = AspectRatio()
+    private val aspect = AspectMaintainer()
     val canvas = Canvas()
 
     private val mediaPlayerFactory: MediaPlayerFactory = MediaPlayerFactory()

@@ -1,9 +1,9 @@
-package org.geepawhill.contentment.geometry
+package org.geepawhill.contentment.jfx
 
 import javafx.beans.property.SimpleDoubleProperty
 import tornadofx.*
 
-class AspectRatio {
+class AspectMaintainer {
     val widthToHeightProperty = SimpleDoubleProperty(16.0 / 9.0)
     var widthToHeight by widthToHeightProperty
 
