@@ -1,17 +1,16 @@
-package org.geepawhill.contentment.geometry
+package org.geepawhill.contentment.jfx
 
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.data.Percentage
-import org.geepawhill.contentment.jfx.AspectMaintainer
 import org.junit.jupiter.api.Test
 
 class AspectMaintainerTest {
 
-    private val ratio = AspectMaintainer()
+    private val ratio = AspectMaintainer(Aspect())
 
     @Test
     fun `defaults to 16 x 9`() {
-        assertThat(ratio.widthToHeight).isCloseTo(16.0 / 9.0, Percentage.withPercentage(0.01))
+        assertThat(ratio.widthToHeight.toDouble()).isCloseTo(16.0 / 9.0, Percentage.withPercentage(0.01))
     }
 
     @Test
@@ -63,7 +62,8 @@ class AspectMaintainerTest {
         ratio.hostWidth = 1600.0
         ratio.hostHeight = 1200.0
         assertThat(ratio.height).isCloseTo(900.0, Percentage.withPercentage(0.01))
-        ratio.widthToHeight = 4.0 / 3.0
+        ratio.aspect.width = 400.0
+        ratio.aspect.height = 300.0
         assertThat(ratio.width).isCloseTo(1600.0, Percentage.withPercentage(0.01))
         assertThat(ratio.height).isCloseTo(1200.0, Percentage.withPercentage(0.01))
     }

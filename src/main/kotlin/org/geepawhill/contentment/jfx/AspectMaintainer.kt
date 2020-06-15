@@ -3,9 +3,9 @@ package org.geepawhill.contentment.jfx
 import javafx.beans.property.SimpleDoubleProperty
 import tornadofx.*
 
-class AspectMaintainer {
-    val widthToHeightProperty = SimpleDoubleProperty(16.0 / 9.0)
-    var widthToHeight by widthToHeightProperty
+class AspectMaintainer(val aspect: Aspect) {
+    val widthToHeightProperty = aspect.widthToHeightProperty
+    val widthToHeight by widthToHeightProperty
 
     val hostWidthProperty = SimpleDoubleProperty(0.0)
     var hostWidth by hostWidthProperty
@@ -28,16 +28,16 @@ class AspectMaintainer {
     init {
         hostWidthProperty.addListener { _ -> recalculate() }
         hostHeightProperty.addListener { _ -> recalculate() }
-        widthToHeightProperty.addListener { _ -> recalculate() }
+        widthToHeightProperty.addListener { _, _, _ -> recalculate() }
     }
 
     private fun recalculate() {
-        val impliedHeightForWidth = (1.0 / widthToHeight) * hostWidth
+        val impliedHeightForWidth = (1.0 / widthToHeight.toDouble()) * hostWidth
         if (impliedHeightForWidth < hostHeight) {
             width = hostWidth
             height = impliedHeightForWidth
         } else {
-            val impliedWidthForHeight = widthToHeight * hostHeight
+            val impliedWidthForHeight = widthToHeight.toDouble() * hostHeight
             width = impliedWidthForHeight
             height = hostHeight
         }
