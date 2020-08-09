@@ -10,14 +10,13 @@ import org.geepawhill.contentment.grid.Grid
 import org.geepawhill.contentment.player.Script
 import org.geepawhill.contentment.position.RightOf
 import org.geepawhill.contentment.position.TopLeft
-import org.geepawhill.contentment.rhythm.Rhythm
 import org.geepawhill.contentment.step.ScriptBuilder
 import org.geepawhill.contentment.style.Frames
 import org.geepawhill.contentment.style.TypeFace
 import org.geepawhill.contentment.utility.JfxUtility.color
 import java.util.*
 
-class DemonstrationScript : ScriptBuilder<DemonstrationScript>(Rhythm()) {
+class DemonstrationScript : ScriptBuilder<DemonstrationScript>() {
 
     private val secondaryJumbo: Format
     private val primaryJumbo: Format

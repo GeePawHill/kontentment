@@ -29,10 +29,7 @@ class Player {
 
     private val scriptProperty = ReadOnlyObjectWrapper(Script())
     val script: Script by scriptProperty
-
-    val rhythm: Rhythm
-        get() = script.rhythm()
-
+    val rhythm: Rhythm = Rhythm()
 
     private val elapsedTask =
             object : Task<Unit>() {
@@ -49,7 +46,7 @@ class Player {
                         }
                     }
                 }
-            };
+            }
 
     private val isPlayOneDone: Boolean
         get() = if (position < script.size() - 1) {
@@ -83,18 +80,14 @@ class Player {
         this.setPosition(0)
         rhythm.seek(0.toLong())
         stateProperty.set(PlayerState.Stepping)
-        context.setRhythm(script.rhythm())
-    }
-
-    private fun position(): Int {
-        return position
+        context.setRhythm(rhythm)
     }
 
     fun forward() {
         mustBeStepping()
         if (!atEnd()) {
             nextSync().phrase.fast(context)
-            setPosition(position() + 1)
+            setPosition(position + 1)
             if (atEnd())
                 rhythm.seek(Rhythm.MAX)
             else
@@ -103,7 +96,7 @@ class Player {
     }
 
     private fun nextSync(): Keyframe {
-        return getSync(position())
+        return getSync(position)
     }
 
     private fun getSync(sync: Int): Keyframe {
@@ -144,7 +137,7 @@ class Player {
     private fun newPlayOneFinished() {
         rhythm.pause()
         stateProperty.set(PlayerState.Stepping)
-        setPosition(position() + 1)
+        setPosition(position + 1)
         if (atEnd())
             rhythm.seek(Rhythm.MAX)
         else
@@ -152,7 +145,7 @@ class Player {
     }
 
     private fun newPlayFinished() {
-        setPosition(position() + 1)
+        setPosition(position + 1)
         if (!atEnd()) {
             BeatWaiter(context, nextSync().phrase,
                     Supplier<Boolean> { isPlayOneDone },
@@ -188,14 +181,14 @@ class Player {
 
     fun end() {
         mustBeStepping()
-        while (position() < script.size()) {
+        while (position < script.size()) {
             forward()
         }
     }
 
     fun start() {
         mustBeStepping()
-        while (position() != 0) {
+        while (position != 0) {
             backward()
         }
     }

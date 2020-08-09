@@ -2,11 +2,10 @@ package org.geepawhill.contentment.player
 
 import javafx.beans.property.SimpleLongProperty
 import javafx.beans.property.SimpleStringProperty
-import org.geepawhill.contentment.rhythm.Rhythm
 import tornadofx.*
 import java.util.*
 
-class Script(private val rhythm: Rhythm = Rhythm()) {
+class Script() {
     private var steps: ArrayList<Keyframe> = ArrayList()
     val lengthProperty = SimpleLongProperty(0L)
     var length by lengthProperty
@@ -24,9 +23,5 @@ class Script(private val rhythm: Rhythm = Rhythm()) {
     fun add(step: Keyframe): Script {
         steps.add(step)
         return this
-    }
-
-    fun rhythm(): Rhythm {
-        return rhythm
     }
 }

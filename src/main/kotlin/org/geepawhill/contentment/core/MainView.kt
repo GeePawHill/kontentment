@@ -45,7 +45,7 @@ class MainView : View() {
                 stroke = Color.BLUE
                 fill = Color.BLUE
                 player.scriptProperty().addListener { _, _, _ ->
-                    player.script.rhythm().beatProperty.addListener { _, _, beat ->
+                    player.rhythm.beatProperty.addListener { _, _, beat ->
                         val newText = String.format("%8d", beat.toLong() / 1000)
                         if (beat.toLong() == 0L) text = "   Start"
                         if (beat.toLong() == Rhythm.MAX) text = "     End"
@@ -120,7 +120,7 @@ class MainView : View() {
         FX.primaryStage.isMaximized = true
         FX.primaryStage.fullScreenExitHint = ""
 
-        player.load(AgileAndBeyondScript().make())
+        player.load(BicScript().make())
         root.widthProperty().addListener { _, _, _ ->
             elapsed.x = root.width - 100.0
             elapsed.y = root.height - 20.0

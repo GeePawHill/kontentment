@@ -26,9 +26,10 @@ class VlcjPane(private val player: Player) : Pane(), RhythmListener {
     val mediaPlayer: EmbeddedMediaPlayer = mediaPlayerFactory.mediaPlayers().newEmbeddedMediaPlayer()
 
     inner class FirstFrameListener : MediaPlayerEventAdapter() {
-        override fun paused(mediaPlayer: MediaPlayer?) {
+        override fun paused(mediaPlayer: MediaPlayer) {
             runLater {
-                mediaPlayer!!.controls().nextFrame()
+                mediaPlayer.events().removeMediaPlayerEventListener(this)
+                mediaPlayer.controls().nextFrame()
                 render()
             }
         }
