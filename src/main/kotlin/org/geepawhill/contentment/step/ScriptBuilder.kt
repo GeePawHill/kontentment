@@ -90,8 +90,8 @@ abstract class ScriptBuilder<SUBCLASS>() {
         return Appearance(world, Letters(world, source))
     }
 
-    fun art(source: String, width: Double = 0.0): Appearance<Art> {
-        return Appearance(world, Art(world, "/org/geepawhill/scripts/$source", width))
+    fun art(source: String, width: Double = 0.0, height: Double = 0.0): Appearance<Art> {
+        return Appearance(world, Art(world, "/org/geepawhill/scripts/$source", width, height))
     }
 
     fun oval(points: PointPair): Appearance<Marks> {
@@ -99,7 +99,10 @@ abstract class ScriptBuilder<SUBCLASS>() {
     }
 
     fun stroke(fromX: Int, fromY: Int, toX: Int, toY: Int): Appearance<Marks> {
-        return Appearance(world, Marks.makeLine(world, PointPair(fromX.toDouble(), fromY.toDouble(), toX.toDouble(), toY.toDouble())))
+        return Appearance(
+            world,
+            Marks.makeLine(world, PointPair(fromX.toDouble(), fromY.toDouble(), toX.toDouble(), toY.toDouble()))
+        )
     }
 
     fun cross(name: String, xsize: Double, ysize: Double, xoffset: Double, yoffset: Double): Appearance<Cross> {

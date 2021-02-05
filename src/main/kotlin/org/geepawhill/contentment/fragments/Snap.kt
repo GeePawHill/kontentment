@@ -14,15 +14,18 @@ import org.geepawhill.contentment.position.Position
  *
  * @author GeePaw
  */
-class Snap(owner: Group, private val source: String, width: Double) : Fragment {
+class Snap(owner: Group, private val source: String, width: Double = 0.0, height: Double = 0.0) : Fragment {
     private val image = Image(source)
     private val imageView = ImageView()
     private var format: Format? = null
     private var position: Position = Position.DEFAULT
 
     init {
+        println("$source : ${image.width} X ${image.height} target: ${width} X $height")
         imageView.isPreserveRatio = true
-        if (width != 0.0) imageView.fitWidth = width
+        imageView.fitWidth = width
+        imageView.fitHeight = height
+        imageView.isSmooth = true
         owner.children.add(imageView)
         this.format = Format.DEFAULT
     }

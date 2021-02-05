@@ -2,6 +2,7 @@ package org.geepawhill.contentment.core
 
 import javafx.beans.property.SimpleStringProperty
 import javafx.geometry.Orientation
+import javafx.geometry.Pos
 import javafx.scene.Cursor
 import javafx.scene.Node
 import javafx.scene.Parent
@@ -14,10 +15,8 @@ import javafx.scene.text.Font
 import javafx.scene.text.Text
 import javafx.stage.Stage
 import javafx.stage.StageStyle
-import javafx.util.Duration
 import javafx.util.converter.IntegerStringConverter
 import org.geepawhill.contentment.geometry.PointPair
-import org.geepawhill.contentment.jfx.hiddensidespane
 import org.geepawhill.contentment.player.Player
 import org.geepawhill.contentment.rhythm.Rhythm
 import org.geepawhill.contentment.utility.JfxUtility
@@ -120,7 +119,7 @@ class MainView : View() {
         FX.primaryStage.isMaximized = true
         FX.primaryStage.fullScreenExitHint = ""
 
-        player.load(BicScript().make())
+        player.load(BillboardScript().make())
         root.widthProperty().addListener { _, _, _ ->
             elapsed.x = root.width - 100.0
             elapsed.y = root.height - 20.0
@@ -175,16 +174,16 @@ class MainView : View() {
         val toolbar = toolbar {
             button("Here")
         }
-        val pane = hiddensidespane {
-            top = toolbar
-            minWidth = 800.0
-            minHeight = 450.0
-            animationDelay = Duration.ZERO
+        val pane = stackpane {
+            minWidth = 1600.0
+            minHeight = 900.0
+            alignment = Pos.TOP_LEFT
             background = Background(BackgroundFill(Color.BLACK, null, null))
             val canvas = player.context().canvas
-            canvas.scaleX = .5
-            canvas.scaleY = .5
-            content = canvas
+            canvas.scaleX = 1.0
+            canvas.scaleY = 1.0
+            children.add(ContentView(player).root)
+//            children.add(canvas)
         }
         val scene = Scene(pane)
         stage.scene = scene
